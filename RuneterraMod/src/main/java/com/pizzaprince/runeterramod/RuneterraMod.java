@@ -1,6 +1,8 @@
 package com.pizzaprince.runeterramod;
 
 import com.mojang.logging.LogUtils;
+import com.pizzaprince.runeterramod.item.ModItems;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -33,6 +35,8 @@ public class RuneterraMod {
     
     public RuneterraMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        
+        ModItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
