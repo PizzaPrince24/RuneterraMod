@@ -14,6 +14,8 @@ public class ModItems {
 	
 	public static final RegistryObject<Item> ZIRCON = ITEMS.register("zircon", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.RUNETERRA_TAB)));
 	
+	public static final RegistryObject<Item> RAW_ZIRCON = ITEMS.register("raw_zircon", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.RUNETERRA_TAB)));
+	
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 	}

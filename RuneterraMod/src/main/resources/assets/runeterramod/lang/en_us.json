@@ -1,5 +1,10 @@
 {
 	"item.runeterramod.zircon": "Zircon",
+	"item.runeterramod.raw_zircon": "Raw Zircon",
+	
+	"block.runeterramod.zircon_block": "Block of Zircon",
+	"block.runeterramod.zircon_ore": "Zircon Ore",
+	"block.runeterramod.deepslate_zircon_ore": "Deepslate Zircon Ore",
 	
 	"itemGroup.runeterratab": "Runeterra"
 }
