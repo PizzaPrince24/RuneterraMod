@@ -1,0 +1,10 @@
+{
+	"type": "minecraft:blasting",
+	"cookingtime": 100,
+	"experinece": 0.7,
+	"group": "zircon",
+	"ingredient": {
+		"item": "runeterramod:raw_zircon"
+	},
+	"result": "runeterramod:zircon"
+}
