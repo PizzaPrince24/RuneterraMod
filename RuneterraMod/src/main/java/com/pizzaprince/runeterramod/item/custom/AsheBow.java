@@ -2,6 +2,8 @@ package com.pizzaprince.runeterramod.item.custom;
 
 import java.io.Console;
 
+import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -26,9 +28,9 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
-public class Ashe_Bow extends BowItem{
+public class AsheBow extends BowItem{
 
-	public Ashe_Bow(Properties properties) {
+	public AsheBow(Properties properties) {
 		super(properties);
 	}
 	
@@ -50,8 +52,7 @@ public class Ashe_Bow extends BowItem{
 	            if (!((double)f < 0.1D)) {
 	               boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, p_40667_, player));
 	               if (!p_40668_.isClientSide) {
-	                  Arrow arrowitem = new Arrow(p_40668_, p_40669_);
-	                  arrowitem.setEffectsFromItem(PotionUtils.setPotion(new ItemStack(Items.TIPPED_ARROW), Potions.SLOWNESS));
+	                  IceArrow arrowitem = new IceArrow(p_40668_, p_40669_);
 	                  AbstractArrow abstractarrow = arrowitem;
 	                  abstractarrow = customArrow(abstractarrow);
 	                  abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F, 1.0F);

@@ -2,7 +2,10 @@ package com.pizzaprince.runeterramod;
 
 import com.mojang.logging.LogUtils;
 import com.pizzaprince.runeterramod.block.ModBlocks;
+import com.pizzaprince.runeterramod.client.renderer.entity.IceArrowRenderer;
+import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.ModItems;
+import com.pizzaprince.runeterramod.util.ModItemProperties;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
@@ -12,6 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,6 +43,7 @@ public class RuneterraMod {
         
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModEntityTypes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -46,16 +51,19 @@ public class RuneterraMod {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
+        ModItemProperties.addCustomItemProperties();
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
+        	
+        }
+        
+        @SubscribeEvent
+        public static void onClientSetup(EntityRenderersEvent.RegisterRenderers event) {
+        	event.registerEntityRenderer(ModEntityTypes.ICE_ARROW.get(), IceArrowRenderer::new);
         }
     }
 }
