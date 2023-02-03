@@ -78,14 +78,28 @@
             "predicate": {
                 "minecraft:pulling": 1
             },
-            "model": "runeterramod:item/ashe_bow_pulling_0"
+            "model": "runeterramod:item/ashe_bow_pulling_0_0"
         },
         {
             "predicate": {
                 "minecraft:pulling": 1,
-                "minecraft:pull": 0.65
+                "minecraft:pull": 0.30
             },
-            "model": "runeterramod:item/ashe_bow_pulling_1"
+            "model": "runeterramod:item/ashe_bow_pulling_0_1"
+        },
+        {
+            "predicate": {
+                "minecraft:pulling": 1,
+                "minecraft:pull": 0.6
+            },
+            "model": "runeterramod:item/ashe_bow_pulling_1_0"
+        },
+        {
+            "predicate": {
+                "minecraft:pulling": 1,
+                "minecraft:pull": 0.76
+            },
+            "model": "runeterramod:item/ashe_bow_pulling_1_1"
         },
         {
             "predicate": {
