@@ -5,6 +5,7 @@ import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.client.renderer.entity.IceArrowRenderer;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.ModItems;
+import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.util.ModItemProperties;
 
 import net.minecraft.client.Minecraft;
@@ -52,6 +53,7 @@ public class RuneterraMod {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         ModItemProperties.addCustomItemProperties();
+        ModPackets.register();
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
