@@ -2,6 +2,7 @@ package com.pizzaprince.runeterramod;
 
 import com.mojang.logging.LogUtils;
 import com.pizzaprince.runeterramod.block.ModBlocks;
+import com.pizzaprince.runeterramod.client.renderer.entity.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.client.renderer.entity.IceArrowRenderer;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.ModItems;
@@ -66,6 +67,7 @@ public class RuneterraMod {
         @SubscribeEvent
         public static void onClientSetup(EntityRenderersEvent.RegisterRenderers event) {
         	event.registerEntityRenderer(ModEntityTypes.ICE_ARROW.get(), IceArrowRenderer::new);
+        	event.registerEntityRenderer(ModEntityTypes.ENCHANTED_CRYSTAL_ARROW.get(), EnchantedCrystalArrowRenderer::new);
         }
     }
 }

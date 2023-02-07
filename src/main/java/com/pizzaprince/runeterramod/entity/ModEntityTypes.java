@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.entity;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.entity.custom.projectile.EnchantedCrystalArrow;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 
 import net.minecraft.world.entity.EntityType;
@@ -16,6 +17,7 @@ public class ModEntityTypes {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, RuneterraMod.MOD_ID);
 	
 	public static final RegistryObject<EntityType<IceArrow>> ICE_ARROW = ENTITY_TYPES.register("ice_arrow", () -> EntityType.Builder.of((EntityType.EntityFactory<IceArrow>)IceArrow::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(4).updateInterval(20).build(RuneterraMod.MOD_ID + ":ice_arrow"));
+	public static final RegistryObject<EntityType<EnchantedCrystalArrow>> ENCHANTED_CRYSTAL_ARROW = ENTITY_TYPES.register("enchanted_crystal_arrow", () -> EntityType.Builder.of((EntityType.EntityFactory<EnchantedCrystalArrow>)EnchantedCrystalArrow::new, MobCategory.MISC).sized(1f, 1f).clientTrackingRange(4).updateInterval(20).build(RuneterraMod.MOD_ID + ":enchanted_crystal_arrow"));
 	
 	public static void register(IEventBus eventBus) {
 		ENTITY_TYPES.register(eventBus);

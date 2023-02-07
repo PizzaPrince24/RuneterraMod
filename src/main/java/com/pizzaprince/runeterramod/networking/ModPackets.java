@@ -2,6 +2,8 @@ package com.pizzaprince.runeterramod.networking;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.networking.packet.IceArrowParticleS2CPacket;
+import com.pizzaprince.runeterramod.networking.packet.KeyPressC2SPacket;
+import com.pizzaprince.runeterramod.networking.packet.SyncCooldownsS2CPacket;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -37,6 +39,18 @@ public class ModPackets {
 				.decoder(IceArrowParticleS2CPacket::new)
 				.encoder(IceArrowParticleS2CPacket::toBytes)
 				.consumerMainThread(IceArrowParticleS2CPacket::handle)
+				.add();
+		
+		net.messageBuilder(KeyPressC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(KeyPressC2SPacket::new)
+				.encoder(KeyPressC2SPacket::toBytes)
+				.consumerMainThread(KeyPressC2SPacket::handle)
+				.add();
+		
+		net.messageBuilder(SyncCooldownsS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(SyncCooldownsS2CPacket::new)
+				.encoder(SyncCooldownsS2CPacket::toBytes)
+				.consumerMainThread(SyncCooldownsS2CPacket::handle)
 				.add();
 	}
 	

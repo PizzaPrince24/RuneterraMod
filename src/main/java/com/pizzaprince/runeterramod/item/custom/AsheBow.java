@@ -29,6 +29,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 public class AsheBow extends BowItem{
+	private static int cooldown = 30;
 
 	public AsheBow(Properties properties) {
 		super(properties);
@@ -109,5 +110,9 @@ public class AsheBow extends BowItem{
 	      return InteractionResultHolder.consume(itemstack);
 	      
 	   }
+	
+	public static int getCooldown() {
+		return cooldown;
+	}
 
 }

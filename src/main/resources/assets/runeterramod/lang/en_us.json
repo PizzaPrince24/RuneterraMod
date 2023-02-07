@@ -8,5 +8,8 @@
 	"block.runeterramod.zircon_ore": "Zircon Ore",
 	"block.runeterramod.deepslate_zircon_ore": "Deepslate Zircon Ore",
 	
-	"itemGroup.runeterratab": "Runeterra"
+	"itemGroup.runeterratab": "Runeterra", 
+	
+	"key.category.runeterramod.runeterra": "Runeterra",
+	"key.runeterramod.ultimate": "Ultimate"
 }
