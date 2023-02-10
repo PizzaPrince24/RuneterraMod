@@ -1,6 +1,8 @@
 package com.pizzaprince.runeterramod.event;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.armor.custom.AsheArmorRenderer;
+import com.pizzaprince.runeterramod.item.custom.AsheArmorItem;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.KeyPressC2SPacket;
 import com.pizzaprince.runeterramod.util.KeyBinding;
@@ -8,10 +10,12 @@ import com.pizzaprince.runeterramod.util.KeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public class ClientEvents {
 	@Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID, value = Dist.CLIENT)
@@ -31,6 +35,11 @@ public class ClientEvents {
 		public static void onKeyRegister(RegisterKeyMappingsEvent event) {
 			event.register(KeyBinding.ULTIMATE_KEY);
 		}
+		
+		@SubscribeEvent
+	    public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
+	        GeoArmorRenderer.registerArmorRenderer(AsheArmorItem.class, () -> new AsheArmorRenderer());
+	    }
 	}
 
 }

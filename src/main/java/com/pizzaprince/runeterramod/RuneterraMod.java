@@ -32,6 +32,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import software.bernie.geckolib3.GeckoLib;
+
 import org.slf4j.Logger;
 
 @Mod(RuneterraMod.MOD_ID)
@@ -46,6 +48,8 @@ public class RuneterraMod {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEntityTypes.register(modEventBus);
+        
+        GeckoLib.initialize();
 
         modEventBus.addListener(this::commonSetup);
 
@@ -53,8 +57,10 @@ public class RuneterraMod {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+    	event.enqueueWork(() -> {
+            ModPackets.register();
+    	});
         ModItemProperties.addCustomItemProperties();
-        ModPackets.register();
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)

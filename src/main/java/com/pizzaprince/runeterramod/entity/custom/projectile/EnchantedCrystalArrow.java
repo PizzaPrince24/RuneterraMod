@@ -55,9 +55,8 @@ public class EnchantedCrystalArrow extends AbstractArrow{
 	protected void doPostHurtEffects(LivingEntity p_36744_) {
 		super.doPostHurtEffects(p_36744_);
 		      
-		p_36744_.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2, false, false, false));
-		
-		//
+		p_36744_.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 255, true, false, false));
+		p_36744_.addEffect(new MobEffectInstance(MobEffects.JUMP, 100, 128, true, false, false));
 		      
 		this.playSound(soundEvent);
 		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.getLevel(), p_36744_.getOnPos());
