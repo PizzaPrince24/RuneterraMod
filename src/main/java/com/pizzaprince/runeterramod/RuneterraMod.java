@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.client.renderer.entity.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.client.renderer.entity.IceArrowRenderer;
+import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
@@ -48,6 +49,7 @@ public class RuneterraMod {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEntityTypes.register(modEventBus);
+        ModEffects.register(modEventBus);
         
         GeckoLib.initialize();
 

@@ -10,6 +10,8 @@
 	
 	"itemGroup.runeterratab": "Runeterra", 
 	
+	"effect.runeterramod.stun": "Stunned!",
+	
 	"key.category.runeterramod.runeterra": "Runeterra",
 	"key.runeterramod.ultimate": "Ultimate"
 }

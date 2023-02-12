@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.IceArrowParticleS2CPacket;
@@ -17,6 +18,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -52,14 +54,13 @@ public class EnchantedCrystalArrow extends AbstractArrow{
 	}
 
 	@Override
-	protected void doPostHurtEffects(LivingEntity p_36744_) {
-		super.doPostHurtEffects(p_36744_);
-		      
-		p_36744_.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 255, true, false, false));
-		p_36744_.addEffect(new MobEffectInstance(MobEffects.JUMP, 100, 128, true, false, false));
+	protected void doPostHurtEffects(LivingEntity entity) {
+		super.doPostHurtEffects(entity);
+		
+		entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), 100, 0, false, false, true));
 		      
 		this.playSound(soundEvent);
-		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.getLevel(), p_36744_.getOnPos());
+		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.getLevel(), entity.getOnPos());
 		
 		this.kill();
 		this.discard();
