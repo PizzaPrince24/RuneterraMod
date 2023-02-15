@@ -10,7 +10,6 @@ import com.pizzaprince.runeterramod.entity.custom.projectile.EnchantedCrystalArr
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.item.custom.AsheBow;
 import com.pizzaprince.runeterramod.networking.ModPackets;
-import com.pizzaprince.runeterramod.util.CooldownItem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

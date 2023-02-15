@@ -12,7 +12,6 @@ import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 import com.pizzaprince.runeterramod.item.ModArmorMaterials;
-import com.pizzaprince.runeterramod.util.CooldownItem;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.nbt.CompoundTag;
