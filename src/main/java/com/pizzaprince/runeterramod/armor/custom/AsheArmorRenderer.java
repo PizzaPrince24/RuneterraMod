@@ -1,6 +1,6 @@
 package com.pizzaprince.runeterramod.armor.custom;
 
-import com.pizzaprince.runeterramod.item.custom.AsheArmorItem;
+import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;

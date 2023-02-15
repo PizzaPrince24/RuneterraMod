@@ -102,15 +102,5 @@ public class ModEvents {
 			}
 		}
 	}
-	
-	@SubscribeEvent
-	public static void livingHurtEvent(LivingHurtEvent event) {
-		if(event.getEntity() instanceof Mob mob) {
-			if(mob.hasEffect(ModEffects.STUN.get())){
-				mob.setNoAi(false);
-			}
-		}
-		
-	}
 
 }

@@ -2,6 +2,7 @@ package com.pizzaprince.runeterramod.networking.packet;
 
 import java.util.function.Supplier;
 
+import com.pizzaprince.runeterramod.ability.PlayerAbilities;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 
 import net.minecraft.client.Minecraft;
@@ -14,14 +15,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkEvent;
 
 public class SyncCooldownsS2CPacket {
-	private final int cooldown;
+	private int cooldown;
 	
 	public SyncCooldownsS2CPacket(int cooldown) {
 		this.cooldown = cooldown;
 	}
 	
 	public SyncCooldownsS2CPacket(FriendlyByteBuf buf) {
-		this.cooldown = buf.readInt();
+		cooldown = buf.readInt();
 	}
 	
 	public void toBytes(FriendlyByteBuf buf) {

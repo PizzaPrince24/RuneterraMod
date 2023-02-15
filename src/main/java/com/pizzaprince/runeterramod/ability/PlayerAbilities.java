@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 public class PlayerAbilities {
 	private int cooldown;
 	private boolean canUseAbilities;
+	private int cooldownTracker;
+	private boolean trackingCooldown;
 	
 	public boolean canUseAbilities() {
 		if(cooldown <= 0) {
@@ -17,7 +19,7 @@ public class PlayerAbilities {
 	}
 	
 	public void addCooldown(int cooldown) {
-		this.cooldown = Math.max(0, (cooldown*20));
+		this.cooldown = (int) Math.max(0, (cooldown));
 		if(this.cooldown != 0) {
 			this.canUseAbilities = false;
 		}
@@ -54,6 +56,26 @@ public class PlayerAbilities {
 	
 	public int getCooldown() {
 		return this.cooldown;
+	}
+	
+	public void trackCooldown(int count) {
+		this.cooldownTracker = count;
+	}
+	
+	public int getTrackerCooldown() {
+		return this.cooldownTracker;
+	}
+	
+	public void resetTrackerCooldown() {
+		this.cooldownTracker = 0;
+	}
+	
+	public void setTrackingCooldown(boolean is) {
+		this.trackingCooldown = is;
+	}
+	
+	public boolean isTrackingCooldown() {
+		return this.trackingCooldown;
 	}
 
 }

@@ -1,9 +1,12 @@
 package com.pizzaprince.runeterramod.util;
 
+import com.pizzaprince.runeterramod.client.ClientAbilityData;
+import com.pizzaprince.runeterramod.item.ModArmorMaterials;
 import com.pizzaprince.runeterramod.item.ModItems;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -17,6 +20,9 @@ public class ModItemProperties {
 	         if (p_174637_ == null) {
 	            return 0.0F;
 	         } else {
+	        	 if(p_174637_ instanceof Player player) {
+	        		 return p_174637_.getUseItem() != p_174635_ ? 0.0F : (float)(p_174635_.getUseDuration() - p_174637_.getUseItemRemainingTicks()) / (20.0F - ((float)1.4 * ClientAbilityData.numArmorPieces(player, ModArmorMaterials.ASHE_ARMOR)));
+	        	 }
 	            return p_174637_.getUseItem() != p_174635_ ? 0.0F : (float)(p_174635_.getUseDuration() - p_174637_.getUseItemRemainingTicks()) / 20.0F;
 	         }
 	      });
