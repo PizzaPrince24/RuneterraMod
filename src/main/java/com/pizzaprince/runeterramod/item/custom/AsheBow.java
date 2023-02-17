@@ -9,6 +9,8 @@ import javax.annotation.Nullable;
 import org.jetbrains.annotations.ApiStatus.OverrideOnly;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.item.AbstractAbility;
+import com.pizzaprince.runeterramod.ability.item.custom.EnchantedCrystalArrowAbility;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 import com.pizzaprince.runeterramod.item.ModArmorMaterials;
@@ -53,10 +55,11 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public class AsheBow extends BowItem {
-	public static final int COOLDOWN = 90;
+	public static final int COOLDOWN = 90*20;
 	private int cooldownTracker = 0;
 	private int flag = 2;
 	private int trackerFlag = 20;
+	private EnchantedCrystalArrowAbility enchantedCrystalArrowAbility = new EnchantedCrystalArrowAbility(SoundEvents.ARROW_SHOOT, null, COOLDOWN);
 
 	public AsheBow(Properties properties) {
 		super(properties);
@@ -129,8 +132,6 @@ public class AsheBow extends BowItem {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level p_40672_, Player p_40673_, InteractionHand p_40674_) {
 		ItemStack itemstack = p_40673_.getItemInHand(p_40674_);
-		
-		flag = 2;
 
 	    InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, p_40672_, p_40673_, p_40674_, false);
 	    if (ret != null) return ret;
@@ -177,7 +178,6 @@ public class AsheBow extends BowItem {
 					if(abilities.getTrackerCooldown() > 0) {
 						int i = nbt.getInt("cooldown");
 						nbt.putInt("cooldown", Math.max(0, i - abilities.getTrackerCooldown()));
-						System.out.println(i - abilities.getTrackerCooldown() + " where i = " + i + " and the saved cooldown is "+ abilities.getTrackerCooldown());
 						abilities.resetTrackerCooldown();
 						abilities.setTrackingCooldown(false);
 					} else {
@@ -186,7 +186,6 @@ public class AsheBow extends BowItem {
 						nbt.putInt("cooldown", i);
 					}
 				}
-				System.out.println(abilities.getTrackerCooldown());
 			});
 		}
 	}
