@@ -2,6 +2,7 @@ package com.pizzaprince.runeterramod.networking.packet;
 
 import java.util.function.Supplier;
 
+import com.pizzaprince.runeterramod.ability.IAbilityItem;
 import com.pizzaprince.runeterramod.ability.PlayerAbilities;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
@@ -55,19 +56,9 @@ public class KeyPressC2SPacket {
 				if(abilities.canUseAbilities()) {
 					ItemStack stack = player.getMainHandItem();
 					Item item = stack.getItem();
-					if(stack.is(ModItems.ASHE_BOW.get())) {
-						if(stack.hasTag()) {
-							if(stack.getTag().getInt("cooldown") == 0) {
-								EnchantedCrystalArrow arrow = new EnchantedCrystalArrow(level, player);
-								arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.8F, 1.0F);
-								level.addFreshEntity(arrow);
-								abilities.addCooldown(ClientAbilityData.STATIC_COOLDOWN);
-								ModPackets.sendToPlayer(new SyncCooldownsS2CPacket(ClientAbilityData.STATIC_COOLDOWN*20), player);
-								stack.getTag().putInt("cooldown", AsheBow.COOLDOWN*20);
-							} else {
-								player.sendSystemMessage(Component.literal("Cooldown is " + ((double)(stack.getTag().getInt("cooldown") / 20) + " seconds")));
-							}
-						} 
+					if(item instanceof IAbilityItem abilityItem) {
+						abilityItem.fireAbility(level, player, stack);
+						abilities.addCooldown(ClientAbilityData.STATIC_COOLDOWN);
 					}
 				} else {
 					player.sendSystemMessage(Component.literal("Cooldown is " + ((double)abilities.getCooldown() / 20) + " seconds"));

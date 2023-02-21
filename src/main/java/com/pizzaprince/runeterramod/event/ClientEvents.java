@@ -1,8 +1,8 @@
 package com.pizzaprince.runeterramod.event;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.armor.custom.AsheArmorRenderer;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
+import com.pizzaprince.runeterramod.client.renderer.armor.AsheArmorRenderer;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.KeyPressC2SPacket;

@@ -1,4 +1,4 @@
-package com.pizzaprince.runeterramod.armor.custom;
+package com.pizzaprince.runeterramod.client.model;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;

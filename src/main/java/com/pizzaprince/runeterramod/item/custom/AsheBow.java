@@ -1,6 +1,8 @@
 package com.pizzaprince.runeterramod.item.custom;
 
 import java.io.Console;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -8,6 +10,8 @@ import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.ApiStatus.OverrideOnly;
 
+import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.ability.IAbilityItem;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.ability.item.AbstractAbility;
 import com.pizzaprince.runeterramod.ability.item.custom.EnchantedCrystalArrowAbility;
@@ -54,13 +58,19 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class AsheBow extends BowItem {
+public class AsheBow extends BowItem implements IAbilityItem{
 	public static final int COOLDOWN = 90*20;
 	private int cooldownTracker = 0;
 	private int flag = 2;
 	private int trackerFlag = 20;
-	private EnchantedCrystalArrowAbility enchantedCrystalArrowAbility = new EnchantedCrystalArrowAbility(SoundEvents.ARROW_SHOOT, null, COOLDOWN);
-
+	private int id = 0;
+	private EnchantedCrystalArrowAbility enchantedCrystalArrowAbility = new EnchantedCrystalArrowAbility(SoundEvents.ARROW_SHOOT, null, COOLDOWN, id());
+	private ArrayList<AbstractAbility> abilityList = new ArrayList<AbstractAbility>(Arrays.asList(enchantedCrystalArrowAbility));
+	
+	private int id() {
+		return id++;
+	}
+	
 	public AsheBow(Properties properties) {
 		super(properties);
 	}
@@ -176,18 +186,23 @@ public class AsheBow extends BowItem {
 			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
 				if(!player.isUsingItem()) {
 					if(abilities.getTrackerCooldown() > 0) {
-						int i = nbt.getInt("cooldown");
-						nbt.putInt("cooldown", Math.max(0, i - abilities.getTrackerCooldown()));
+						for(AbstractAbility ability : this.getAbilities()) {
+							int i = nbt.getInt(RuneterraMod.MOD_ID + ":" + ability.getId() + "_cooldown");
+							this.setCooldownById(stack, Math.max(0, i - abilities.getTrackerCooldown()), ability.getId());
+						}
 						abilities.resetTrackerCooldown();
 						abilities.setTrackingCooldown(false);
 					} else {
-						int i = nbt.getInt("cooldown");
-						i = Math.max(0, --i);
-						nbt.putInt("cooldown", i);
+						this.tick(stack, level, entity, itemSlot, isSelected);
 					}
 				}
 			});
 		}
+	}
+
+	@Override
+	public ArrayList<AbstractAbility> getAbilities() {
+		return abilityList;
 	}
 	
 
