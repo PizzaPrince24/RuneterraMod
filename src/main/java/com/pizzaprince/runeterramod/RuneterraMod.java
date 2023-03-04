@@ -6,11 +6,13 @@ import com.pizzaprince.runeterramod.client.renderer.entity.EnchantedCrystalArrow
 import com.pizzaprince.runeterramod.client.renderer.entity.IceArrowRenderer;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
+import com.pizzaprince.runeterramod.entity.custom.champion.model.RekSaiRenderer;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.util.ModItemProperties;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -69,7 +71,7 @@ public class RuneterraMod {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-        	
+        	EntityRenderers.register(ModEntityTypes.REKSAI.get(), RekSaiRenderer::new);
         }
         
         @SubscribeEvent

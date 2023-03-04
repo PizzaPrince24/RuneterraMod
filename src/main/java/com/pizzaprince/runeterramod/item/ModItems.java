@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.item;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.custom.AsheBow;
 import com.pizzaprince.runeterramod.item.custom.EightBallItem;
 import com.pizzaprince.runeterramod.item.custom.Test;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -44,6 +46,9 @@ public class ModItems {
 	
 	public static final RegistryObject<Item> ASHE_BOOTS = ITEMS.register("ashe_boots", 
 			() -> new AsheArmorItem(ModArmorMaterials.ASHE_ARMOR, EquipmentSlot.FEET, new Item.Properties().tab(ModCreativeModeTab.RUNETERRA_TAB)));
+	
+	public static final RegistryObject<Item> REKSAI_SPAWN_EGG = ITEMS.register("reksai_spawn_egg", 
+			() -> new ForgeSpawnEggItem(ModEntityTypes.REKSAI, 0x1C1C1C, 0x456296, new Item.Properties().tab(ModCreativeModeTab.RUNETERRA_TAB)));
 	
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
