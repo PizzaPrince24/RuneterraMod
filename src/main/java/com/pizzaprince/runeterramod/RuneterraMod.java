@@ -10,9 +10,13 @@ import com.pizzaprince.runeterramod.entity.custom.champion.model.RekSaiRenderer;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.util.ModItemProperties;
+import com.pizzaprince.runeterramod.world.biome.ModBiomes;
+import com.pizzaprince.runeterramod.world.biome.ModSurfaceRuleData;
+import com.pizzaprince.runeterramod.world.biome.custom.region.ShurimaRegion;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -36,6 +40,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import software.bernie.geckolib3.GeckoLib;
+import terrablender.api.Regions;
+import terrablender.api.SurfaceRuleManager;
 
 import org.slf4j.Logger;
 
@@ -53,6 +59,9 @@ public class RuneterraMod {
         ModEntityTypes.register(modEventBus);
         ModEffects.register(modEventBus);
         
+        ModBiomes.register(modEventBus);
+        ModBiomes.registerBiomes();
+        
         GeckoLib.initialize();
 
         modEventBus.addListener(this::commonSetup);
@@ -62,7 +71,10 @@ public class RuneterraMod {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
     	event.enqueueWork(() -> {
-            ModPackets.register();
+    		ModPackets.register();
+    		
+    		Regions.register(new ShurimaRegion(new ResourceLocation(RuneterraMod.MOD_ID, "overworld"), 2));
+    		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, RuneterraMod.MOD_ID, ModSurfaceRuleData.makeRules());
     	});
         ModItemProperties.addCustomItemProperties();
     }
