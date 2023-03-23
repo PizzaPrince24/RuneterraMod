@@ -208,6 +208,8 @@ publishing {
 
 mixin {
     add sourceSets.main, "runeterramod.refmap.json"
+    
+    config "runeterramod.mixins.json"
 }
 
 tasks.withType(JavaCompile).configureEach {

@@ -1,6 +1,0 @@
-{
-    "parent": "runeterramod:item/ashe_bow",
-    "textures": {
-        "layer0": "runeterramod:item/ashe_bow_pulling_2"
-    }
-}

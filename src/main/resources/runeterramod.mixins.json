@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "com.pizzaprince.runeterramod",
+	"package": "com.pizzaprince.runeterramod.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"refmap": "runeterramod.refmap.json",
 	"mixins": [
