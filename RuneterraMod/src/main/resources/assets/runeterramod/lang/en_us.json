@@ -1,0 +1,23 @@
+{
+	"item.runeterramod.zircon": "Zircon",
+	"item.runeterramod.raw_zircon": "Raw Zircon",
+	"item.runeterramod.eight_ball": "Eight Ball",
+	"item.runeterramod.reksai_spawn_egg": "Rek'Sai Spawn Egg",
+	
+	"item.runeterramod.ashe_bow": "Ashe's Bow",
+	"item.runeterramod.ashe_helmet": "Ashe's Cap",
+	"item.runeterramod.ashe_chestplate": "Ashe's Corset",
+	"item.runeterramod.ashe_leggings": "Ashe's Anklets",
+	"item.runeterramod.ashe_boots": "Ashe's Grieves",
+	
+	"block.runeterramod.zircon_block": "Block of Zircon",
+	"block.runeterramod.zircon_ore": "Zircon Ore",
+	"block.runeterramod.deepslate_zircon_ore": "Deepslate Zircon Ore",
+	
+	"itemGroup.runeterratab": "Runeterra", 
+	
+	"effect.runeterramod.stun": "Stunned!",
+	
+	"key.category.runeterramod.runeterra": "Runeterra",
+	"key.runeterramod.ultimate": "Ultimate"
+}
