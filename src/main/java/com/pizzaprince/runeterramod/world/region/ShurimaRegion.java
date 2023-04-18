@@ -1,4 +1,4 @@
-package com.pizzaprince.runeterramod.world.biome.custom.region;
+package com.pizzaprince.runeterramod.world.region;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -47,12 +47,13 @@ public class ShurimaRegion extends Region{
             .weirdness(Weirdness.MID_SLICE_NORMAL_ASCENDING, Weirdness.MID_SLICE_NORMAL_DESCENDING)
             .build();
         */
-        this.addBiome(mapper, Temperature.HOT, 
-        		Humidity.ARID, 
-        		Continentalness.INLAND, 
-        		Erosion.EROSION_0, 
-        		Weirdness.LOW_SLICE_VARIANT_ASCENDING, 
-        		Depth.FLOOR, 2, ModBiomes.SHURIMAN_DESERT);
+        this.addBiome(mapper, Temperature.span(Temperature.WARM, Temperature.HOT), 
+        		Humidity.span(Humidity.DRY, Humidity.ARID), 
+        		Continentalness.span(Continentalness.COAST, Continentalness.FAR_INLAND), 
+        		Climate.Parameter.span(0.7f, 1.0f), 
+        		Weirdness.span(Weirdness.MID_SLICE_NORMAL_ASCENDING, Weirdness.MID_SLICE_VARIANT_ASCENDING), 
+        		Depth.span(Depth.SURFACE, Depth.UNDERGROUND), 
+        		2, ModBiomes.SHURIMAN_DESERT);
         
     }
 

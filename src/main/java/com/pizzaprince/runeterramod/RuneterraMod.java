@@ -12,7 +12,10 @@ import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.util.ModItemProperties;
 import com.pizzaprince.runeterramod.world.biome.ModBiomes;
 import com.pizzaprince.runeterramod.world.biome.ModSurfaceRuleData;
-import com.pizzaprince.runeterramod.world.biome.custom.region.ShurimaRegion;
+import com.pizzaprince.runeterramod.world.feature.ModConfiguredFeatures;
+import com.pizzaprince.runeterramod.world.feature.ModFeatures;
+import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
+import com.pizzaprince.runeterramod.world.region.ShurimaRegion;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -61,6 +64,9 @@ public class RuneterraMod {
         
         ModBiomes.register(modEventBus);
         ModBiomes.registerBiomes();
+        ModConfiguredFeatures.register(modEventBus);
+        ModFeatures.register(modEventBus);
+        ModPlacedFeatures.register(modEventBus);
         
         GeckoLib.initialize();
 

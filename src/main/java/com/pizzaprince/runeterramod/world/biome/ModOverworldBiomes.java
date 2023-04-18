@@ -1,8 +1,8 @@
-package com.pizzaprince.runeterramod.world.biome.custom;
+package com.pizzaprince.runeterramod.world.biome;
 
 import javax.annotation.Nullable;
 
-import com.pizzaprince.runeterramod.world.biome.ModBiomes;
+import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
 
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
@@ -16,6 +16,8 @@ import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
+import net.minecraft.world.level.levelgen.synth.NoiseUtils;
 
 public class ModOverworldBiomes {
 	
@@ -55,7 +57,6 @@ public class ModOverworldBiomes {
 		
 		BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
         //BiomeDefaultFeatures.addFossilDecoration(biomeBuilder);
-        globalOverworldGeneration(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultFlowers(biomeBuilder);
@@ -64,7 +65,8 @@ public class ModOverworldBiomes {
         //BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
         //BiomeDefaultFeatures.addDesertExtraVegetation(biomeBuilder);
         //BiomeDefaultFeatures.addDesertExtraDecoration(biomeBuilder);
-
+		biomeBuilder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ModPlacedFeatures.SHURIMAN_DUNE);
+        
         return biome(Biome.Precipitation.NONE, 2.0F, 0.0F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
 	}
     

@@ -3,7 +3,6 @@ package com.pizzaprince.runeterramod.world.biome;
 import java.util.function.Supplier;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.world.biome.custom.ModOverworldBiomes;
 
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.biome.Biomes;
