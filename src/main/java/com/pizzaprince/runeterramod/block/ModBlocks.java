@@ -41,7 +41,10 @@ public class ModBlocks {
 
 	public static final RegistryObject<Block> SHURIMAN_SANDSTONE = registerBlock("shuriman_sandstone",
 			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(6f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
-	
+
+	public static final RegistryObject<Block> SUN_DISK_SHARD = registerBlock("sun_disk_shard",
+			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(6f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
+
 	private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){
 		RegistryObject<T> toReturn = BLOCKS.register(name,  block);
 		registerBlockItem(name, toReturn, tab);

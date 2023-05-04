@@ -68,7 +68,12 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 				for(int y1 = y; y1 >= ground; y1--) {
 					blockPos.setY(y1);
 					if (level.isEmptyBlock(blockPos)) {
-						level.setBlock(blockPos, ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
+						if(y1 == y){
+							level.setBlock(blockPos, Math.random() * 9001 <= 1 ? ModBlocks.SUN_STONE_ORE.get().defaultBlockState() : ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
+						} else {
+							level.setBlock(blockPos, ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
+						}
+
 						int updateX = blockPos.getX() & 15;
 						int updateZ = blockPos.getZ() & 15;
 						//chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG).update(updateX, blockPos.getY(), updateZ, ModBlocks.SHURIMAN_SAND.get().defaultBlockState());

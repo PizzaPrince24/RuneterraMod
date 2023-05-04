@@ -20,6 +20,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.SHURIMAN_SANDSTONE);
         blockWithItem(ModBlocks.SUN_STONE_ORE);
         blockWithItem(ModBlocks.DEEPSLATE_ZIRCON_ORE);
+        blockWithItem(ModBlocks.SUN_DISK_SHARD);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
