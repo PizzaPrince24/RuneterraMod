@@ -13,13 +13,14 @@ import net.minecraft.world.level.levelgen.placement.CaveSurface;
 
 public class ModSurfaceRuleData {
 
-	private static final SurfaceRules.RuleSource SHURIMAN_SAND = makeStateRule(ModBlocks.SHURIMA_SAND.get());;
+	private static final SurfaceRules.RuleSource SHURIMAN_SAND = makeStateRule(ModBlocks.SHURIMAN_SAND.get());
+	private static final SurfaceRules.RuleSource SHURIMAN_SANDSTONE = makeStateRule(ModBlocks.SHURIMAN_SANDSTONE.get());
 	
 	public static SurfaceRules.RuleSource makeRules(){
 		SurfaceRules.ConditionSource isAtOrAboveWaterLevel = SurfaceRules.waterBlockCheck(-1, 0);
         
         return SurfaceRules.sequence(SurfaceRules.ifTrue(isAtOrAboveWaterLevel, SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SHURIMAN_SAND)), 
-        		SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, SHURIMAN_SAND));
+        		SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, SHURIMAN_SANDSTONE));
 	}
 	
 	private static SurfaceRules.RuleSource makeStateRule(Block block){

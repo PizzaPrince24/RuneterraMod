@@ -9,7 +9,7 @@ public class ModCreativeModeTab {
 		
 		@Override
 		public ItemStack makeIcon() {
-			return new ItemStack(ModItems.ZIRCON.get());
+			return new ItemStack(ModItems.SUN_STONE.get());
 		}
 	};
 	

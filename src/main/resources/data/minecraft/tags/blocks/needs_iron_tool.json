@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "runeterramod:zircon_ore",
-    "runeterramod:zircon_block",
+    "runeterramod:sun_stone_ore",
+    "runeterramod:sun_stone_block",
     "runeterramod:deepslate_zircon_ore"
   ]
 }

@@ -27,17 +27,20 @@ public class ModBlocks {
 	
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, RuneterraMod.MOD_ID);
 	
-	public static final RegistryObject<Block> ZIRCON_BLOCK = registerBlock("zircon_block", 
+	public static final RegistryObject<Block> SUN_STONE_BLOCK = registerBlock("sun_stone_block",
 			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(6f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
 	
-	public static final RegistryObject<Block> ZIRCON_ORE = registerBlock("zircon_ore", 
+	public static final RegistryObject<Block> SUN_STONE_ORE = registerBlock("sun_stone_ore",
 			() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).strength(6f).requiresCorrectToolForDrops(), UniformInt.of(3,7)), ModCreativeModeTab.RUNETERRA_TAB);
 	
 	public static final RegistryObject<Block> DEEPSLATE_ZIRCON_ORE = registerBlock("deepslate_zircon_ore", 
 			() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).strength(6f).requiresCorrectToolForDrops(), UniformInt.of(3,7)), ModCreativeModeTab.RUNETERRA_TAB);
 	
-	public static final RegistryObject<Block> SHURIMA_SAND = registerBlock("shuriman_sand", 
+	public static final RegistryObject<Block> SHURIMAN_SAND = registerBlock("shuriman_sand",
 			() -> new FallingBlock(BlockBehaviour.Properties.of(Material.SAND).sound(SoundType.SAND)), ModCreativeModeTab.RUNETERRA_TAB);
+
+	public static final RegistryObject<Block> SHURIMAN_SANDSTONE = registerBlock("shuriman_sandstone",
+			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(6f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
 	
 	private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){
 		RegistryObject<T> toReturn = BLOCKS.register(name,  block);

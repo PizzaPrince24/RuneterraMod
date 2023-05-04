@@ -1,5 +1,5 @@
 {
-	"item.runeterramod.zircon": "Zircon",
+	"item.runeterramod.sun_stone": "Sun Stone",
 	"item.runeterramod.raw_zircon": "Raw Zircon",
 	"item.runeterramod.eight_ball": "Eight Ball",
 	"item.runeterramod.reksai_spawn_egg": "Rek'Sai Spawn Egg",
@@ -10,9 +10,11 @@
 	"item.runeterramod.ashe_leggings": "Ashe's Anklets",
 	"item.runeterramod.ashe_boots": "Ashe's Grieves",
 	
-	"block.runeterramod.zircon_block": "Block of Zircon",
-	"block.runeterramod.zircon_ore": "Zircon Ore",
+	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
+	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
 	"block.runeterramod.deepslate_zircon_ore": "Deepslate Zircon Ore",
+	"block.runeterramod.shuriman_sand": "Shuriman Sand",
+	"block.runeterramod.shuriman_sandstone": "Shuriman Sandstone",
 	
 	"itemGroup.runeterratab": "Runeterra", 
 	

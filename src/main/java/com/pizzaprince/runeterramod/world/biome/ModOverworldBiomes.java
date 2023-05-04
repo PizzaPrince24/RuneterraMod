@@ -2,6 +2,7 @@ package com.pizzaprince.runeterramod.world.biome;
 
 import javax.annotation.Nullable;
 
+import com.pizzaprince.runeterramod.world.feature.ModConfiguredFeatures;
 import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
 
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
@@ -65,7 +66,9 @@ public class ModOverworldBiomes {
         //BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
         //BiomeDefaultFeatures.addDesertExtraVegetation(biomeBuilder);
         //BiomeDefaultFeatures.addDesertExtraDecoration(biomeBuilder);
+
 		biomeBuilder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ModPlacedFeatures.SHURIMAN_DUNE);
+        biomeBuilder.addFeature(GenerationStep.Decoration.SURFACE_STRUCTURES, ModPlacedFeatures.SHURIMAN_WELL);
         
         return biome(Biome.Precipitation.NONE, 2.0F, 0.0F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
 	}
