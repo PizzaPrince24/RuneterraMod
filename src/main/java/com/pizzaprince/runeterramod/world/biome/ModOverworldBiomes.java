@@ -54,7 +54,7 @@ public class ModOverworldBiomes {
     
     public static Biome shurimanDesert() {
 		MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-		//BiomeDefaultFeatures.desertSpawns(spawnBuilder);
+		BiomeDefaultFeatures.desertSpawns(spawnBuilder);
 		
 		BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
         //BiomeDefaultFeatures.addFossilDecoration(biomeBuilder);

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "runeterramod:block/shuriman_sandstone_bottom",
+    "side": "runeterramod:block/shuriman_sandstone",
+    "top": "runeterramod:block/shuriman_sandstone_top"
+  }
+}

@@ -2,6 +2,8 @@ package com.pizzaprince.runeterramod;
 
 import com.mojang.logging.LogUtils;
 import com.pizzaprince.runeterramod.block.ModBlocks;
+import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
+import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
 import com.pizzaprince.runeterramod.client.renderer.entity.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.client.renderer.entity.IceArrowRenderer;
 import com.pizzaprince.runeterramod.effect.ModEffects;
@@ -61,6 +63,7 @@ public class RuneterraMod {
         ModBlocks.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModEffects.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         
         ModBiomes.register(modEventBus);
         ModBiomes.registerBiomes();
@@ -96,6 +99,8 @@ public class RuneterraMod {
         public static void onClientSetup(EntityRenderersEvent.RegisterRenderers event) {
         	event.registerEntityRenderer(ModEntityTypes.ICE_ARROW.get(), IceArrowRenderer::new);
         	event.registerEntityRenderer(ModEntityTypes.ENCHANTED_CRYSTAL_ARROW.get(), EnchantedCrystalArrowRenderer::new);
+            event.registerBlockEntityRenderer(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
+
         }
     }
 }

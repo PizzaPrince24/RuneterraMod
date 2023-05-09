@@ -9,6 +9,7 @@
 	"item.runeterramod.ashe_chestplate": "Ashe's Corset",
 	"item.runeterramod.ashe_leggings": "Ashe's Anklets",
 	"item.runeterramod.ashe_boots": "Ashe's Grieves",
+	"item.runeterramod.sun_disk_altar": "Sun Disk Altar",
 	
 	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
 	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
@@ -16,6 +17,7 @@
 	"block.runeterramod.shuriman_sand": "Shuriman Sand",
 	"block.runeterramod.shuriman_sandstone": "Shuriman Sandstone",
 	"block.runeterramod.sun_disk_shard": "Shard of Sun Disk",
+	"block.runeterramod.sun_disk_altar": "Sun Disk Altar",
 	
 	"itemGroup.runeterratab": "Runeterra", 
 	

@@ -17,8 +17,6 @@ public class ModBlockLootTables extends BlockLoot {
 
         this.add(ModBlocks.SUN_STONE_ORE.get(),
                 (block) -> createOreDrop(ModBlocks.SUN_STONE_ORE.get(), ModItems.SUN_STONE.get()));
-        this.add(ModBlocks.DEEPSLATE_ZIRCON_ORE.get(),
-                (block) -> createOreDrop(ModBlocks.SUN_STONE_ORE.get(), ModItems.SUN_STONE.get()));
 
     }
 

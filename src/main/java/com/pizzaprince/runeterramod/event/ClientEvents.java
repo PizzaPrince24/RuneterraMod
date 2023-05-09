@@ -1,6 +1,8 @@
 package com.pizzaprince.runeterramod.event;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
+import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.client.renderer.armor.AsheArmorRenderer;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
@@ -64,7 +66,7 @@ public class ClientEvents {
 		}
 		
 		@SubscribeEvent
-	    public static void registerRenderers(final EntityRenderersEvent.AddLayers event) {
+	    public static void registerArmorRenderers(final EntityRenderersEvent.AddLayers event) {
 	        GeoArmorRenderer.registerArmorRenderer(AsheArmorItem.class, () -> new AsheArmorRenderer());
 	    }
 		

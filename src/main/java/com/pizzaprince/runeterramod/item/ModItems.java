@@ -1,9 +1,11 @@
 package com.pizzaprince.runeterramod.item;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.custom.AsheBow;
 import com.pizzaprince.runeterramod.item.custom.EightBallItem;
+import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
 import com.pizzaprince.runeterramod.item.custom.Test;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 
@@ -49,7 +51,10 @@ public class ModItems {
 	
 	public static final RegistryObject<Item> REKSAI_SPAWN_EGG = ITEMS.register("reksai_spawn_egg", 
 			() -> new ForgeSpawnEggItem(ModEntityTypes.REKSAI, 0x1C1C1C, 0x456296, new Item.Properties().tab(ModCreativeModeTab.RUNETERRA_TAB)));
-	
+
+	public static final RegistryObject<Item> SUN_DISK_ALTAR_ITEM = ITEMS.register("sun_disk_altar",
+			() -> new SunDiskAltarItem(ModBlocks.SUN_DISK_ALTAR.get(), new Item.Properties().tab(ModCreativeModeTab.RUNETERRA_TAB)));
+
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 	}
