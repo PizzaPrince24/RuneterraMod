@@ -4,8 +4,10 @@ import com.mojang.logging.LogUtils;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
+import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.renderer.entity.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.client.renderer.entity.IceArrowRenderer;
+import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.custom.champion.model.RekSaiRenderer;
@@ -20,6 +22,7 @@ import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
 import com.pizzaprince.runeterramod.world.region.ShurimaRegion;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -70,6 +73,8 @@ public class RuneterraMod {
         ModConfiguredFeatures.register(modEventBus);
         ModFeatures.register(modEventBus);
         ModPlacedFeatures.register(modEventBus);
+
+        ModMenuTypes.register(modEventBus);
         
         GeckoLib.initialize();
 
@@ -93,6 +98,7 @@ public class RuneterraMod {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
         	EntityRenderers.register(ModEntityTypes.REKSAI.get(), RekSaiRenderer::new);
+            MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
         }
         
         @SubscribeEvent
