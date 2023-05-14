@@ -48,13 +48,21 @@ public class ShurimaRegion extends Region{
             .build();
         */
         this.addBiome(mapper, Temperature.span(Temperature.WARM, Temperature.HOT), 
-        		Humidity.span(Humidity.DRY, Humidity.ARID), 
+        		Humidity.span(Humidity.ARID, Humidity.DRY),
         		Continentalness.span(Continentalness.COAST, Continentalness.FAR_INLAND), 
-        		Climate.Parameter.span(0.7f, 1.0f), 
+        		Climate.Parameter.span(0.6f, 0.9f),
         		Weirdness.span(Weirdness.MID_SLICE_NORMAL_ASCENDING, Weirdness.MID_SLICE_VARIANT_ASCENDING), 
         		Depth.span(Depth.SURFACE, Depth.UNDERGROUND), 
         		2, ModBiomes.SHURIMAN_DESERT);
-        
-    }
+
+		this.addBiome(mapper, Temperature.span(Temperature.WARM, Temperature.HOT),
+				Humidity.span(Humidity.ARID, Humidity.DRY),
+				Continentalness.span(Continentalness.COAST, Continentalness.FAR_INLAND),
+				Climate.Parameter.span(0.7f, 1.0f),
+				Weirdness.span(Weirdness.MID_SLICE_NORMAL_ASCENDING, Weirdness.MID_SLICE_VARIANT_ASCENDING),
+				Depth.span(Depth.SURFACE, Depth.UNDERGROUND),
+				2, ModBiomes.SHURIMAN_WASTELAND);
+
+	}
 
 }

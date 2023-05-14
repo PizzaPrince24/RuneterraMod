@@ -27,9 +27,12 @@ public class ModBiomes {
 	public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, RuneterraMod.MOD_ID);
 	
 	public static final ResourceKey<Biome> SHURIMAN_DESERT = createBiome("shuriman_desert");
+
+	public static final ResourceKey<Biome> SHURIMAN_WASTELAND = createBiome("shuriman_wasteland");
 	
 	public static void registerBiomes() {
 		register(SHURIMAN_DESERT, ModOverworldBiomes::shurimanDesert);
+		register(SHURIMAN_WASTELAND, ModOverworldBiomes::shurimanWasteland);
 	}
 	
 	private static ResourceKey<Biome> createBiome(String name) {

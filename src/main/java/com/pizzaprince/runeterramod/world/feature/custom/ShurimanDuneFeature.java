@@ -59,7 +59,7 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 				blockPos.setZ(startZ + z);
 				int ground = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockPos.getX(), blockPos.getZ());
 				blockPos.setY(ground);
-				if(level.isWaterAt(new BlockPos(startX+x, ground, startZ+z))) {
+				if(level.containsAnyLiquid(new AABB(blockPos))) {
 					continue;
 				}
 				double noiseValue = 15 * (0.8 + noise.getValue(((double)blockPos.getX()) / 70, ((double)blockPos.getZ()) / 70));
@@ -69,30 +69,63 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 					blockPos.setY(y1);
 					if (level.isEmptyBlock(blockPos)) {
 						if(y1 == y){
-							level.setBlock(blockPos, Math.random() * 9001 <= 1 ? ModBlocks.SUN_STONE_ORE.get().defaultBlockState() : ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
+							level.setBlock(blockPos, rand.nextDouble() < (1/9001) ? ModBlocks.SUN_STONE_ORE.get().defaultBlockState() : ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
 						} else {
 							level.setBlock(blockPos, ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
 						}
-
-						int updateX = blockPos.getX() & 15;
-						int updateZ = blockPos.getZ() & 15;
-						//chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG).update(updateX, blockPos.getY(), updateZ, ModBlocks.SHURIMAN_SAND.get().defaultBlockState());
-						//chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG).update(updateX, blockPos.getY(), updateZ, ModBlocks.SHURIMAN_SAND.get().defaultBlockState());
 					}
 				}
 			}
 		}
+
+		for(int x = 0; x < 16; x++) {
+			for (int z = 0; z < 16; z++) {
+				blockPos.setX(startX + x);
+				blockPos.setZ(startZ + z);
+				int ground = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockPos.getX(), blockPos.getZ());
+				blockPos.setY(ground);
+				if(level.containsAnyLiquid(new AABB(blockPos))) {
+					blendfromLiquid(level, blockPos.getX(), blockPos.getZ());
+				}
+			}
+		}
+
 		return true;
+	}
+
+	private void blendfromLiquid(WorldGenLevel level, int originX, int originZ) {
+		System.out.println("Liquid at " + originX + ", " + originZ);
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		for(int dx = -8; dx <= 8; dx++){
+			for(int dz = -8; dz <= 8; dz++){
+				int x = originX+dx;
+				int z = originZ+dz;
+				int ground = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z);
+				pos.set(x, ground, z);
+				if(!level.containsAnyLiquid(new AABB(pos))){
+					double noiseValue = 15 * (0.8 + noise.getValue(((double)x) / 70, ((double)z) / 70));
+					int height = (int) noiseValue + ground;
+					int y = (int)Mth.clampedLerp(height, ground, 1 - ((Math.sqrt(Math.pow(dx, 2) + Math.pow(dz, 2))) / 8)) - 2;
+					if(y < ground) continue;
+					for(int dy = y; dy < height; dy++){
+						pos.setY(dy);
+						level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+					}
+				}
+			}
+		}
 	}
 
 	private double blend(WorldGenLevel level, BlockPos pos, BlockPos origin){
 		double result = 1;
+        /*
 		for(int i = 1; i <= 8; i++){
 			if(level.containsAnyLiquid(new AABB(pos).inflate(i))){
 				result = 0.125 * i;
 				break;
 			}
 		}
+		 */
 		for(int x = -16; x < 16; x++){
 			for(int z = -16; z < 16; z++){
 				if(!level.getBiome(pos.offset(x, 0, z)).is(ModBiomes.SHURIMAN_DESERT)){
@@ -100,115 +133,6 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 				}
 			}
 		}
-		if(pos.getY() < origin.getY() - 10){
-			List<String> dirs = new ArrayList<String>();
-			if(!level.canSeeSky(pos.offset(1, 10, 0))){
-				dirs.add("+x");
-			}
-			if(!level.canSeeSky(pos.offset(-1, 10, 0))){
-				dirs.add("-x");
-			}
-			if(!level.canSeeSky(pos.offset(0, 10, 1))){
-				dirs.add("+z");
-			}
-			if(!level.canSeeSky(pos.offset(0, 10, -1))){
-				dirs.add("-z");
-			}
-			if(dirs != null){
-				//moundify(level, pos, dirs);
-			}
-		}
 		return result;
-	}
-
-	private void moundify(WorldGenLevel level, BlockPos origin, List<String> dirs){
-		if(!level.isEmptyBlock(origin)){
-			return;
-		}
-		BlockPos.MutableBlockPos mound = new BlockPos.MutableBlockPos(origin.getX(), origin.getY(), origin.getZ());
-		if(dirs.contains("+x")){
-			if(!level.canSeeSky(origin.offset(1, 10, 0)) && origin.getY() < level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, origin.getX()+1, origin.getZ()) - 10) {
-				System.out.println("moundified+x");
-				for (int x = 1; x <= 5; x++) {
-					for (int z = -x; z <= x; z++) {
-						mound.set(origin.getX() + x, origin.getY(), origin.getZ() + z);
-						double noiseValue = 15 * (0.8 + noise.getValue((double) mound.getX() / 70, (double) mound.getZ() / 70));
-						int height = mound.getY() + (int) noiseValue;
-						mound.setY((int) Mth.clampedLerp(height, mound.getY(), Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) / 10));
-						while (true) {
-							if (level.isEmptyBlock(mound)) {
-								level.setBlock(mound, Blocks.NETHERRACK.defaultBlockState(), 2);
-								mound.move(Direction.DOWN);
-							} else {
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		if(dirs.contains("-x")){
-			if(!level.canSeeSky(origin.offset(-1, 10, 0)) && origin.getY() < level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, origin.getX()-1, origin.getZ()) - 10) {
-				System.out.println("moundified-x");
-				for (int x = -1; x >= -10; x--) {
-					for (int z = x; z <= -x; z++) {
-						mound.set(origin.getX() + x, origin.getY(), origin.getZ() + z);
-						double noiseValue = 15 * (0.8 + noise.getValue((double) mound.getX() / 70, (double) mound.getZ() / 70));
-						int height = mound.getY() + (int) noiseValue;
-						mound.setY((int) Mth.clampedLerp(height, mound.getY(), Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) / 10));
-						while (true) {
-							if (level.isEmptyBlock(mound)) {
-								level.setBlock(mound, Blocks.NETHERRACK.defaultBlockState(), 2);
-								mound.move(Direction.DOWN);
-							} else {
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		if(dirs.contains("+z")) {
-			if(!level.canSeeSky(origin.offset(0, 10, 1)) && origin.getY() < level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, origin.getX(), origin.getZ()+1) - 10) {
-				System.out.println("moundified+z");
-				for (int z = 1; z <= 10; z++) {
-					for (int x = -z; x <= z; x++) {
-						mound.set(origin.getX() + x, origin.getY(), origin.getZ() + z);
-						double noiseValue = 15 * (0.8 + noise.getValue((double) mound.getX() / 70, (double) mound.getZ() / 70));
-						int height = mound.getY() + (int) noiseValue;
-						mound.setY((int) Mth.clampedLerp(height, mound.getY(), Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) / 10));
-						while (true) {
-							if (level.isEmptyBlock(mound)) {
-								level.setBlock(mound, Blocks.NETHERRACK.defaultBlockState(), 2);
-								mound.move(Direction.DOWN);
-							} else {
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		if(dirs.contains("-z")) {
-			if(!level.canSeeSky(origin.offset(0, 10, -1)) && origin.getY() < level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, origin.getX(), origin.getZ()-1) - 10) {
-				System.out.println("moundified-z");
-				for (int z = -1; z >= -10; z--) {
-					for (int x = z; x <= -z; x++) {
-						mound.set(origin.getX() + x, origin.getY(), origin.getZ() + z);
-						double noiseValue = 15 * (0.8 + noise.getValue((double) mound.getX() / 70, (double) mound.getZ() / 70));
-						int height = mound.getY() + (int) noiseValue;
-						mound.setY((int) Mth.clampedLerp(height, mound.getY(), Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) / 10));
-						while (true) {
-							if (level.isEmptyBlock(mound)) {
-								level.setBlock(mound, Blocks.NETHERRACK.defaultBlockState(), 2);
-								mound.move(Direction.DOWN);
-							} else {
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 }

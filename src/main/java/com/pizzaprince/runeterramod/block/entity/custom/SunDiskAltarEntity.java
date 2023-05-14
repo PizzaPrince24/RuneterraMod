@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -40,6 +41,8 @@ import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.network.ISyncable;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
+import javax.annotation.Nonnull;
+
 public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, MenuProvider {
     private AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private final ItemStackHandler itemHandler = new ItemStackHandler(2){
@@ -51,7 +54,7 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     protected final ContainerData data;
-    private int progress = 0;
+    private int progress = -1;
     private int maxProgress = 78;
     private int sunBlocks = 0;
     private int maxSunBlocks = 2500;
@@ -93,11 +96,9 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event){
-        if(this.serializeNBT().getInt("sun_disk_altar.progress") > 0){
+        if(this.getUpdatePacket().getTag().getInt("sun_disk_altar.progress") >= 0){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.sun_disk_altar.active_transfusing", ILoopType.EDefaultLoopTypes.LOOP));
             return PlayState.CONTINUE;
-        } else {
-            System.out.println(this.serializeNBT().getInt("sun_disk_altar.progress"));
         }
 
         event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.sun_disk_altar.idle", ILoopType.EDefaultLoopTypes.LOOP));
@@ -173,15 +174,19 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
             if(entity.progress >= entity.maxProgress){
                 craftItem(entity);
             }
-            System.out.println(entity.progress);
         } else {
-            entity.resetProgress();
+            entity.trueResetProgress();
             setChanged(level, blockPos, blockState);
         }
+        level.sendBlockUpdated(blockPos, entity.getBlockState(), entity.getBlockState(), 3);
     }
 
     private void resetProgress() {
         this.progress = 0;
+    }
+
+    private void trueResetProgress() {
+        this.progress = -1;
     }
 
     private static void craftItem(SunDiskAltarEntity entity) {
@@ -205,5 +210,18 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
         boolean hasCorrectItemInSecondSlot = entity.itemHandler.getStackInSlot(1).getItem() == ModItems.SUN_STONE.get();
 
         return hasCorrectBlockInFirstSlot && hasCorrectItemInSecondSlot && entity.sunBlocks < entity.maxSunBlocks;
+    }
+
+    @Nonnull
+    @Override
+    public CompoundTag getUpdateTag() {
+        setChanged();
+        return saveWithoutMetadata();    // okay to send entire inventory on chunk load
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        setChanged();
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 }

@@ -31,7 +31,7 @@ public class StunEffect extends MobEffect{
 		super(p_19451_, p_19452_);
 	}
 	
-	
+	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
 	      if(!entity.level.isClientSide()) {
 	    	  if(entity instanceof Mob mob) {

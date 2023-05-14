@@ -3,6 +3,7 @@
 	"item.runeterramod.raw_zircon": "Raw Zircon",
 	"item.runeterramod.eight_ball": "Eight Ball",
 	"item.runeterramod.reksai_spawn_egg": "Rek'Sai Spawn Egg",
+	"item.runeterramod.cactus_juice": "Cactus Juice",
 	
 	"item.runeterramod.ashe_bow": "Ashe's Bow",
 	"item.runeterramod.ashe_helmet": "Ashe's Cap",
@@ -22,6 +23,7 @@
 	"itemGroup.runeterratab": "Runeterra", 
 	
 	"effect.runeterramod.stun": "Stunned!",
+	"effect.runeterramod.quenched": "It'll Quench Ya! Nothing's Quenchier! It's the Quenchiest!",
 	
 	"key.category.runeterramod.runeterra": "Runeterra",
 	"key.runeterramod.ultimate": "Ultimate"

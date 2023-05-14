@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.networking;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
 import com.pizzaprince.runeterramod.networking.packet.IceArrowParticleS2CPacket;
 import com.pizzaprince.runeterramod.networking.packet.KeyPressC2SPacket;
 import com.pizzaprince.runeterramod.networking.packet.SyncCooldownsS2CPacket;
@@ -51,6 +52,12 @@ public class ModPackets {
 				.decoder(SyncCooldownsS2CPacket::new)
 				.encoder(SyncCooldownsS2CPacket::toBytes)
 				.consumerMainThread(SyncCooldownsS2CPacket::handle)
+				.add();
+
+		net.messageBuilder(CancelShaderS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(CancelShaderS2CPacket::new)
+				.encoder(CancelShaderS2CPacket::toBytes)
+				.consumerMainThread(CancelShaderS2CPacket::handle)
 				.add();
 	}
 	

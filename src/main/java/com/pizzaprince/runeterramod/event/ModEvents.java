@@ -1,5 +1,18 @@
 package com.pizzaprince.runeterramod.event;
 
+import com.pizzaprince.runeterramod.item.ModItems;
+import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
@@ -32,9 +45,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.function.Predicate;
+
 
 public class ModEvents {
-	
+
 	@Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID)
 	public class ForgeEvents{
 		@SubscribeEvent
@@ -45,7 +60,24 @@ public class ModEvents {
 				}
 			}
 		}
-		
+
+		@SubscribeEvent
+		public static void onBlockBreak(BlockEvent.BreakEvent event){
+			if(event.getState().is(Blocks.CACTUS) && event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND).getItem()
+					instanceof SwordItem){
+				event.getLevel().addFreshEntity(new ItemEntity(event.getPlayer().getLevel(), event.getPos().getX(), event.getPos().getY(),
+						event.getPos().getZ(), new ItemStack(ModItems.CACTUS_JUICE.get())));
+			}
+		}
+
+		@SubscribeEvent
+		public static void mobEffectEvent(MobEffectEvent.Remove event){
+			if(event.getEffectInstance().getEffect() == ModEffects.QUENCHED.get()){
+				if(event.getEntity() instanceof ServerPlayer player)
+					ModPackets.sendToPlayer(new CancelShaderS2CPacket(), player);
+			}
+		}
+
 		@SubscribeEvent
 		public static void onPlayerCloned(PlayerEvent.Clone event) {
 			if(event.isWasDeath()) {
@@ -56,21 +88,21 @@ public class ModEvents {
 				});
 			}
 		}
-		
+
 		@SubscribeEvent
 		public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
 			event.register(PlayerAbilities.class);
 		}
-		
+
 		@SubscribeEvent
 		public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 			if(event.side == LogicalSide.SERVER) {
 				event.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
 					abilities.tick();
 				});
-			} 
+			}
 		}
-		
+
 		@SubscribeEvent
 		public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
 			if(!event.getLevel().isClientSide()) {
@@ -81,42 +113,43 @@ public class ModEvents {
 				}
 			}
 		}
-		
+
 		@SubscribeEvent
 		public static void livingTick(LivingTickEvent event) {
 			if(event.getEntity() instanceof Mob mob) {
 				if(mob.hasEffect(ModEffects.STUN.get())) {
 					mob.goalSelector.disableControlFlag(Flag.MOVE);
-		    		mob.targetSelector.disableControlFlag(Flag.MOVE);
-		    		mob.goalSelector.disableControlFlag(Flag.JUMP);
-		    		mob.targetSelector.disableControlFlag(Flag.JUMP);
-		    		mob.goalSelector.disableControlFlag(Flag.LOOK);
-		    		mob.targetSelector.disableControlFlag(Flag.LOOK);
-		    		mob.goalSelector.disableControlFlag(Flag.TARGET);
-		    		mob.targetSelector.disableControlFlag(Flag.TARGET);
-		    		mob.getNavigation().setSpeedModifier(0);
+					mob.targetSelector.disableControlFlag(Flag.MOVE);
+					mob.goalSelector.disableControlFlag(Flag.JUMP);
+					mob.targetSelector.disableControlFlag(Flag.JUMP);
+					mob.goalSelector.disableControlFlag(Flag.LOOK);
+					mob.targetSelector.disableControlFlag(Flag.LOOK);
+					mob.goalSelector.disableControlFlag(Flag.TARGET);
+					mob.targetSelector.disableControlFlag(Flag.TARGET);
+					mob.getNavigation().setSpeedModifier(0);
 				} else {
 					mob.goalSelector.enableControlFlag(Flag.MOVE);
-		    		mob.targetSelector.enableControlFlag(Flag.MOVE);
-		    		mob.goalSelector.enableControlFlag(Flag.JUMP);
-		    		mob.targetSelector.enableControlFlag(Flag.JUMP);
-		    		mob.goalSelector.enableControlFlag(Flag.LOOK);
-		    		mob.targetSelector.enableControlFlag(Flag.LOOK);
-		    		mob.goalSelector.enableControlFlag(Flag.TARGET);
-		    		mob.targetSelector.enableControlFlag(Flag.TARGET);
+					mob.targetSelector.enableControlFlag(Flag.MOVE);
+					mob.goalSelector.enableControlFlag(Flag.JUMP);
+					mob.targetSelector.enableControlFlag(Flag.JUMP);
+					mob.goalSelector.enableControlFlag(Flag.LOOK);
+					mob.targetSelector.enableControlFlag(Flag.LOOK);
+					mob.goalSelector.enableControlFlag(Flag.TARGET);
+					mob.targetSelector.enableControlFlag(Flag.TARGET);
 				}
 			}
 		}
 	}
-	
+
 	@Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class ModEventBusEvents {
-		
+
 		@SubscribeEvent
 		public static void EntityAttributeEvent(EntityAttributeCreationEvent event) {
 			event.put(ModEntityTypes.REKSAI.get(), RekSaiEntity.setAttributes());
 		}
-		
+
+
 	}
 
 }

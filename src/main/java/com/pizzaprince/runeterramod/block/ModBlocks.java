@@ -34,13 +34,13 @@ public class ModBlocks {
 			() -> new FallingBlock(BlockBehaviour.Properties.of(Material.SAND).sound(SoundType.SAND)), ModCreativeModeTab.RUNETERRA_TAB);
 
 	public static final RegistryObject<Block> SHURIMAN_SANDSTONE = registerBlock("shuriman_sandstone",
-			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(0.8f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
+			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(0.8f).requiresCorrectToolForDrops().noLootTable()), ModCreativeModeTab.RUNETERRA_TAB);
 
 	public static final RegistryObject<Block> SUN_DISK_SHARD = registerBlock("sun_disk_shard",
 			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(4f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
 
 	public static final RegistryObject<Block> SUN_DISK_ALTAR = BLOCKS.register("sun_disk_altar",
-			() -> new SunDiskAltar(BlockBehaviour.Properties.of(Material.STONE).strength(4f).requiresCorrectToolForDrops().noOcclusion()));
+			() -> new SunDiskAltar(BlockBehaviour.Properties.of(Material.STONE).strength(4f).requiresCorrectToolForDrops().noOcclusion().noLootTable()));
 
 	private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){
 		RegistryObject<T> toReturn = BLOCKS.register(name, block);

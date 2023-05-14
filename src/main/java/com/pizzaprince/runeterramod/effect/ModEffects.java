@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.effect;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.effect.custom.QuenchedEffect;
 import com.pizzaprince.runeterramod.effect.custom.StunEffect;
 
 import net.minecraft.world.effect.MobEffect;
@@ -16,7 +17,12 @@ public class ModEffects {
 	
 	public static final RegistryObject<MobEffect> STUN = MOB_EFFECTS.register("stun",
 			() -> new StunEffect(MobEffectCategory.HARMFUL, 8989061));
-	
+
+
+	public static final RegistryObject<MobEffect> QUENCHED = MOB_EFFECTS.register("quenched",
+			() -> new QuenchedEffect(MobEffectCategory.HARMFUL, 8989061));
+
+
 	public static void register(IEventBus eventBus) {
 		MOB_EFFECTS.register(eventBus);
 	}

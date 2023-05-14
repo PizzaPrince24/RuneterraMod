@@ -2,14 +2,15 @@ package com.pizzaprince.runeterramod.item;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.block.ModBlocks;
+import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
-import com.pizzaprince.runeterramod.item.custom.AsheBow;
-import com.pizzaprince.runeterramod.item.custom.EightBallItem;
-import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
-import com.pizzaprince.runeterramod.item.custom.Test;
+import com.pizzaprince.runeterramod.item.custom.*;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -54,6 +55,17 @@ public class ModItems {
 
 	public static final RegistryObject<Item> SUN_DISK_ALTAR_ITEM = ITEMS.register("sun_disk_altar",
 			() -> new SunDiskAltarItem(ModBlocks.SUN_DISK_ALTAR.get(), new Item.Properties().tab(ModCreativeModeTab.RUNETERRA_TAB)));
+
+
+	public static final RegistryObject<Item> CACTUS_JUICE = ITEMS.register("cactus_juice",
+			() -> new Item(new Item.Properties().stacksTo(64).tab(ModCreativeModeTab.RUNETERRA_TAB).food(
+					new FoodProperties.Builder().saturationMod(7).nutrition(6)
+							.effect(() -> new MobEffectInstance(ModEffects.QUENCHED.get(), 90*20, 0, false, true, true), 1)
+							.effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 90*20, 1, false, false, false), 1)
+							.effect(() -> new MobEffectInstance(MobEffects.LUCK, 90*20, 2, false, false, false), 1)
+							.alwaysEat().build()
+			)));
+
 
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
