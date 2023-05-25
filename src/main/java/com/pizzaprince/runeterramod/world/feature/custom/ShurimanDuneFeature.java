@@ -64,20 +64,22 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 				}
 				double noiseValue = 15 * (0.8 + noise.getValue(((double)blockPos.getX()) / 70, ((double)blockPos.getZ()) / 70));
 				int height = (int) noiseValue + ground;
-				int y = (int)Mth.clampedLerp(height, ground, 1 - blend(level, blockPos, origin)) - 2;
+				int y = (int)Mth.clampedLerp(height, ground, 1 - blend(level, blockPos, chunk)) - 2;
 				for(int y1 = y; y1 >= ground; y1--) {
 					blockPos.setY(y1);
 					if (level.isEmptyBlock(blockPos)) {
 						if(y1 == y){
-							level.setBlock(blockPos, rand.nextDouble() < (1/9001) ? ModBlocks.SUN_STONE_ORE.get().defaultBlockState() : ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
+							chunk.setBlockState(blockPos, rand.nextDouble() < (1.0/9001.0) ? ModBlocks.SUN_STONE_ORE.get().defaultBlockState() : ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), false);
+							//level.setBlock(blockPos, rand.nextDouble() < (1/9001) ? ModBlocks.SUN_STONE_ORE.get().defaultBlockState() : ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
 						} else {
-							level.setBlock(blockPos, ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
+							chunk.setBlockState(blockPos, ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), false);
+							//level.setBlock(blockPos, ModBlocks.SHURIMAN_SAND.get().defaultBlockState(), 2);
 						}
 					}
 				}
 			}
 		}
-
+/*
 		for(int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				blockPos.setX(startX + x);
@@ -90,9 +92,11 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 			}
 		}
 
+ */
+
 		return true;
 	}
-
+    /*
 	private void blendfromLiquid(WorldGenLevel level, int originX, int originZ) {
 		System.out.println("Liquid at " + originX + ", " + originZ);
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
@@ -116,19 +120,27 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 		}
 	}
 
-	private double blend(WorldGenLevel level, BlockPos pos, BlockPos origin){
+	 */
+
+	private double blend(WorldGenLevel level, BlockPos pos, ChunkAccess chunk){
 		double result = 1;
-        /*
-		for(int i = 1; i <= 8; i++){
-			if(level.containsAnyLiquid(new AABB(pos).inflate(i))){
-				result = 0.125 * i;
-				break;
-			}
+		boolean checkBiomes;
+		if(!level.getBiome(pos.offset(16, 0, 0)).is(ModBiomes.SHURIMAN_DESERT) || !level.getBiome(pos.offset(-16, 0, 0)).is(ModBiomes.SHURIMAN_DESERT)
+			|| !level.getBiome(pos.offset(0, 0, 16)).is(ModBiomes.SHURIMAN_DESERT) || !level.getBiome(pos.offset(0, 0, -16)).is(ModBiomes.SHURIMAN_DESERT)
+				|| !level.getBiome(pos.offset(16, 0, 16)).is(ModBiomes.SHURIMAN_DESERT) || !level.getBiome(pos.offset(16, 0, -16)).is(ModBiomes.SHURIMAN_DESERT)
+				|| !level.getBiome(pos.offset(-16, 0, 16)).is(ModBiomes.SHURIMAN_DESERT) || !level.getBiome(pos.offset(-16, 0, -16)).is(ModBiomes.SHURIMAN_DESERT)){
+			checkBiomes = true;
+		} else {
+			checkBiomes = false;
 		}
-		 */
 		for(int x = -16; x < 16; x++){
 			for(int z = -16; z < 16; z++){
-				if(!level.getBiome(pos.offset(x, 0, z)).is(ModBiomes.SHURIMAN_DESERT)){
+				if(checkBiomes && !level.getBiome(pos.offset(x, 0, z)).is(ModBiomes.SHURIMAN_DESERT)){
+					result = Math.min(result, Math.sqrt(Math.pow((double)x / 16, 2) + Math.pow((double)z / 16, 2)));
+				}
+				BlockState state = level.getBlockState(new BlockPos(pos.getX()+x,
+						level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, pos.getX()+x, pos.getZ()+z), pos.getZ()+z));
+				if(!state.getFluidState().isEmpty()){
 					result = Math.min(result, Math.sqrt(Math.pow((double)x / 16, 2) + Math.pow((double)z / 16, 2)));
 				}
 			}

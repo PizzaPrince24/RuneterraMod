@@ -31,13 +31,17 @@ public class SunDiskAltarScreen extends AbstractContainerScreen<SunDiskAltarMenu
 
         this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
 
-        renderProgressArrow(pPoseStack, x, y);
+        renderDiskProgress(pPoseStack, x, y);
+
+        renderSunPower(pPoseStack, x, y);
     }
 
-    private void renderProgressArrow(PoseStack pPoseStack, int x, int y) {
-        if(menu.isCrafting()) {
-            blit(pPoseStack, x + 105, y + 33, 176, 0, 8, menu.getScaledProgress());
-        }
+    private void renderDiskProgress(PoseStack pPoseStack, int x, int y) {
+        blit(pPoseStack, x + 109, y + 20, 176, 31, 50, menu.getScaledDiskProgress());
+    }
+
+    private void renderSunPower(PoseStack pPoseStack, int x, int y) {
+        blit(pPoseStack, x + 10, y + 29, 176, 0, 64, menu.sunDiskAltar.getSunPower());
     }
 
     @Override

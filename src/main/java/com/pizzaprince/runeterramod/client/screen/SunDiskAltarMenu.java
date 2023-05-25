@@ -4,6 +4,7 @@ import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.custom.SunDiskAltarEntity;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -35,8 +36,8 @@ public class SunDiskAltarMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.sunDiskAltar.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            this.addSlot(new SlotItemHandler(handler, 0, 12, 15));
-            this.addSlot(new SlotItemHandler(handler, 1, 86, 15));
+            this.addSlot(new SlotItemHandler(handler, 0, 80, 15));
+            this.addSlot(new SlotItemHandler(handler, 1, 80, 57));
         });
 
         addDataSlots(data);
@@ -46,12 +47,12 @@ public class SunDiskAltarMenu extends AbstractContainerMenu {
         return data.get(0) > 0;
     }
 
-    public int getScaledProgress() {
-        int progress = this.data.get(0);
-        int maxProgress = this.data.get(1);  // Max Progress
-        int progressArrowSize = 26; // This is the height in pixels of your arrow
+    public int getScaledDiskProgress() {
+        int numBlocks = this.data.get(2);
+        int maxBlocks = this.data.get(3);
+        int diskSize = 51;
 
-        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
+        return maxBlocks != 0 && numBlocks != 0 ? numBlocks * diskSize / maxBlocks : 0;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
