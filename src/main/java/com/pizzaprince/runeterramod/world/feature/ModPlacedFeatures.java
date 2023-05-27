@@ -19,9 +19,12 @@ public class ModPlacedFeatures {
 	
 	public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, RuneterraMod.MOD_ID);
 	
-	public static final Holder<PlacedFeature> SHURIMAN_DUNE = createPlacedFeature("shuriman_dune", ModConfiguredFeatures.SHURIMAN_DUNE, CountPlacement.of(3), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(1));
+	public static final Holder<PlacedFeature> SHURIMAN_DUNE = createPlacedFeature("shuriman_dune", ModConfiguredFeatures.SHURIMAN_DUNE, CountPlacement.of(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, RarityFilter.onAverageOnceEvery(1));
 
 	public static final Holder<PlacedFeature> SHURIMAN_WELL = createPlacedFeature("shuriman_well", ModConfiguredFeatures.SHURIMAN_WELL, RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
+
+	public static final Holder<PlacedFeature> SHURIMAN_CACTUS = createPlacedFeature("shuriman_cactus", ModConfiguredFeatures.SHURIMAN_CACTUS, CountPlacement.of(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(1));
+
 	public static void register(IEventBus eventBus) {
 		PLACED_FEATURES.register(eventBus);
 	}

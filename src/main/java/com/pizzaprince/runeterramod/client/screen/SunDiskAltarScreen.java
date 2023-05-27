@@ -37,11 +37,21 @@ public class SunDiskAltarScreen extends AbstractContainerScreen<SunDiskAltarMenu
     }
 
     private void renderDiskProgress(PoseStack pPoseStack, int x, int y) {
-        blit(pPoseStack, x + 109, y + 20, 176, 31, 50, menu.getScaledDiskProgress());
+        if(menu.getScaledDiskProgress() > 0) {
+            for (int i = 0; i <= menu.getScaledDiskProgress(); i++) {
+                blit(pPoseStack, x + 109, y + 71 - i, 176, 82 - i, 50, 1);
+            }
+        }
+        //blit(pPoseStack, x + 109, y + 20, 176, 31, 50, menu.getScaledDiskProgress());
     }
 
     private void renderSunPower(PoseStack pPoseStack, int x, int y) {
-        blit(pPoseStack, x + 10, y + 29, 176, 0, 64, menu.sunDiskAltar.getSunPower());
+        if(menu.sunDiskAltar.getSunPower() > 0) {
+            for (int i = 0; i <= menu.sunDiskAltar.getSunPower(); i++) {
+                blit(pPoseStack, x + 10, y + 58 - i, 176, 30 - i, 64, 1);
+            }
+        }
+        //blit(pPoseStack, x + 10, y + 29, 176, 0, 64, menu.sunDiskAltar.getSunPower());
     }
 
     @Override

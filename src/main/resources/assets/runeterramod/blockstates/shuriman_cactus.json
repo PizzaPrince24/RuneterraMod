@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,pod_state=0": {
+      "model": "runeterramod:block/shuriman_cactus"
+    },
+    "facing=north,pod_state=1": {
+      "model": "runeterramod:block/shuriman_cactus_1_pod"
+    },
+    "facing=north,pod_state=2": {
+      "model": "runeterramod:block/shuriman_cactus_2_pod"
+    },
+    "facing=south,pod_state=0": {
+      "model": "runeterramod:block/shuriman_cactus",
+      "y": 180
+    },
+    "facing=south,pod_state=1": {
+      "model": "runeterramod:block/shuriman_cactus_1_pod",
+      "y": 180
+    },
+    "facing=south,pod_state=2": {
+      "model": "runeterramod:block/shuriman_cactus_2_pod",
+      "y": 180
+    },
+    "facing=west,pod_state=0": {
+      "model": "runeterramod:block/shuriman_cactus",
+      "y": 270
+    },
+    "facing=west,pod_state=1": {
+      "model": "runeterramod:block/shuriman_cactus_1_pod",
+      "y": 270
+    },
+    "facing=west,pod_state=2": {
+      "model": "runeterramod:block/shuriman_cactus_2_pod",
+      "y": 270
+    },
+    "facing=east,pod_state=0": {
+      "model": "runeterramod:block/shuriman_cactus",
+      "y": 90
+    },
+    "facing=east,pod_state=1": {
+      "model": "runeterramod:block/shuriman_cactus_1_pod",
+      "y": 90
+    },
+    "facing=east,pod_state=2": {
+      "model": "runeterramod:block/shuriman_cactus_2_pod",
+      "y": 90
+    }
+  }
+}

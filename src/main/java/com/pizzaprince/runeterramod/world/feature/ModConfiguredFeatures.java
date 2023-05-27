@@ -23,6 +23,9 @@ public class ModConfiguredFeatures {
 	public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> SHURIMAN_DUNE = createConfiguredFeature("shuriman_dune", ModFeatures.SHURIMAN_DUNE_FEATURE, () -> NoneFeatureConfiguration.INSTANCE);
 
 	public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> SHURIMAN_WELL = createConfiguredFeature("shuriman_well", ModFeatures.DESERT_WELL_TEST_FEATURE, () -> NoneFeatureConfiguration.INSTANCE);
+
+	public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> SHURIMAN_CACTUS = createConfiguredFeature("shuriman_cactus", ModFeatures.SHURIMAN_CACTUS_FEATURE, () -> NoneFeatureConfiguration.INSTANCE);
+
 	public static void register(IEventBus eventBus) {
 		CONFIGURED_FEATURES.register(eventBus);
 	}

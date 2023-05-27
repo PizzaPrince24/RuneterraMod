@@ -2,6 +2,8 @@ package com.pizzaprince.runeterramod.block;
 
 import com.google.common.base.Supplier;
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.block.custom.ShurimanCactus;
+import com.pizzaprince.runeterramod.block.custom.ShurimanSand;
 import com.pizzaprince.runeterramod.block.custom.SunDiskAltar;
 import com.pizzaprince.runeterramod.item.ModCreativeModeTab;
 import com.pizzaprince.runeterramod.item.ModItems;
@@ -31,16 +33,23 @@ public class ModBlocks {
 			() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3f).requiresCorrectToolForDrops(), UniformInt.of(3,7)), ModCreativeModeTab.RUNETERRA_TAB);
 
 	public static final RegistryObject<Block> SHURIMAN_SAND = registerBlock("shuriman_sand",
-			() -> new FallingBlock(BlockBehaviour.Properties.of(Material.SAND).sound(SoundType.SAND)), ModCreativeModeTab.RUNETERRA_TAB);
+			() -> new ShurimanSand(BlockBehaviour.Properties.of(Material.SAND).sound(SoundType.SAND)), ModCreativeModeTab.RUNETERRA_TAB);
 
 	public static final RegistryObject<Block> SHURIMAN_SANDSTONE = registerBlock("shuriman_sandstone",
-			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(0.8f).requiresCorrectToolForDrops().noLootTable()), ModCreativeModeTab.RUNETERRA_TAB);
+			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(0.8f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
 
 	public static final RegistryObject<Block> SUN_DISK_SHARD = registerBlock("sun_disk_shard",
 			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(4f).requiresCorrectToolForDrops()), ModCreativeModeTab.RUNETERRA_TAB);
 
 	public static final RegistryObject<Block> SUN_DISK_ALTAR = BLOCKS.register("sun_disk_altar",
 			() -> new SunDiskAltar(BlockBehaviour.Properties.of(Material.STONE).strength(4f).requiresCorrectToolForDrops().noOcclusion().noLootTable()));
+
+	public static final RegistryObject<Block> SUN_DISK_BLOCK = registerBlock("sun_disk_block",
+			() -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(-1).noLootTable()), ModCreativeModeTab.RUNETERRA_TAB);
+
+	public static final RegistryObject<Block> SHURIMAN_CACTUS = registerBlock("shuriman_cactus",
+			() -> new ShurimanCactus(BlockBehaviour.Properties.copy(Blocks.CACTUS).noOcclusion()), ModCreativeModeTab.RUNETERRA_TAB);
+
 
 	private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab){
 		RegistryObject<T> toReturn = BLOCKS.register(name, block);

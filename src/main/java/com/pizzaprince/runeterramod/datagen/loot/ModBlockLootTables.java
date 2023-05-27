@@ -14,6 +14,7 @@ public class ModBlockLootTables extends BlockLoot {
         this.dropSelf(ModBlocks.SUN_STONE_BLOCK.get());
         this.dropSelf(ModBlocks.SHURIMAN_SANDSTONE.get());
         this.dropSelf(ModBlocks.SUN_DISK_SHARD.get());
+        this.dropSelf(ModBlocks.SHURIMAN_CACTUS.get());
 
         this.add(ModBlocks.SUN_STONE_ORE.get(),
                 (block) -> createOreDrop(ModBlocks.SUN_STONE_ORE.get(), ModItems.SUN_STONE.get()));

@@ -21,9 +21,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         blockWithItem(ModBlocks.SUN_STONE_BLOCK);
         blockWithItem(ModBlocks.SHURIMAN_SAND);
-        blockWithItem(ModBlocks.SHURIMAN_SANDSTONE);
+        //blockWithItem(ModBlocks.SHURIMAN_SANDSTONE);
         blockWithItem(ModBlocks.SUN_STONE_ORE);
         blockWithItem(ModBlocks.SUN_DISK_SHARD);
+        blockWithItem(ModBlocks.SUN_DISK_BLOCK);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

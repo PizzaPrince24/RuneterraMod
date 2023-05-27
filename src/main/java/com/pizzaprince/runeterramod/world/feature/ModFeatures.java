@@ -2,6 +2,7 @@ package com.pizzaprince.runeterramod.world.feature;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.world.feature.custom.DesertWellTestFeature;
+import com.pizzaprince.runeterramod.world.feature.custom.ShurimanCactusFeature;
 import com.pizzaprince.runeterramod.world.feature.custom.ShurimanDuneFeature;
 
 import net.minecraft.core.Registry;
@@ -18,6 +19,8 @@ public class ModFeatures {
 	public static final Feature<NoneFeatureConfiguration> SHURIMAN_DUNE_FEATURE = createFeature("shuriman_dune", new ShurimanDuneFeature(NoneFeatureConfiguration.CODEC));
 
 	public static final Feature<NoneFeatureConfiguration> DESERT_WELL_TEST_FEATURE = createFeature("shuriman_well", new DesertWellTestFeature(NoneFeatureConfiguration.CODEC));
+
+	public static final Feature<NoneFeatureConfiguration> SHURIMAN_CACTUS_FEATURE = createFeature("shuriman_cactus", new ShurimanCactusFeature(NoneFeatureConfiguration.CODEC));
 	
 	public static void register(IEventBus eventBus) {
 		FEATURES.register(eventBus);

@@ -19,6 +19,7 @@ import com.pizzaprince.runeterramod.world.biome.ModSurfaceRuleData;
 import com.pizzaprince.runeterramod.world.feature.ModConfiguredFeatures;
 import com.pizzaprince.runeterramod.world.feature.ModFeatures;
 import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
+import com.pizzaprince.runeterramod.world.plant.ModPlantTypes;
 import com.pizzaprince.runeterramod.world.region.ShurimaRegion;
 
 import net.minecraft.client.Minecraft;
@@ -75,6 +76,8 @@ public class RuneterraMod {
         ModPlacedFeatures.register(modEventBus);
 
         ModMenuTypes.register(modEventBus);
+
+        ModPlantTypes.register();
         
         GeckoLib.initialize();
 
@@ -84,12 +87,12 @@ public class RuneterraMod {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-    	event.enqueueWork(() -> {
-    		ModPackets.register();
-    		
-    		Regions.register(new ShurimaRegion(new ResourceLocation(RuneterraMod.MOD_ID, "overworld"), 2));
-    		SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, RuneterraMod.MOD_ID, ModSurfaceRuleData.makeRules());
-    	});
+        event.enqueueWork(() -> {
+            ModPackets.register();
+
+            Regions.register(new ShurimaRegion(new ResourceLocation(RuneterraMod.MOD_ID, "overworld"), 2));
+            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, RuneterraMod.MOD_ID, ModSurfaceRuleData.makeRules());
+        });
         ModItemProperties.addCustomItemProperties();
     }
 
@@ -97,14 +100,14 @@ public class RuneterraMod {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-        	EntityRenderers.register(ModEntityTypes.REKSAI.get(), RekSaiRenderer::new);
+            EntityRenderers.register(ModEntityTypes.REKSAI.get(), RekSaiRenderer::new);
             MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
         }
         
         @SubscribeEvent
         public static void onClientSetup(EntityRenderersEvent.RegisterRenderers event) {
-        	event.registerEntityRenderer(ModEntityTypes.ICE_ARROW.get(), IceArrowRenderer::new);
-        	event.registerEntityRenderer(ModEntityTypes.ENCHANTED_CRYSTAL_ARROW.get(), EnchantedCrystalArrowRenderer::new);
+            event.registerEntityRenderer(ModEntityTypes.ICE_ARROW.get(), IceArrowRenderer::new);
+            event.registerEntityRenderer(ModEntityTypes.ENCHANTED_CRYSTAL_ARROW.get(), EnchantedCrystalArrowRenderer::new);
             event.registerBlockEntityRenderer(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
 
         }

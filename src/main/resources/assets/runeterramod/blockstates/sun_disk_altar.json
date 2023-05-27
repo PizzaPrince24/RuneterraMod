@@ -1,5 +1,8 @@
 {
   "variants": {
-    "": { "model": "runeterramod:block/sun_disk_altar"}
+    "facing=north": { "model": "runeterramod:block/sun_disk_altar"},
+    "facing=south": { "model": "runeterramod:block/sun_disk_altar", "y": 180},
+    "facing=west": { "model": "runeterramod:block/sun_disk_altar", "y": 270},
+    "facing=east": { "model": "runeterramod:block/sun_disk_altar", "y": 90}
   }
 }
