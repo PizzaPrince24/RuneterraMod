@@ -15,12 +15,12 @@ import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.util.ModItemProperties;
 import com.pizzaprince.runeterramod.world.biome.ModBiomes;
+import com.pizzaprince.runeterramod.world.biome.ModOverworldRegionPrimary;
 import com.pizzaprince.runeterramod.world.biome.ModSurfaceRuleData;
 import com.pizzaprince.runeterramod.world.feature.ModConfiguredFeatures;
 import com.pizzaprince.runeterramod.world.feature.ModFeatures;
 import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
 import com.pizzaprince.runeterramod.world.plant.ModPlantTypes;
-import com.pizzaprince.runeterramod.world.region.ShurimaRegion;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -90,7 +90,7 @@ public class RuneterraMod {
         event.enqueueWork(() -> {
             ModPackets.register();
 
-            Regions.register(new ShurimaRegion(new ResourceLocation(RuneterraMod.MOD_ID, "overworld"), 2));
+            Regions.register(new ModOverworldRegionPrimary(new ResourceLocation(RuneterraMod.MOD_ID, "primary"), 2));
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, RuneterraMod.MOD_ID, ModSurfaceRuleData.makeRules());
         });
         ModItemProperties.addCustomItemProperties();

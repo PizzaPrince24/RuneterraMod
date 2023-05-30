@@ -1,10 +1,7 @@
 package com.pizzaprince.runeterramod.networking;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
-import com.pizzaprince.runeterramod.networking.packet.IceArrowParticleS2CPacket;
-import com.pizzaprince.runeterramod.networking.packet.KeyPressC2SPacket;
-import com.pizzaprince.runeterramod.networking.packet.SyncCooldownsS2CPacket;
+import com.pizzaprince.runeterramod.networking.packet.*;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -59,6 +56,12 @@ public class ModPackets {
 				.encoder(CancelShaderS2CPacket::toBytes)
 				.consumerMainThread(CancelShaderS2CPacket::handle)
 				.add();
+
+		net.messageBuilder(SunDiskItemStackSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(SunDiskItemStackSyncS2CPacket::new)
+				.encoder(SunDiskItemStackSyncS2CPacket::toBytes)
+				.consumerMainThread(SunDiskItemStackSyncS2CPacket::handle)
+				.add();
 	}
 	
 	public static <MSG> void sendToServer(MSG message) {
@@ -72,5 +75,9 @@ public class ModPackets {
 	
 	public static <MSG> void sendToNearbyPlayers(MSG message, Level level, BlockPos pos) {
 		INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(pos)), message);
+	}
+
+	public static <MSG> void sendToClients(MSG message) {
+		INSTANCE.send(PacketDistributor.ALL.noArg(), message);
 	}
 }

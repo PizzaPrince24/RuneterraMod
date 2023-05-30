@@ -84,39 +84,30 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 	}
 
 	private boolean outlineSurroundingChunks(ChunkAccess chunk, WorldGenLevel level) {
-		return outlineChunk(level.getChunk(chunk.getPos().x+1, chunk.getPos().z+1), level) || outlineChunk(level.getChunk(chunk.getPos().x+1, chunk.getPos().z), level)
-				|| outlineChunk(level.getChunk(chunk.getPos().x+1, chunk.getPos().z-1), level) || outlineChunk(level.getChunk(chunk.getPos().x, chunk.getPos().z+1), level)
-				|| outlineChunk(level.getChunk(chunk.getPos().x, chunk.getPos().z), level) || outlineChunk(level.getChunk(chunk.getPos().x, chunk.getPos().z-1), level)
-				|| outlineChunk(level.getChunk(chunk.getPos().x-1, chunk.getPos().z+1), level) || outlineChunk(level.getChunk(chunk.getPos().x-1, chunk.getPos().z), level)
-				|| outlineChunk(level.getChunk(chunk.getPos().x-1, chunk.getPos().z-1), level);
-	}
-
-	private boolean outlineChunk(ChunkAccess chunk, WorldGenLevel level) {
-		boolean isDifferent = false;
 		int x = chunk.getPos().x*16;
 		int z = chunk.getPos().z*16;
-		BlockPos pos = new BlockPos(x, level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z), z);
-		for(int dx = 0; dx < 16; dx++){
-			if(!level.getBiome(pos.offset(dx, 0, 0)).is(ModBiomes.SHURIMAN_DESERT)){
-				isDifferent = true;
+		for(int dx = -15; dx < 32; dx+=2){
+			if(!level.getBiome(new BlockPos(x+dx, level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x+dx, z-15), z-15)).is(ModBiomes.SHURIMAN_DESERT)){
+				return true;
 			}
 		}
-		for(int dx = 0; dx < 16; dx++){
-			if(!level.getBiome(pos.offset(dx, 0, 15)).is(ModBiomes.SHURIMAN_DESERT)){
-				isDifferent = true;
+		for(int dx = -15; dx < 32; dx+=2){
+			if(!level.getBiome(new BlockPos(x+dx, level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x+dx, z+31), z+31)).is(ModBiomes.SHURIMAN_DESERT)){
+				return true;
 			}
 		}
-		for(int dz = 0; dz < 16; dz++){
-			if(!level.getBiome(pos.offset(0, 0, dz)).is(ModBiomes.SHURIMAN_DESERT)){
-				isDifferent = true;
+		for(int dz = -15; dz < 32; dz+=2){
+			if(!level.getBiome(new BlockPos(x-15, level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x-15, z+dz), z+dz)).is(ModBiomes.SHURIMAN_DESERT)){
+				return true;
 			}
 		}
-		for(int dz = 0; dz < 16; dz++){
-			if(!level.getBiome(pos.offset(15, 0, dz)).is(ModBiomes.SHURIMAN_DESERT)){
-				isDifferent = true;
+		for(int dz = -15; dz < 32; dz+=2){
+			if(!level.getBiome(new BlockPos(x+31, level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x+31, z+dz), z+dz)).is(ModBiomes.SHURIMAN_DESERT)){
+				return true;
 			}
 		}
-		return isDifferent;
+		return false;
+
 	}
 
 	private double blend(WorldGenLevel level, BlockPos pos, ChunkAccess chunk){

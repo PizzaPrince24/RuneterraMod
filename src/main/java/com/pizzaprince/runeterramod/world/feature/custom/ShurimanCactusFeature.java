@@ -25,7 +25,7 @@ public class ShurimanCactusFeature extends Feature<NoneFeatureConfiguration> {
         RandomSource rand = pContext.random();
         ChunkAccess chunk = level.getChunk(origin);
 
-        int height = rand.nextInt(3)+1;
+        int height = rand.nextInt(3);
         for(int i = 0; i <= height; i++){
             BlockState state = ModBlocks.SHURIMAN_CACTUS.get().defaultBlockState().setValue(ShurimanCactus.FACING, getRandDir(rand.nextInt(3)))
                     .setValue(ShurimanCactus.POD_STATE, rand.nextInt(2));

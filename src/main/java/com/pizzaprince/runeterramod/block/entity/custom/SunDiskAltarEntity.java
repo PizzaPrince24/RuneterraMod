@@ -5,6 +5,8 @@ import com.pizzaprince.runeterramod.block.custom.SunDiskAltar;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarMenu;
 import com.pizzaprince.runeterramod.item.ModItems;
+import com.pizzaprince.runeterramod.networking.ModPackets;
+import com.pizzaprince.runeterramod.networking.packet.SunDiskItemStackSyncS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +23,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -59,6 +62,9 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
+            if(!level.isClientSide()){
+                ModPackets.sendToClients(new SunDiskItemStackSyncS2CPacket(this, worldPosition));
+            }
         }
     };
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
@@ -67,7 +73,7 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
     private int progress = -1;
     private int maxProgress = 780;
     private int sunBlocks = 0;
-    private int maxSunBlocks = 25;
+    private int maxSunBlocks = 50;
 
     private ArrayList<BlockPos> diskShape;
 
@@ -208,71 +214,50 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
         level.sendBlockUpdated(blockPos, entity.getBlockState(), entity.getBlockState(), 3);
     }
 
-    private ArrayList<BlockPos> getOrCreateDiskShape(BlockPos origin){
-        if(diskShape == null){
+    private void createDiskShape(SunDiskAltarEntity entity){
+        if(entity.diskShape == null){
+            BlockPos origin = entity.getBlockPos();
             ArrayList<BlockPos> shape = new ArrayList<BlockPos>();
             int radiusL = 40;
             int radiusM = 25;
             int radiusS = 10;
             BlockPos centerR = origin.offset(0, 5+radiusL, 0);
-            double currentDegree = 0;
-            double step = Math.PI / 300;
             boolean ns;
-            if(this.getBlockState().getValue(SunDiskAltar.FACING) == Direction.NORTH || this.getBlockState().getValue(SunDiskAltar.FACING) == Direction.SOUTH){
+            if(entity.getBlockState().getValue(SunDiskAltar.FACING) == Direction.NORTH || entity.getBlockState().getValue(SunDiskAltar.FACING) == Direction.SOUTH){
                 ns = true;
             } else {
                 ns = false;
             }
 
             //big disk
-            while(currentDegree < 2*Math.PI){
-                for(int r = radiusL; r > 0; r--){
-                    shape.add(centerR.offset(ns ? Math.cos(currentDegree)*r : 0, Math.sin(currentDegree)*r, ns ? 0 : Math.cos(currentDegree)*r));
-                }
-                currentDegree += step;
-            }
-
-            currentDegree = 0;
+            addBlockToShape(shape, centerR, radiusL, ns, 0);
 
             //medium disks
-            while(currentDegree < 2*Math.PI){
-                for(int r = radiusM; r > 0; r--){
-                    shape.add(centerR.offset(ns ? Math.cos(currentDegree)*r : 1, Math.sin(currentDegree)*r, ns ? 1 : Math.cos(currentDegree)*r));
-                }
-                currentDegree += step;
-            }
-
-            currentDegree = 0;
-
-            while(currentDegree < 2*Math.PI){
-                for(int r = radiusM; r > 0; r--){
-                    shape.add(centerR.offset(ns ? Math.cos(currentDegree)*r : -1, Math.sin(currentDegree)*r, ns ? -1 : Math.cos(currentDegree)*r));
-                }
-                currentDegree += step;
-            }
-
-            currentDegree = 0;
+            addBlockToShape(shape, centerR, radiusM, ns, 1);
+            addBlockToShape(shape, centerR, radiusM, ns, -1);
 
             //small disks
-            while(currentDegree < 2*Math.PI){
-                for(int r = radiusS; r > 0; r--){
-                    shape.add(centerR.offset(ns ? Math.cos(currentDegree)*r : 2, Math.sin(currentDegree)*r, ns ? 2 : Math.cos(currentDegree)*r));
-                }
-                currentDegree += step;
-            }
+            addBlockToShape(shape, centerR, radiusS, ns, 2);
+            addBlockToShape(shape, centerR, radiusS, ns, -2);
 
-            currentDegree = 0;
-
-            while(currentDegree < 2*Math.PI){
-                for(int r = radiusS; r > 0; r--){
-                    shape.add(centerR.offset(ns ? Math.cos(currentDegree)*r : -2, Math.sin(currentDegree)*r, ns ? -2 : Math.cos(currentDegree)*r));
-                }
-                currentDegree += step;
-            }
-            diskShape = shape;
+            entity.diskShape = shape;
         }
+    }
 
-        return diskShape;
+    private void addBlockToShape(ArrayList<BlockPos> shape, BlockPos centerR, int radius, boolean ns, int offset){
+        double currentDegree = 0;
+        double step = Math.PI / 300;
+        while(currentDegree < 2*Math.PI){
+            for(int r = radius; r > 0; r--){
+                int x = (int)(Math.cos(currentDegree)*r);
+                int y = (int)(Math.sin(currentDegree)*r);
+                BlockPos toAdd = centerR.offset(ns ? x : offset, y, ns ? offset : x);
+                if(!shape.stream().anyMatch(pos -> pos.getX() == toAdd.getX() && pos.getY() == toAdd.getY() && pos.getZ() == toAdd.getZ())){
+                    shape.add(toAdd);
+                }
+            }
+            currentDegree += step;
+        }
     }
 
     private void resetProgress() {
@@ -286,25 +271,36 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
     private static void craftItem(SunDiskAltarEntity entity) {
         if(hasRecipe(entity)) {
             entity.itemHandler.extractItem(0, 1, false);
+            entity.buildDisk(entity);
             entity.sunBlocks++;
 
-            if(entity.sunBlocks == entity.maxSunBlocks){
-                entity.buildDisk(entity);
-            }
 
             entity.resetProgress();
         }
     }
 
     private void buildDisk(SunDiskAltarEntity entity) {
+
         Level level = entity.level;
-        ArrayList<BlockPos> shape = entity.getOrCreateDiskShape(entity.worldPosition);
-        for(int i = 0; i < shape.size(); i++){
-            level.setBlockAndUpdate(shape.get(i), ModBlocks.SUN_DISK_BLOCK.get().defaultBlockState());
+        entity.createDiskShape(entity);
+        int step = (int) ((double)(entity.diskShape.size()) / (double)entity.maxSunBlocks);
+        int start = (int)((double)(entity.diskShape.size()) * ((double)entity.sunBlocks / (double)entity.maxSunBlocks));
+        if(entity.maxSunBlocks - entity.sunBlocks > 1) {
+            for (int i = start; i < start + step + 10; i++) {
+                if (level.getBlockState(entity.diskShape.get(i)).is(Blocks.AIR)) {
+                    level.setBlockAndUpdate(entity.diskShape.get(i), ModBlocks.SUN_DISK_BLOCK.get().defaultBlockState());
+                }
+            }
+        } else {
+            for (int i = start; i < entity.diskShape.size(); i++) {
+                if (level.getBlockState(entity.diskShape.get(i)).is(Blocks.AIR)) {
+                    level.setBlockAndUpdate(entity.diskShape.get(i), ModBlocks.SUN_DISK_BLOCK.get().defaultBlockState());
+                }
+            }
         }
     }
 
-    private static boolean hasRecipe(SunDiskAltarEntity entity) {
+    public static boolean hasRecipe(SunDiskAltarEntity entity) {
         SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
             inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
@@ -329,5 +325,15 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         setChanged();
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public ItemStack getRenderStack() {
+        return itemHandler.getStackInSlot(0);
+    }
+
+    public void setHandler(ItemStackHandler itemStackHandler) {
+        for (int i = 0; i < itemStackHandler.getSlots(); i++) {
+            itemHandler.setStackInSlot(i, itemStackHandler.getStackInSlot(i));
+        }
     }
 }

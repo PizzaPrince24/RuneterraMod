@@ -23,7 +23,7 @@ public class ModPlacedFeatures {
 
 	public static final Holder<PlacedFeature> SHURIMAN_WELL = createPlacedFeature("shuriman_well", ModConfiguredFeatures.SHURIMAN_WELL, RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
 
-	public static final Holder<PlacedFeature> SHURIMAN_CACTUS = createPlacedFeature("shuriman_cactus", ModConfiguredFeatures.SHURIMAN_CACTUS, CountPlacement.of(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(1));
+	public static final Holder<PlacedFeature> SHURIMAN_CACTUS = createPlacedFeature("shuriman_cactus", ModConfiguredFeatures.SHURIMAN_CACTUS, CountPlacement.of(2), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(5));
 
 	public static void register(IEventBus eventBus) {
 		PLACED_FEATURES.register(eventBus);
