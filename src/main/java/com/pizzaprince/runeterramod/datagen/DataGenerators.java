@@ -1,22 +1,25 @@
 package com.pizzaprince.runeterramod.datagen;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.concurrent.CompletableFuture;
+
 @Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
+
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event){
         DataGenerator generator = event.getGenerator();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        PackOutput packOutput = generator.getPackOutput();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(true, new ModRecipeProvider(generator));
-        generator.addProvider(true, new ModLootTableProvider(generator));
-        generator.addProvider(true, new ModItemModelProvider(generator, existingFileHelper));
-        generator.addProvider(true, new ModBlockStateProvider(generator, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
     }
+
 }

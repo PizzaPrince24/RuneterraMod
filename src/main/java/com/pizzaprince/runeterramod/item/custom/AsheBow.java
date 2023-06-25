@@ -1,15 +1,5 @@
 package com.pizzaprince.runeterramod.item.custom;
 
-import java.io.Console;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Consumer;
-
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.ApiStatus.OverrideOnly;
-
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.IAbilityItem;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
@@ -18,45 +8,26 @@ import com.pizzaprince.runeterramod.ability.item.custom.EnchantedCrystalArrowAbi
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 import com.pizzaprince.runeterramod.item.ModArmorMaterials;
-
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TippedArrowItem;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AsheBow extends BowItem implements IAbilityItem{
 	public static final int COOLDOWN = 90*20;
@@ -165,9 +136,9 @@ public class AsheBow extends BowItem implements IAbilityItem{
 
 	    return f;
 	}
-	
+
 	@Override
-	public void onUsingTick(ItemStack stack, LivingEntity entity, int count) {
+	public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int count) {
 		if(entity instanceof Player player) {
 			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
 				if(abilities.isTrackingCooldown()) {

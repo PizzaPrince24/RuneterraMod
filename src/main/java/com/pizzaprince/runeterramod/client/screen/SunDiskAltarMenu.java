@@ -4,7 +4,6 @@ import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.custom.SunDiskAltarEntity;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -12,9 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.Nullable;
 
 public class SunDiskAltarMenu extends AbstractContainerMenu {
     public final SunDiskAltarEntity sunDiskAltar;
@@ -22,14 +19,14 @@ public class SunDiskAltarMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public SunDiskAltarMenu(int id, Inventory inv, FriendlyByteBuf extraData){
-        this(id, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
     }
 
     public SunDiskAltarMenu(int id, Inventory inv, BlockEntity entity, ContainerData data){
         super(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), id);
         checkContainerSize(inv, 2);
         sunDiskAltar = (SunDiskAltarEntity) entity;
-        this.level = inv.player.level;
+        this.level = inv.player.level();
         this.data = data;
 
         addPlayerInventory(inv);

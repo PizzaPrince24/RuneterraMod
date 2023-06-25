@@ -1,12 +1,11 @@
 package com.pizzaprince.runeterramod.item.client;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.block.entity.custom.SunDiskAltarEntity;
 import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 
-public class SunDiskAltarItemModel extends AnimatedGeoModel<SunDiskAltarItem> {
+public class SunDiskAltarItemModel extends GeoModel<SunDiskAltarItem> {
     @Override
     public ResourceLocation getModelResource(SunDiskAltarItem object) {
         return new ResourceLocation(RuneterraMod.MOD_ID, "geo/sun_disk_altar.geo.json");

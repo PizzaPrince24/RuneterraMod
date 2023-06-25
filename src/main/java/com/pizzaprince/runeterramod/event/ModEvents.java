@@ -65,7 +65,7 @@ public class ModEvents {
 		public static void onBlockBreak(BlockEvent.BreakEvent event){
 			if(event.getState().is(Blocks.CACTUS) && event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND).getItem()
 					instanceof SwordItem){
-				event.getLevel().addFreshEntity(new ItemEntity(event.getPlayer().getLevel(), event.getPos().getX(), event.getPos().getY(),
+				event.getLevel().addFreshEntity(new ItemEntity(event.getPlayer().level(), event.getPos().getX(), event.getPos().getY(),
 						event.getPos().getZ(), new ItemStack(ModItems.CACTUS_JUICE.get())));
 			}
 		}

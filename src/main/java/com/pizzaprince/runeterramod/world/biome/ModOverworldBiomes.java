@@ -1,24 +1,16 @@
 package com.pizzaprince.runeterramod.world.biome;
 
-import javax.annotation.Nullable;
-
-import com.pizzaprince.runeterramod.world.feature.ModConfiguredFeatures;
 import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
-
+import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.level.biome.AmbientMoodSettings;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeGenerationSettings;
-import net.minecraft.world.level.biome.BiomeSpecialEffects;
-import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
-import net.minecraft.world.level.levelgen.synth.NoiseUtils;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+
+import javax.annotation.Nullable;
 
 public class ModOverworldBiomes {
 	
@@ -39,7 +31,7 @@ public class ModOverworldBiomes {
 
     private static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, int waterColor, int waterFogColor, MobSpawnSettings.Builder spawnBuilder, BiomeGenerationSettings.Builder biomeBuilder, @Nullable Music music)
     {
-        return (new Biome.BiomeBuilder()).precipitation(precipitation).temperature(temperature).downfall(downfall).specialEffects((new BiomeSpecialEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(12638463).skyColor(calculateSkyColor(temperature)).ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS).backgroundMusic(music).build()).mobSpawnSettings(spawnBuilder.build()).generationSettings(biomeBuilder.build()).build();
+        return (new Biome.BiomeBuilder()).hasPrecipitation(precipitation == Biome.Precipitation.NONE ? false : true).temperature(temperature).downfall(downfall).specialEffects((new BiomeSpecialEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(12638463).skyColor(calculateSkyColor(temperature)).ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS).backgroundMusic(music).build()).mobSpawnSettings(spawnBuilder.build()).generationSettings(biomeBuilder.build()).build();
     }
     
     private static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder)
@@ -52,11 +44,11 @@ public class ModOverworldBiomes {
         BiomeDefaultFeatures.addSurfaceFreezing(builder);
     }
     
-    public static Biome shurimanDesert() {
+    public static Biome shurimanDesert(HolderGetter<PlacedFeature> placedFeatureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {
 		MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
 		BiomeDefaultFeatures.desertSpawns(spawnBuilder);
 		
-		BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
+		BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(placedFeatureGetter, carverGetter);
         //BiomeDefaultFeatures.addFossilDecoration(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
@@ -67,17 +59,17 @@ public class ModOverworldBiomes {
         //BiomeDefaultFeatures.addDesertExtraVegetation(biomeBuilder);
         //BiomeDefaultFeatures.addDesertExtraDecoration(biomeBuilder);
 
-		biomeBuilder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ModPlacedFeatures.SHURIMAN_DUNE);
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.SHURIMAN_CACTUS);
+		biomeBuilder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ModPlacedFeatures.SHURIMAN_DUNE_PLACED_KEY);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.SHURIMAN_CACTUS_PLACED_KEY);
         
         return biome(Biome.Precipitation.NONE, 2.0F, 0.0F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
 	}
 
-    public static Biome shurimanWasteland(){
+    public static Biome shurimanWasteland(HolderGetter<PlacedFeature> placedFeatureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter){
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
         BiomeDefaultFeatures.desertSpawns(spawnBuilder);
 
-        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
+        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(placedFeatureGetter, carverGetter);
         BiomeDefaultFeatures.addDesertExtraDecoration(biomeBuilder);
         BiomeDefaultFeatures.addDesertVegetation(biomeBuilder);
         BiomeDefaultFeatures.addDesertExtraVegetation(biomeBuilder);

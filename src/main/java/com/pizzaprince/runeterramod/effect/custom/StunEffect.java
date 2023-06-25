@@ -33,7 +33,7 @@ public class StunEffect extends MobEffect{
 	
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
-	      if(!entity.level.isClientSide()) {
+	      if(!entity.level().isClientSide()) {
 	    	  if(entity instanceof Mob mob) {
 	    		  for(WrappedGoal goal : mob.goalSelector.getAvailableGoals()) {
 	    			  goal.stop();
@@ -48,7 +48,7 @@ public class StunEffect extends MobEffect{
 	    	  entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 2, 128, false, false, false));
 	      }
 	      if(entity instanceof Player player) {
-    		  if(player.level.isClientSide()) {
+    		  if(player.level().isClientSide()) {
     			  ClientAbilityData.setStunned();
     			  player.closeContainer();
     		  }

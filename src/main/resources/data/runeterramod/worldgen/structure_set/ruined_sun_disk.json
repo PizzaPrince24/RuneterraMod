@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "runeterramod:ruined_sun_disk",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 731012076,
+    "spacing": 200,
+    "separation": 80
+  }
+}

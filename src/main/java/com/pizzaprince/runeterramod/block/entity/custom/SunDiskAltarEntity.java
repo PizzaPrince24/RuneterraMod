@@ -13,7 +13,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -23,14 +22,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.pattern.BlockInWorld;
-import net.minecraft.world.level.block.state.pattern.BlockPattern;
-import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
-import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -38,26 +32,17 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.network.GeckoLibNetwork;
-import software.bernie.geckolib3.network.ISyncable;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, MenuProvider {
-    private AnimationFactory factory = GeckoLibUtil.createFactory(this);
+public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, GeoBlockEntity {
+    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final ItemStackHandler itemHandler = new ItemStackHandler(2){
         @Override
         protected void onContentsChanged(int slot) {
@@ -109,23 +94,28 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<SunDiskAltarEntity>(this, "controller", 20, this::predicate));
-    }
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event){
-        if(this.getUpdatePacket().getTag().getInt("sun_disk_altar.progress") >= 0){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.sun_disk_altar.active_transfusing", ILoopType.EDefaultLoopTypes.LOOP));
-            return PlayState.CONTINUE;
-        }
-
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.sun_disk_altar.idle", ILoopType.EDefaultLoopTypes.LOOP));
-        return PlayState.CONTINUE;
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController(this, "controller", 20, this::predicate));
     }
 
     @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
+
+    @Override
+    public double getTick(Object o) {
+        return 0;
+    }
+
+    private PlayState predicate(AnimationState state){
+        if(this.getUpdatePacket().getTag().getInt("sun_disk_altar.progress") >= 0){
+            state.getController().setAnimation(RawAnimation.begin().then("animation.sun_disk_altar.active_transfusing", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+
+        state.getController().setAnimation(RawAnimation.begin().then("animation.sun_disk_altar.idle", Animation.LoopType.LOOP));
+        return PlayState.CONTINUE;
     }
 
     @Override
@@ -336,4 +326,6 @@ public class SunDiskAltarEntity extends BlockEntity implements IAnimatable, Menu
             itemHandler.setStackInSlot(i, itemStackHandler.getStackInSlot(i));
         }
     }
+
+
 }

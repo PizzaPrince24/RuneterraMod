@@ -22,7 +22,7 @@ public class QuenchedEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-        if(pLivingEntity.level.isClientSide()) {
+        if(pLivingEntity.level().isClientSide()) {
             if (pLivingEntity.getEffect(ModEffects.QUENCHED.get()).getDuration() <= 1) {
                 Minecraft.getInstance().gameRenderer.shutdownEffect();
             } else {

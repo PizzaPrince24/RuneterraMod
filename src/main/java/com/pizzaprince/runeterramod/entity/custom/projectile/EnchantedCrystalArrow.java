@@ -45,8 +45,8 @@ public class EnchantedCrystalArrow extends AbstractArrow{
 	
 	@Override
 	protected void onHitBlock(BlockHitResult p_36755_) {
-		if(this.level instanceof ServerLevel) {
-			ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.getLevel(), p_36755_.getBlockPos());
+		if(this.level() instanceof ServerLevel) {
+			ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.level(), p_36755_.getBlockPos());
 		}
 		this.playSound(soundEvent);
 		this.kill();    
@@ -60,7 +60,7 @@ public class EnchantedCrystalArrow extends AbstractArrow{
 		entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), 100, 0, false, false, true));
 		      
 		this.playSound(soundEvent);
-		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.getLevel(), entity.getOnPos());
+		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.level(), entity.getOnPos());
 		
 		this.kill();
 		this.discard();

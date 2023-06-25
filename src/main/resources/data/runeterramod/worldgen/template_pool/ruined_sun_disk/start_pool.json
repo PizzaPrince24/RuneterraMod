@@ -1,0 +1,24 @@
+{
+  "name": "runeterramod:ruined_sun_disk/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "runeterramod:ruined_sun_disk_1",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "runeterramod:ruined_sun_disk_2",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}

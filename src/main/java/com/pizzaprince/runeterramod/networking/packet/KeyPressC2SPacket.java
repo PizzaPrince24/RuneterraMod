@@ -1,35 +1,17 @@
 package com.pizzaprince.runeterramod.networking.packet;
 
-import java.util.function.Supplier;
-
 import com.pizzaprince.runeterramod.ability.IAbilityItem;
-import com.pizzaprince.runeterramod.ability.PlayerAbilities;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
-import com.pizzaprince.runeterramod.entity.ModEntityTypes;
-import com.pizzaprince.runeterramod.entity.custom.projectile.EnchantedCrystalArrow;
-import com.pizzaprince.runeterramod.item.ModItems;
-import com.pizzaprince.runeterramod.item.custom.AsheBow;
-import com.pizzaprince.runeterramod.networking.ModPackets;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 public class KeyPressC2SPacket {
 	
@@ -49,7 +31,7 @@ public class KeyPressC2SPacket {
 		NetworkEvent.Context context = supplier.get();
 		context.enqueueWork(() -> {
 			ServerPlayer player = context.getSender();
-			ServerLevel level = player.getLevel();
+			ServerLevel level = player.serverLevel();
 			
 			
 			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {

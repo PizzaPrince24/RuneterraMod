@@ -46,8 +46,8 @@ public class IceArrow extends AbstractArrow{
 	
 	@Override
 	protected void onHitBlock(BlockHitResult p_36755_) {
-		if(this.level instanceof ServerLevel) {
-			ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.getLevel(), p_36755_.getBlockPos());
+		if(this.level() instanceof ServerLevel) {
+			ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.level(), p_36755_.getBlockPos());
 		}
 		this.playSound(soundEvent);
 		this.kill();    
@@ -61,7 +61,7 @@ public class IceArrow extends AbstractArrow{
 		p_36744_.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1, false, false, false));
 		      
 		this.playSound(soundEvent);
-		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.getLevel(), p_36744_.getOnPos());
+		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.level(), p_36744_.getOnPos());
 		
 		this.kill();
 		this.discard();

@@ -5,23 +5,19 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType.EDefaultLoopTypes;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class RekSaiEntity extends Monster implements IAnimatable{
-	private AnimationFactory factory = GeckoLibUtil.createFactory(this);
+public class RekSaiEntity extends Monster implements GeoEntity {
+	private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
 	public RekSaiEntity(EntityType<? extends Monster> p_33002_, Level p_33003_) {
 		super(p_33002_, p_33003_);
 	}
-	
+
 	public static AttributeSupplier setAttributes() {
 		return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
@@ -29,20 +25,19 @@ public class RekSaiEntity extends Monster implements IAnimatable{
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.4f).build();
 	}
-	
-	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.reksai.idle", EDefaultLoopTypes.LOOP));
+
+	private PlayState predicate(AnimationState state) {
+        state.getController().setAnimation(RawAnimation.begin().then("animation.reksai.idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 
 	@Override
-	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+		controllerRegistrar.add(new AnimationController(this, "controller", 0, this::predicate));
 	}
 
 	@Override
-	public AnimationFactory getFactory() {
-		return this.factory;
+	public AnimatableInstanceCache getAnimatableInstanceCache() {
+		return this.cache;
 	}
-
 }
