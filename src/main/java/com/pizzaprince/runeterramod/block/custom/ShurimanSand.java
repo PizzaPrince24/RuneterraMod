@@ -17,6 +17,7 @@ public class ShurimanSand extends FallingBlock {
 
     @Override
     public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
-        return state.is(ModBlocks.SHURIMAN_CACTUS.get()) || state.is(ModBlocks.SHURIMAN_SAND.get());
+        return plantable.getPlant(world, pos).is(ModBlocks.SHURIMAN_CACTUS.get()) || plantable.getPlant(world, pos).is(ModBlocks.SHURIMAN_SAND.get());
+        //return state.is(ModBlocks.SHURIMAN_CACTUS.get()) || state.is(ModBlocks.SHURIMAN_SAND.get());
     }
 }

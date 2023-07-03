@@ -12,14 +12,17 @@ import net.minecraft.world.level.Level;
 public abstract class AbstractAbility {
 	private SoundEvent soundEvent = SoundEvents.BLAZE_SHOOT;
 	private ResourceLocation icon;
-	private int cooldown;
+	private int maxCooldown;
+
+	private int currentCooldown;
 	private int id;
 	
 	protected AbstractAbility(SoundEvent sound, ResourceLocation location, int cooldown, int id) {
 		this.soundEvent = sound;
 		this.icon = location;
-		this.cooldown = cooldown;
+		this.maxCooldown = cooldown;
 		this.id = id;
+		this.currentCooldown = 0;
 	}
 	
 	public abstract void fireAbility(LivingEntity entity, Level level);
@@ -32,8 +35,8 @@ public abstract class AbstractAbility {
 		this.icon = location;
 	}
 	
-	public void setCooldown(int cooldown) {
-		this.cooldown = cooldown;
+	public void setMaxCooldown(int cooldown) {
+		this.maxCooldown = cooldown;
 	}
 	
 	public SoundEvent getSoundEvent() {
@@ -44,12 +47,24 @@ public abstract class AbstractAbility {
 		return this.icon;
 	}
 	
-	public int getCooldown() {
-		return this.cooldown;
+	public int getMaxCooldown() {
+		return this.maxCooldown;
 	}
 	
 	public int getId() {
 		return this.id;
+	}
+
+	public void setOnCooldown(){
+		this.currentCooldown = this.maxCooldown;
+	}
+
+	public void setCurrentCooldown(int ticks){
+		this.currentCooldown = ticks;
+	}
+
+	public int getCurrentCooldown(){
+		return this.currentCooldown;
 	}
 
 }

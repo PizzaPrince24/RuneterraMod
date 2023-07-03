@@ -1,7 +1,7 @@
 package com.pizzaprince.runeterramod.entity.client;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.entity.custom.champion.RekSaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 

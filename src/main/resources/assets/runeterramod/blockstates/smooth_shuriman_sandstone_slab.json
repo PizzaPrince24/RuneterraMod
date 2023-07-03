@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "runeterramod:block/smooth_shuriman_sandstone_slab"
+    },
+    "type=double": {
+      "model": "runeterramod:block/smooth_shuriman_sandstone"
+    },
+    "type=top": {
+      "model": "runeterramod:block/smooth_shuriman_sandstone_slab_top"
+    }
+  }
+}

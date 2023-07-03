@@ -37,6 +37,9 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.SUN_DISK_ALTAR_ITEM);
 			event.accept(ModItems.BACCAI_STAFF);
 			event.accept(ModItems.CACTUS_JUICE);
+			event.accept(ModItems.RAMPAGING_BACCAI_SPAWN_EGG);
+			event.accept(ModItems.SUNFIRE_AEGIS);
+			event.accept(ModItems.RYLAIS_SCEPTER);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);
@@ -47,6 +50,12 @@ public class ModCreativeModeTab {
 			event.accept(ModBlocks.SUN_DISK_ALTAR);
 			event.accept(ModBlocks.SUN_DISK_BLOCK);
 			event.accept(ModBlocks.SHURIMAN_CACTUS);
+			event.accept(ModBlocks.SHURIMAN_SANDSTONE_STAIRS);
+			event.accept(ModBlocks.SMOOTH_SHURIMAN_SANDSTONE);
+			event.accept(ModBlocks.SMOOTH_SHURIMAN_SANDSTONE_STAIRS);
+			event.accept(ModBlocks.SMOOTH_SHURIMAN_SANDSTONE_SLAB);
+			event.accept(ModBlocks.FANCY_GOBLET);
+			event.accept(ModBlocks.BASIC_GOBLET);
 		}
 	}
 

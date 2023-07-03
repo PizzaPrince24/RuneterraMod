@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public interface IAbilityItem {
+	/*
 	
 	default AbstractAbility getSelectedAbility(ItemStack stack) {
 		return this.getAbilities().get(stack.getOrCreateTag().getInt(RuneterraMod.MOD_ID + ":selected"));
@@ -54,9 +55,11 @@ public interface IAbilityItem {
 			return false;
 		}
 	}
+
+	 */
 	
 	ArrayList<AbstractAbility> getAbilities();
-	
+	/*
 	default boolean fireAbility(Level level, LivingEntity entity, ItemStack stack) {
 		if(this.isOffCooldown(stack)) {
 			this.getAbilities().get(stack.getOrCreateTag().getInt(RuneterraMod.MOD_ID + ":selected")).fireAbility(entity, level);
@@ -94,5 +97,7 @@ public interface IAbilityItem {
 			nbt.putInt(RuneterraMod.MOD_ID + ":" + ability.getId() + "_cooldown", i);
 		}
 	}
+
+	 */
 	
 }

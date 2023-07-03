@@ -67,7 +67,7 @@ public class ModOverworldBiomes {
 
     public static Biome shurimanWasteland(HolderGetter<PlacedFeature> placedFeatureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter){
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.desertSpawns(spawnBuilder);
+        //BiomeDefaultFeatures.desertSpawns(spawnBuilder);
 
         BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(placedFeatureGetter, carverGetter);
         BiomeDefaultFeatures.addDesertExtraDecoration(biomeBuilder);

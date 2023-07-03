@@ -8,6 +8,8 @@ import com.pizzaprince.runeterramod.item.custom.AsheBow;
 import com.pizzaprince.runeterramod.item.custom.BaccaiStaff;
 import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
+import com.pizzaprince.runeterramod.item.custom.curios.Rylais;
+import com.pizzaprince.runeterramod.item.custom.curios.SunfireAegis;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -46,11 +48,19 @@ public class ModItems {
 	public static final RegistryObject<Item> REKSAI_SPAWN_EGG = ITEMS.register("reksai_spawn_egg", 
 			() -> new ForgeSpawnEggItem(ModEntityTypes.REKSAI, 0x1C1C1C, 0x456296, new Item.Properties()));
 
+	public static final RegistryObject<Item> RAMPAGING_BACCAI_SPAWN_EGG = ITEMS.register("rampaging_baccai_spawn_egg",
+			() -> new ForgeSpawnEggItem(ModEntityTypes.RAMPAGING_BACCAI, 16750899, 16776960, new Item.Properties()));
 	public static final RegistryObject<Item> SUN_DISK_ALTAR_ITEM = ITEMS.register("sun_disk_altar",
 			() -> new SunDiskAltarItem(ModBlocks.SUN_DISK_ALTAR.get(), new Item.Properties()));
 
 	public static final RegistryObject<Item> BACCAI_STAFF = ITEMS.register("baccai_staff",
 			() -> new BaccaiStaff(new Item.Properties().stacksTo(1).setNoRepair()));
+
+	public static final RegistryObject<Item> SUNFIRE_AEGIS = ITEMS.register("sunfire_aegis",
+			() -> new SunfireAegis(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> RYLAIS_SCEPTER = ITEMS.register("rylais_scepter",
+			() -> new Rylais(new Item.Properties().stacksTo(1)));
 
 
 	public static final RegistryObject<Item> CACTUS_JUICE = ITEMS.register("cactus_juice",

@@ -8,7 +8,6 @@ buildscript {
         }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
@@ -20,8 +19,10 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 
@@ -48,7 +49,7 @@ minecraft {
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.20'
+    mappings channel: 'parchment', version: '2023.06.26-1.20.1'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
@@ -73,6 +74,9 @@ minecraft {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', 'runeterramod'
 
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
             mods {
                 runeterramod {
                     source sourceSets.main
@@ -88,6 +92,9 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             property 'forge.enabledGameTestNamespaces', 'runeterramod'
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
                 runeterramod {
@@ -147,6 +154,18 @@ repositories {
     // }
     maven { url = 'https://maven.minecraftforge.net' }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+
+    maven { url = "https://maven.theillusivec4.top/" }
+
+    maven {
+        name = '100Media'
+        url = 'https://maven.100media.dev/'
+    }
+}
+
+configurations {
+    shade
+    implementation.extendsFrom shade
 }
 
 dependencies {
@@ -157,8 +176,13 @@ dependencies {
     
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.20:4.2')
     implementation fg.deobf('com.github.glitchfiend:TerraBlender-forge:1.20.1-3.0.0.165')
+
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1:api")
     
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    shade fg.deobf("dev._100media.capabilitysyncer:capabilitysyncer:1.20.1-4.0.0")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -175,6 +199,7 @@ dependencies {
 
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
+    archiveClassifier = 'slim'
     manifest {
         attributes([
                 "Specification-Title"     : "RuneterraMod",
@@ -188,6 +213,19 @@ jar {
                 //'FMLCorePluginContainsFMLMod': 'true'
         ])
     }
+}
+
+shadowJar {
+    archiveClassifier = ''
+    configurations = [project.configurations.shade]
+    relocate 'dev._100media.capabilitysyncer', "${project.group}.relocated.capabilitysyncer"
+    finalizedBy 'reobfShadowJar'
+}
+
+assemble.dependsOn shadowJar
+
+reobf {
+    shadowJar {}
 }
 
 // Example configuration to allow publishing using the maven-publish plugin
@@ -207,12 +245,6 @@ publishing {
             url "file://${project.projectDir}/mcmodsrepo"
         }
     }
-}
-
-mixin {
-    add sourceSets.main, "runeterramod.refmap.json"
-    
-    config "runeterramod.mixins.json"
 }
 
 tasks.withType(JavaCompile).configureEach {

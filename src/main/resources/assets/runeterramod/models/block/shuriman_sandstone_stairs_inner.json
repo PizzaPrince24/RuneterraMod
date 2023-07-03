@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "runeterramod:block/shuriman_sandstone",
+    "side": "runeterramod:block/shuriman_sandstone",
+    "top": "runeterramod:block/shuriman_sandstone"
+  }
+}

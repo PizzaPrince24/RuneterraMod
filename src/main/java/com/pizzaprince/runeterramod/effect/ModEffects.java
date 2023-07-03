@@ -2,6 +2,7 @@ package com.pizzaprince.runeterramod.effect;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.effect.custom.QuenchedEffect;
+import com.pizzaprince.runeterramod.effect.custom.RylaisSlow;
 import com.pizzaprince.runeterramod.effect.custom.StunEffect;
 
 import net.minecraft.world.effect.MobEffect;
@@ -21,6 +22,9 @@ public class ModEffects {
 
 	public static final RegistryObject<MobEffect> QUENCHED = MOB_EFFECTS.register("quenched",
 			() -> new QuenchedEffect(MobEffectCategory.HARMFUL, 8989061));
+
+	public static final RegistryObject<MobEffect> RYLAIS_SLOW = MOB_EFFECTS.register("rylais_slow",
+			() -> new RylaisSlow(MobEffectCategory.HARMFUL, 8989061));
 
 
 	public static void register(IEventBus eventBus) {

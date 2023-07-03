@@ -4,13 +4,15 @@
 	"item.runeterramod.eight_ball": "Eight Ball",
 	"item.runeterramod.reksai_spawn_egg": "Rek'Sai Spawn Egg",
 	"item.runeterramod.cactus_juice": "Cactus Juice",
-	
 	"item.runeterramod.ashe_bow": "Ashe's Bow",
 	"item.runeterramod.ashe_helmet": "Ashe's Cap",
 	"item.runeterramod.ashe_chestplate": "Ashe's Corset",
 	"item.runeterramod.ashe_leggings": "Ashe's Anklets",
 	"item.runeterramod.ashe_boots": "Ashe's Grieves",
 	"item.runeterramod.sun_disk_altar": "Sun Disk Altar",
+	"item.runeterramod.rampaging_baccai_spawn_egg": "Rampaging Baccai Spawn Egg",
+	"item.runeterramod.sunfire_aegis": "Sunfire Aegis",
+	"item.runeterramod.rylais_scepter": "Rylai's Scepter",
 	
 	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
 	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
@@ -21,11 +23,20 @@
 	"block.runeterramod.sun_disk_altar": "Sun Disk Altar",
 	"block.runeterramod.sun_disk_block": "Block of Sun Disk",
 	"block.runeterramod.shuriman_cactus": "Shuriman Cactus",
+	"block.runeterramod.shuriman_sandstone_stairs": "Shuriman Sandstone Stairs",
+	"block.runeterramod.smooth_shuriman_sandstone": "Smooth Shuriman Sandstone",
+	"block.runeterramod.smooth_shuriman_sandstone_stairs": "Smooth Shuriman Sandstone Stairs",
+	"block.runeterramod.smooth_shuriman_sandstone_slab": "Smooth Shuriman Sandstone Slab",
+	"block.runeterramod.fancy_goblet": "Fancy Goblet",
+	"block.runeterramod.basic_goblet": "Basic Goblet",
 	
 	"itemGroup.runeterratab": "Runeterra", 
 	
 	"effect.runeterramod.stun": "Stunned!",
 	"effect.runeterramod.quenched": "It'll Quench Ya! Nothing's Quenchier! It's the Quenchiest!",
+	"effect.runeterramod.rylais_slow": "Rylai's Slowness",
+
+	"curios.identifier.runeterra": "Runeterra",
 	
 	"key.category.runeterramod.runeterra": "Runeterra",
 	"key.runeterramod.ultimate": "Ultimate"

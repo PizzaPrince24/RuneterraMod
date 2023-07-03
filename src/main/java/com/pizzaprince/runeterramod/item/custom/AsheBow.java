@@ -3,6 +3,7 @@ package com.pizzaprince.runeterramod.item.custom;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.IAbilityItem;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.item.AbilityItemCapabilityAttacher;
 import com.pizzaprince.runeterramod.ability.item.AbstractAbility;
 import com.pizzaprince.runeterramod.ability.item.custom.EnchantedCrystalArrowAbility;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
@@ -152,6 +153,10 @@ public class AsheBow extends BowItem implements IAbilityItem{
 	
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected) {
+		AbilityItemCapabilityAttacher.getAbilityItemCapability(stack).ifPresent(item -> {
+			item.tick();
+		});
+		/*
 		CompoundTag nbt = stack.getOrCreateTag();
 		if(entity instanceof Player player) {
 			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
@@ -169,6 +174,8 @@ public class AsheBow extends BowItem implements IAbilityItem{
 				}
 			});
 		}
+
+		 */
 	}
 
 	@Override

@@ -30,6 +30,11 @@ public class StunEffect extends MobEffect{
 	public StunEffect(MobEffectCategory p_19451_, int p_19452_) {
 		super(p_19451_, p_19452_);
 	}
+
+	@Override
+	public boolean isDurationEffectTick(int p_19455_, int p_19456_) {
+		return true;
+	}
 	
 	@Override
 	public void applyEffectTick(LivingEntity entity, int amplifier) {
@@ -57,10 +62,6 @@ public class StunEffect extends MobEffect{
 	      super.applyEffectTick(entity, amplifier);
 	}
 	
-	
-	@Override
-	public boolean isDurationEffectTick(int p_19455_, int p_19456_) {
-		return true;
-	}
+
 
 }

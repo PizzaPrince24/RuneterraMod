@@ -1,14 +1,14 @@
 package com.pizzaprince.runeterramod.entity;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.entity.custom.champion.RekSaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
 import com.pizzaprince.runeterramod.entity.custom.projectile.EnchantedCrystalArrow;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,8 +25,13 @@ public class ModEntityTypes {
 			() -> EntityType.Builder.of((EntityType.EntityFactory<EnchantedCrystalArrow>)EnchantedCrystalArrow::new, MobCategory.MISC).sized(1f, 1f).clientTrackingRange(4).updateInterval(20).build(RuneterraMod.MOD_ID + ":enchanted_crystal_arrow"));
 	
 	public static final RegistryObject<EntityType<RekSaiEntity>> REKSAI = ENTITY_TYPES.register("reksai", 
-			() -> EntityType.Builder.of(RekSaiEntity::new, MobCategory.MONSTER).sized(1, 1).build(new ResourceLocation(RuneterraMod.MOD_ID, "reksai").toString()));
-	
+			() -> EntityType.Builder.of(RekSaiEntity::new, MobCategory.MONSTER).sized(1, 1)
+					.build(new ResourceLocation(RuneterraMod.MOD_ID, "reksai").toString()));
+
+	public static final RegistryObject<EntityType<RampagingBaccaiEntity>> RAMPAGING_BACCAI = ENTITY_TYPES.register("rampaging_baccai",
+			() -> EntityType.Builder.of(RampagingBaccaiEntity::new, MobCategory.MONSTER).sized(3, 7)
+					.build(new ResourceLocation(RuneterraMod.MOD_ID, "rampaging_baccai").toString()));
+
 	public static void register(IEventBus eventBus) {
 		ENTITY_TYPES.register(eventBus);
 	}

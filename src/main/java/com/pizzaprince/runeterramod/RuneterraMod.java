@@ -1,6 +1,8 @@
 package com.pizzaprince.runeterramod;
 
 import com.mojang.logging.LogUtils;
+import com.pizzaprince.runeterramod.ability.item.AbilityItemCapabilityAttacher;
+import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapabilityAttacher;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
@@ -10,6 +12,7 @@ import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.client.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.IceArrowRenderer;
+import com.pizzaprince.runeterramod.entity.client.RampagingBaccaiRenderer;
 import com.pizzaprince.runeterramod.entity.client.RekSaiRenderer;
 import com.pizzaprince.runeterramod.item.ModCreativeModeTab;
 import com.pizzaprince.runeterramod.item.ModItems;
@@ -66,6 +69,9 @@ public class RuneterraMod {
 
         ModDimensions.register();
 
+        AbilityItemCapabilityAttacher.register();
+        SunfireAegisCapabilityAttacher.register();
+
         GeckoLib.initialize();
 
         modEventBus.addListener(this::commonSetup);
@@ -90,6 +96,7 @@ public class RuneterraMod {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntityTypes.REKSAI.get(), RekSaiRenderer::new);
+            EntityRenderers.register(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiRenderer::new);
             MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
             BlockEntityRenderers.register(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
         }

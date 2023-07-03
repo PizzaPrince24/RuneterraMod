@@ -1,35 +1,33 @@
 package com.pizzaprince.runeterramod.event;
 
+import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapabilityAttacher;
+import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
 import com.pizzaprince.runeterramod.item.ModItems;
+import com.pizzaprince.runeterramod.item.custom.curios.Rylais;
+import com.pizzaprince.runeterramod.item.custom.curios.SunfireAegis;
 import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
-import net.minecraft.client.Minecraft;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.level.BlockEvent;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilities;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
-import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
-import com.pizzaprince.runeterramod.entity.custom.champion.RekSaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.SyncCooldownsS2CPacket;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal.Flag;
 import net.minecraft.world.entity.player.Player;
@@ -39,13 +37,14 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.function.Predicate;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import top.theillusivec4.curios.api.CuriosCapability;
+import top.theillusivec4.curios.api.SlotTypeMessage;
 
 
 public class ModEvents {
@@ -75,6 +74,42 @@ public class ModEvents {
 			if(event.getEffectInstance().getEffect() == ModEffects.QUENCHED.get()){
 				if(event.getEntity() instanceof ServerPlayer player)
 					ModPackets.sendToPlayer(new CancelShaderS2CPacket(), player);
+			}
+		}
+
+		@SubscribeEvent
+		public static void onHit(LivingHurtEvent event){
+			if(event.getEntity() instanceof Player player){
+				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
+					inventory.getCurios().values().forEach(curio -> {
+						for(int slot = 0; slot < curio.getSlots(); slot++){
+							if(curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis item){
+								SunfireAegisCapabilityAttacher.getAbilityItemCapability(curio.getStacks().getStackInSlot(slot)).ifPresent(ability -> {
+									ability.startBurn();
+								});
+							}
+						}
+					});
+				});
+			}
+
+			if(event.getSource().getEntity() instanceof Player player){
+				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
+					inventory.getCurios().values().forEach(curio -> {
+						for(int slot = 0; slot < curio.getSlots(); slot++){
+							if(curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis){
+								SunfireAegisCapabilityAttacher.getAbilityItemCapability(curio.getStacks().getStackInSlot(slot)).ifPresent(ability -> {
+									ability.startBurn();
+								});
+							}
+							if(curio.getStacks().getStackInSlot(slot).getItem() instanceof Rylais){
+								event.getEntity().addEffect(new MobEffectInstance(ModEffects.RYLAIS_SLOW.get(),
+										30, 1, true, true, true));
+								System.out.println("Applied Rylai's Slow");
+							}
+						}
+					});
+				});
 			}
 		}
 
@@ -147,6 +182,7 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void EntityAttributeEvent(EntityAttributeCreationEvent event) {
 			event.put(ModEntityTypes.REKSAI.get(), RekSaiEntity.setAttributes());
+			event.put(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiEntity.setAttributes());
 		}
 
 
