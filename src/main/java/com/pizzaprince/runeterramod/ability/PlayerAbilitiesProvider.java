@@ -37,7 +37,6 @@ public class PlayerAbilitiesProvider implements ICapabilityProvider, INBTSeriali
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
 		createPlayerAbilities().loadNBTData(nbt);
-		
 	}
 
 	@Override

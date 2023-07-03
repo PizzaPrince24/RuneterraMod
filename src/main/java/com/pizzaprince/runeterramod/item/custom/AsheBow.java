@@ -1,15 +1,12 @@
 package com.pizzaprince.runeterramod.item.custom;
 
-import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.IAbilityItem;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
-import com.pizzaprince.runeterramod.ability.item.AbilityItemCapabilityAttacher;
 import com.pizzaprince.runeterramod.ability.item.AbstractAbility;
 import com.pizzaprince.runeterramod.ability.item.custom.EnchantedCrystalArrowAbility;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 import com.pizzaprince.runeterramod.item.ModArmorMaterials;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -149,33 +146,6 @@ public class AsheBow extends BowItem implements IAbilityItem{
 				}
 			});
 		}
-	}
-	
-	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected) {
-		AbilityItemCapabilityAttacher.getAbilityItemCapability(stack).ifPresent(item -> {
-			item.tick();
-		});
-		/*
-		CompoundTag nbt = stack.getOrCreateTag();
-		if(entity instanceof Player player) {
-			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
-				if(!player.isUsingItem()) {
-					if(abilities.getTrackerCooldown() > 0) {
-						for(AbstractAbility ability : this.getAbilities()) {
-							int i = nbt.getInt(RuneterraMod.MOD_ID + ":" + ability.getId() + "_cooldown");
-							this.setCooldownById(stack, Math.max(0, i - abilities.getTrackerCooldown()), ability.getId());
-						}
-						abilities.resetTrackerCooldown();
-						abilities.setTrackingCooldown(false);
-					} else {
-						this.tick(stack, level, entity, itemSlot, isSelected);
-					}
-				}
-			});
-		}
-
-		 */
 	}
 
 	@Override

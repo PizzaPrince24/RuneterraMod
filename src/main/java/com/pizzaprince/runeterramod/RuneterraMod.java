@@ -1,8 +1,6 @@
 package com.pizzaprince.runeterramod;
 
 import com.mojang.logging.LogUtils;
-import com.pizzaprince.runeterramod.ability.item.AbilityItemCapabilityAttacher;
-import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapabilityAttacher;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
@@ -22,9 +20,7 @@ import com.pizzaprince.runeterramod.world.biome.ModBiomes;
 import com.pizzaprince.runeterramod.world.biome.ModOverworldRegionPrimary;
 import com.pizzaprince.runeterramod.world.biome.ModSurfaceRuleData;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
-import com.pizzaprince.runeterramod.world.feature.ModConfiguredFeatures;
 import com.pizzaprince.runeterramod.world.feature.ModFeatures;
-import com.pizzaprince.runeterramod.world.feature.ModPlacedFeatures;
 import com.pizzaprince.runeterramod.world.plant.ModPlantTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -68,9 +64,6 @@ public class RuneterraMod {
         ModPlantTypes.register();
 
         ModDimensions.register();
-
-        AbilityItemCapabilityAttacher.register();
-        SunfireAegisCapabilityAttacher.register();
 
         GeckoLib.initialize();
 

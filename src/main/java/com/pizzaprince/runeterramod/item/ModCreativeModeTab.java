@@ -40,6 +40,7 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.RAMPAGING_BACCAI_SPAWN_EGG);
 			event.accept(ModItems.SUNFIRE_AEGIS);
 			event.accept(ModItems.RYLAIS_SCEPTER);
+			event.accept(ModItems.INFINITY_EDGE);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

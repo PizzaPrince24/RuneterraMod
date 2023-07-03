@@ -1,8 +1,14 @@
 package com.pizzaprince.runeterramod.event;
 
-import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapabilityAttacher;
+import com.pizzaprince.runeterramod.ability.IAbilityItem;
+import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapability;
+import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapability;
+import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapabilityProvider;
+import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
 import com.pizzaprince.runeterramod.item.ModItems;
+import com.pizzaprince.runeterramod.item.custom.curios.InfinityEdge;
 import com.pizzaprince.runeterramod.item.custom.curios.Rylais;
 import com.pizzaprince.runeterramod.item.custom.curios.SunfireAegis;
 import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
@@ -14,6 +20,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.level.BlockEvent;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
@@ -39,15 +46,13 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import top.theillusivec4.curios.api.CuriosCapability;
-import top.theillusivec4.curios.api.SlotTypeMessage;
 
 
 public class ModEvents {
+
 
 	@Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID)
 	public class ForgeEvents{
@@ -57,6 +62,16 @@ public class ModEvents {
 				if(!event.getObject().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).isPresent()) {
 					event.addCapability(new ResourceLocation(RuneterraMod.MOD_ID, "properties"), new PlayerAbilitiesProvider());
 				}
+			}
+		}
+
+		@SubscribeEvent
+		public static void attachItemCapabilities(AttachCapabilitiesEvent<ItemStack> event){
+			if(event.getObject().getItem() instanceof SunfireAegis){
+				event.addCapability(SunfireAegisCapabilityProvider.SUNFIRE_AEGIS_CAPABILITY_RL, new SunfireAegisCapabilityProvider());
+			}
+			if(event.getObject().getItem() instanceof IAbilityItem){
+				event.addCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY_RL, new AbilityItemCapabilityProvider(event.getObject()));
 			}
 		}
 
@@ -78,14 +93,30 @@ public class ModEvents {
 		}
 
 		@SubscribeEvent
+		public static void onCriticalHit(CriticalHitEvent event){
+			Player player = event.getEntity();
+			if(event.isVanillaCritical()) {
+				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
+					inventory.getCurios().values().forEach(curio -> {
+						for (int slot = 0; slot < curio.getSlots(); slot++) {
+							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof InfinityEdge) {
+								event.setDamageModifier(event.getDamageModifier() + 0.5f);
+							}
+						}
+					});
+				});
+			}
+		}
+
+		@SubscribeEvent
 		public static void onHit(LivingHurtEvent event){
 			if(event.getEntity() instanceof Player player){
 				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
 					inventory.getCurios().values().forEach(curio -> {
 						for(int slot = 0; slot < curio.getSlots(); slot++){
-							if(curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis item){
-								SunfireAegisCapabilityAttacher.getAbilityItemCapability(curio.getStacks().getStackInSlot(slot)).ifPresent(ability -> {
-									ability.startBurn();
+							if(curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis){
+								curio.getStacks().getStackInSlot(slot).getCapability(SunfireAegisCapabilityProvider.SUNFIRE_AEGIS_CAPABILITY).ifPresent(cap -> {
+									cap.startBurn();
 								});
 							}
 						}
@@ -98,14 +129,13 @@ public class ModEvents {
 					inventory.getCurios().values().forEach(curio -> {
 						for(int slot = 0; slot < curio.getSlots(); slot++){
 							if(curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis){
-								SunfireAegisCapabilityAttacher.getAbilityItemCapability(curio.getStacks().getStackInSlot(slot)).ifPresent(ability -> {
-									ability.startBurn();
+								curio.getStacks().getStackInSlot(slot).getCapability(SunfireAegisCapabilityProvider.SUNFIRE_AEGIS_CAPABILITY).ifPresent(cap -> {
+									cap.startBurn();
 								});
 							}
 							if(curio.getStacks().getStackInSlot(slot).getItem() instanceof Rylais){
 								event.getEntity().addEffect(new MobEffectInstance(ModEffects.RYLAIS_SLOW.get(),
 										30, 1, true, true, true));
-								System.out.println("Applied Rylai's Slow");
 							}
 						}
 					});
@@ -127,7 +157,10 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
 			event.register(PlayerAbilities.class);
+			event.register(SunfireAegisCapability.class);
+			event.register(AbilityItemCapability.class);
 		}
+
 
 		@SubscribeEvent
 		public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -135,6 +168,14 @@ public class ModEvents {
 				event.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
 					abilities.tick();
 				});
+				for(ItemStack item : event.player.getInventory().items){
+					item.getCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY).ifPresent(cap -> {
+						cap.tick();
+					});
+				}
+			}
+			if(event.side == LogicalSide.CLIENT){
+				ClientAbilityData.tick();
 			}
 		}
 
@@ -187,5 +228,6 @@ public class ModEvents {
 
 
 	}
+
 
 }

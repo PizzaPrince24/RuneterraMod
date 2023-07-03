@@ -1,19 +1,11 @@
 package com.pizzaprince.runeterramod.ability.item.custom.curios;
 
-import dev._100media.capabilitysyncer.core.ItemStackCapability;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 
-public class SunfireAegisCapability extends ItemStackCapability {
+public class SunfireAegisCapability {
 
     private int timeForBurn = 0;
     private int timeToNextBurn = 20;
-    public SunfireAegisCapability(ItemStack itemStack) {
-        super(itemStack);
-    }
 
     public void startBurn(){
         timeForBurn = 60;
@@ -43,22 +35,4 @@ public class SunfireAegisCapability extends ItemStackCapability {
             });
         }
     }
-
-    public int getBurnTime(){
-        return timeForBurn;
-    }
-
-    @Override
-    public CompoundTag serializeNBT(boolean savingToDisk) {
-        CompoundTag nbt = new CompoundTag();
-
-        nbt.putInt("burn", timeForBurn);
-        return nbt;
-    }
-
-    @Override
-    public void deserializeNBT(CompoundTag nbt, boolean readingFromDisk) {
-        timeForBurn = nbt.getInt("burn");
-    }
-
 }

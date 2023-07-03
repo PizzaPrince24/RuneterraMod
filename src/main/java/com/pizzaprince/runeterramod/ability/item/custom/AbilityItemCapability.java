@@ -1,25 +1,23 @@
-package com.pizzaprince.runeterramod.ability.item;
+package com.pizzaprince.runeterramod.ability.item.custom;
 
-import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.IAbilityItem;
-import dev._100media.capabilitysyncer.core.ItemStackCapability;
+import com.pizzaprince.runeterramod.ability.item.AbstractAbility;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import software.bernie.shadowed.eliotlash.mclib.math.functions.classic.Abs;
 
 import java.util.List;
 
-public class AbilityItemCapability extends ItemStackCapability {
+public class AbilityItemCapability {
 
     private int selectedSlot;
 
     private List<AbstractAbility> abilities;
     public AbilityItemCapability(ItemStack itemStack) {
-        super(itemStack);
+        super();
 
         if(itemStack.getItem() instanceof IAbilityItem item){
             this.abilities = item.getAbilities();
@@ -65,22 +63,16 @@ public class AbilityItemCapability extends ItemStackCapability {
             ability.setCurrentCooldown(Math.max(0, ability.getCurrentCooldown()-1));
         }
     }
-
-    @Override
-    public CompoundTag serializeNBT(boolean savingToDisk) {
-        CompoundTag tag = new CompoundTag();
+    public void serializeNBT(CompoundTag tag) {
 
         for(int i = 0; i < abilities.size(); i++){
             tag.putInt("" + i, abilities.get(i).getCurrentCooldown());
         }
 
         tag.putInt("selected", selectedSlot);
-
-        return tag;
     }
 
-    @Override
-    public void deserializeNBT(CompoundTag nbt, boolean readingFromDisk) {
+    public void deserializeNBT(CompoundTag nbt) {
         for(int i = 0; i < abilities.size(); i++){
             abilities.get(i).setCurrentCooldown(nbt.getInt("" + i));
         }

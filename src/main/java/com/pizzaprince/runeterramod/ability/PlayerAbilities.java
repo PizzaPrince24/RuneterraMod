@@ -48,10 +48,9 @@ public class PlayerAbilities {
 	public void tick() {
 		cooldown--;
 		cooldown = Math.max(0, cooldown);
-		if(cooldown == 0) {
+		if (cooldown == 0) {
 			canUseAbilities = true;
 		}
-		ClientAbilityData.tick();
 	}
 	
 	public int getCooldown() {

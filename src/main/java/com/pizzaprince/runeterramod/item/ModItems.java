@@ -8,6 +8,7 @@ import com.pizzaprince.runeterramod.item.custom.AsheBow;
 import com.pizzaprince.runeterramod.item.custom.BaccaiStaff;
 import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
+import com.pizzaprince.runeterramod.item.custom.curios.InfinityEdge;
 import com.pizzaprince.runeterramod.item.custom.curios.Rylais;
 import com.pizzaprince.runeterramod.item.custom.curios.SunfireAegis;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -61,6 +62,9 @@ public class ModItems {
 
 	public static final RegistryObject<Item> RYLAIS_SCEPTER = ITEMS.register("rylais_scepter",
 			() -> new Rylais(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> INFINITY_EDGE = ITEMS.register("infinity_edge",
+			() -> new InfinityEdge(new Item.Properties().stacksTo(1)));
 
 
 	public static final RegistryObject<Item> CACTUS_JUICE = ITEMS.register("cactus_juice",

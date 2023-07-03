@@ -1,14 +1,12 @@
 package com.pizzaprince.runeterramod.networking.packet;
 
-import com.pizzaprince.runeterramod.ability.IAbilityItem;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
-import com.pizzaprince.runeterramod.ability.item.AbilityItemCapabilityAttacher;
+import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapabilityProvider;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -38,8 +36,8 @@ public class KeyPressC2SPacket {
 			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
 				if(abilities.canUseAbilities()) {
 					ItemStack stack = player.getMainHandItem();
-					AbilityItemCapabilityAttacher.getAbilityItemCapability(stack).ifPresent(ability -> {
-						ability.fireSelectedAbility(level, player);
+					stack.getCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY).ifPresent(cap -> {
+						cap.fireSelectedAbility(level, player);
 						abilities.addCooldown(ClientAbilityData.STATIC_COOLDOWN);
 					});
 				} else {
