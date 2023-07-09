@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class AsheBow extends BowItem implements IAbilityItem{
 	public static final int COOLDOWN = 90*20;
@@ -52,7 +53,6 @@ public class AsheBow extends BowItem implements IAbilityItem{
 
 	         int i = this.getUseDuration(p_40667_) - p_40670_;
 	         i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(p_40667_, p_40668_, player, i, !itemstack.isEmpty() || flag);
-
 	         if (true) {
 	            if (false) {
 	               itemstack = new ItemStack(Items.ARROW);

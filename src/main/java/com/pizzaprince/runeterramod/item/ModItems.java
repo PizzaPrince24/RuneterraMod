@@ -8,12 +8,10 @@ import com.pizzaprince.runeterramod.item.custom.AsheBow;
 import com.pizzaprince.runeterramod.item.custom.BaccaiStaff;
 import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
-import com.pizzaprince.runeterramod.item.custom.curios.InfinityEdge;
-import com.pizzaprince.runeterramod.item.custom.curios.Rylais;
-import com.pizzaprince.runeterramod.item.custom.curios.SunfireAegis;
+import com.pizzaprince.runeterramod.item.custom.curios.*;
+import com.pizzaprince.runeterramod.item.custom.curios.base.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -22,8 +20,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.Properties;
 
 public class ModItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, RuneterraMod.MOD_ID);
@@ -60,11 +56,71 @@ public class ModItems {
 	public static final RegistryObject<Item> SUNFIRE_AEGIS = ITEMS.register("sunfire_aegis",
 			() -> new SunfireAegis(new Item.Properties().stacksTo(1)));
 
-	public static final RegistryObject<Item> RYLAIS_SCEPTER = ITEMS.register("rylais_scepter",
-			() -> new Rylais(new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> RYLAIS_SCEPTER = ITEMS.register("rylais_crystal_scepter",
+			() -> new RylaisCrystalScepter(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> INFINITY_EDGE = ITEMS.register("infinity_edge",
 			() -> new InfinityEdge(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> RUNAANS_HURICANE = ITEMS.register("runaans_hurricane",
+			() -> new RunaansHurricane(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> HEARTSTEEL = ITEMS.register("heartsteel",
+			() -> new Heartsteel(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> BLOODTHIRSTER = ITEMS.register("bloodthirster",
+			() -> new BloodThirster(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> RADIANT_VIRTUE = ITEMS.register("radiant_virtue",
+			() -> new RadiantVirtue(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> WARMOGS = ITEMS.register("warmogs",
+			() -> new Warmogs(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> AMP_TOME = ITEMS.register("amplifying_tome",
+			() -> new AmplifyingTome(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> BFSWORD = ITEMS.register("bfsword",
+			() -> new BFSword(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> BLASTING_WAND = ITEMS.register("blasting_wand",
+			() -> new BlastingWand(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> AGILITY_CLOAK = ITEMS.register("agility_cloak",
+			() -> new AgilityCloak(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> CLOTH_ARMOR = ITEMS.register("cloth_armor",
+			() -> new ClothArmor(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> DAGGER = ITEMS.register("dagger",
+			() -> new Dagger(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> FAERIE_CHARM = ITEMS.register("faerie_charm",
+			() -> new FaerieCharm(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> LONG_SWORD = ITEMS.register("long_sword",
+			() -> new LongSword(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> NEEDLESSLY_LARGE_ROD = ITEMS.register("needlessly_large_rod",
+			() -> new NeedlesslyLargeRod(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> NULL_MAGIC_MANTLE = ITEMS.register("null_magic_mantle",
+			() -> new NullMagicMantle(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> PICKAXE = ITEMS.register("pickaxe",
+			() -> new Pickaxe(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> REJUVENATION_BEAD = ITEMS.register("rejuvenation_bead",
+			() -> new RejuvenationBead(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> RUBY_CRYSTAL = ITEMS.register("ruby_crystal",
+			() -> new RubyCrystal(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> SAPPHIRE_CRYSTAL = ITEMS.register("sapphire_crystal",
+			() -> new SapphireCrystal(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> SHEEN = ITEMS.register("sheen",
+			() -> new Sheen(new Item.Properties().stacksTo(1)));
 
 
 	public static final RegistryObject<Item> CACTUS_JUICE = ITEMS.register("cactus_juice",

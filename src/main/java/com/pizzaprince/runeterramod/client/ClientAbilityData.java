@@ -13,7 +13,7 @@ public class ClientAbilityData {
 	private static boolean canUseAbilities;
 	private static boolean isStunned = false;
 	private static int stunDuration;
-	public static final int STATIC_COOLDOWN = 10;
+	public static final int STATIC_COOLDOWN = 10*20;
 	public static int cooldownTracker;
 	
 	public static void addCooldown(int cooldown) {

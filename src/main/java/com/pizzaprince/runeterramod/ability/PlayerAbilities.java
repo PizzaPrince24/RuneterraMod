@@ -9,6 +9,10 @@ public class PlayerAbilities {
 	private boolean canUseAbilities;
 	private int cooldownTracker;
 	private boolean trackingCooldown;
+
+	private int abilityHaste = 0;
+
+	private boolean sheenHit = false;
 	
 	public boolean canUseAbilities() {
 		if(cooldown <= 0) {
@@ -75,6 +79,29 @@ public class PlayerAbilities {
 	
 	public boolean isTrackingCooldown() {
 		return this.trackingCooldown;
+	}
+
+	public void addAbilityHaste(int num){
+		this.abilityHaste += num;
+	}
+
+	public void removeAbilityHaste(int num){
+		this.abilityHaste -= num;
+		if(this.abilityHaste < 0){
+			this.abilityHaste = 0;
+		}
+	}
+
+	public int getAbilityHaste(){
+		return this.abilityHaste;
+	}
+
+	public void setSheenHit(boolean set){
+		this.sheenHit = set;
+	}
+
+	public boolean isSheenHit(){
+		return this.sheenHit;
 	}
 
 }

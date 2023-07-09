@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "runeterramod:sun_stone_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "runeterramod:sun_stone"
+  }
+}

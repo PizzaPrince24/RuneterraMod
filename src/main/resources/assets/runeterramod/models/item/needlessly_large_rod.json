@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "runeterramod:item/needlessly_large_rod"
+  }
+}

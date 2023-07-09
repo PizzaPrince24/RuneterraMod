@@ -60,6 +60,8 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
     private int sunBlocks = 0;
     private int maxSunBlocks = 50;
 
+    private int blocksLeft = 0;
+
     private ArrayList<BlockPos> diskShape;
 
     public SunDiskAltarEntity(BlockPos pPos, BlockState pBlockState) {
@@ -72,6 +74,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
                     case 1 -> SunDiskAltarEntity.this.maxProgress;
                     case 2 -> SunDiskAltarEntity.this.sunBlocks;
                     case 3 -> SunDiskAltarEntity.this.maxSunBlocks;
+                    case 4 -> SunDiskAltarEntity.this.blocksLeft;
                     default -> 0;
                 };
             }
@@ -83,12 +86,13 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
                     case 1 -> SunDiskAltarEntity.this.maxProgress = value;
                     case 2 -> SunDiskAltarEntity.this.sunBlocks = value;
                     case 3 -> SunDiskAltarEntity.this.maxSunBlocks = value;
+                    case 4 -> SunDiskAltarEntity.this.blocksLeft = value;
                 }
             }
 
             @Override
             public int getCount() {
-                return 4;
+                return 5;
             }
         };
     }
@@ -101,11 +105,6 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
-    }
-
-    @Override
-    public double getTick(Object o) {
-        return 0;
     }
 
     private PlayState predicate(AnimationState state){
@@ -155,6 +154,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
         pTag.put("inventory", itemHandler.serializeNBT());
         pTag.putInt("sun_disk_altar.progress", this.progress);
         pTag.putInt("sun_disk_altar.blocks", this.sunBlocks);
+        pTag.putInt("sun_disk_altar.blocks_left", this.blocksLeft);
         super.saveAdditional(pTag);
     }
 
@@ -164,6 +164,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
         progress = pTag.getInt("sun_disk_altar.progress");
         sunBlocks = pTag.getInt("sun_disk_altar.blocks");
+        blocksLeft = pTag.getInt("sun_disk_altar.blocks_left");
     }
 
     public void drops(){
@@ -191,7 +192,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
     public static void tick(Level level, BlockPos blockPos, BlockState blockState, SunDiskAltarEntity entity) {
         if(level.isClientSide()) return;
 
-        if(hasRecipe(entity) && entity.getSunPower() > 0){
+        if(hasRecipe(entity)){
             entity.progress += (entity.getSunPower() / 3) + 1;
             setChanged(level, blockPos, blockState);
             if(entity.progress >= entity.maxProgress){
@@ -201,6 +202,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
             entity.trueResetProgress();
             setChanged(level, blockPos, blockState);
         }
+        level.setBlockAndUpdate(blockPos, entity.getBlockState());
         level.sendBlockUpdated(blockPos, entity.getBlockState(), entity.getBlockState(), 3);
     }
 
@@ -260,9 +262,18 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
 
     private static void craftItem(SunDiskAltarEntity entity) {
         if(hasRecipe(entity)) {
+            if(entity.blocksLeft == 0){
+                if(entity.itemHandler.getStackInSlot(1).getItem() == ModItems.SUN_STONE.get()){
+                    entity.itemHandler.extractItem(1, 1, false);
+                    entity.blocksLeft += 50;
+                } else {
+                    return;
+                }
+            }
             entity.itemHandler.extractItem(0, 1, false);
             entity.buildDisk(entity);
             entity.sunBlocks++;
+            entity.blocksLeft--;
 
 
             entity.resetProgress();
@@ -301,7 +312,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
 
         boolean hasCorrectItemInSecondSlot = entity.itemHandler.getStackInSlot(1).getItem() == ModItems.SUN_STONE.get();
 
-        return hasCorrectBlockInFirstSlot && hasCorrectItemInSecondSlot && entity.sunBlocks < entity.maxSunBlocks;
+        return hasCorrectBlockInFirstSlot && hasCorrectItemInSecondSlot && entity.sunBlocks < entity.maxSunBlocks && entity.getSunPower() > 0;
     }
 
     @Nonnull

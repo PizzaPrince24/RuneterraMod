@@ -8,10 +8,7 @@ import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
-import com.pizzaprince.runeterramod.entity.client.EnchantedCrystalArrowRenderer;
-import com.pizzaprince.runeterramod.entity.client.IceArrowRenderer;
-import com.pizzaprince.runeterramod.entity.client.RampagingBaccaiRenderer;
-import com.pizzaprince.runeterramod.entity.client.RekSaiRenderer;
+import com.pizzaprince.runeterramod.entity.client.*;
 import com.pizzaprince.runeterramod.item.ModCreativeModeTab;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
@@ -98,6 +95,7 @@ public class RuneterraMod {
         public static void onClientSetup(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModEntityTypes.ICE_ARROW.get(), IceArrowRenderer::new);
             event.registerEntityRenderer(ModEntityTypes.ENCHANTED_CRYSTAL_ARROW.get(), EnchantedCrystalArrowRenderer::new);
+            event.registerEntityRenderer(ModEntityTypes.RUNAANS_HOMING_BOLT.get(), RunaansHomingBoltRenderer::new);
         }
     }
 }

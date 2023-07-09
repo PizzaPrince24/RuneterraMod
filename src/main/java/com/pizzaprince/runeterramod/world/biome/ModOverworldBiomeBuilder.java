@@ -68,8 +68,8 @@ public class ModOverworldBiomeBuilder {
             {Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_TAIGA, Biomes.TAIGA},
             {Biomes.PLAINS, Biomes.PLAINS, Biomes.FOREST, Biomes.TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA},
             {Biomes.FLOWER_FOREST, Biomes.PLAINS, Biomes.FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST},
-            {ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, Biomes.JUNGLE, Biomes.JUNGLE},
-            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT}
+            {ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, Biomes.FOREST, Biomes.JUNGLE, Biomes.JUNGLE},
+            {ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT}
     };
     private final ResourceKey<Biome>[][] MIDDLE_BIOMES_VARIANT = new ResourceKey[][]{
             {Biomes.ICE_SPIKES, null, Biomes.SNOWY_TAIGA, null, null},
@@ -81,15 +81,15 @@ public class ModOverworldBiomeBuilder {
             {Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_TAIGA, Biomes.SNOWY_TAIGA},
             {Biomes.MEADOW, Biomes.MEADOW, Biomes.FOREST, Biomes.TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA},
             {Biomes.MEADOW, Biomes.MEADOW, Biomes.MEADOW, Biomes.MEADOW, Biomes.DARK_FOREST},
-            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, Biomes.JUNGLE},
-            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT, ModBiomes.SHURIMAN_DESERT}
+            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, Biomes.FOREST, Biomes.FOREST, Biomes.JUNGLE},
+            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND}
     };
     private final ResourceKey<Biome>[][] PLATEAU_BIOMES_VARIANT = new ResourceKey[][]{
             {Biomes.ICE_SPIKES, null, null, null, null},
             {null, null, Biomes.MEADOW, Biomes.MEADOW, Biomes.OLD_GROWTH_PINE_TAIGA},
             {null, null, Biomes.FOREST, Biomes.BIRCH_FOREST, null},
             {null, null, null, null, null},
-            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_DESERT, null, null, null}};
+            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, null, null, null}};
     private final ResourceKey<Biome>[][] SHATTERED_BIOMES = new ResourceKey[][]{
             {Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_FOREST, Biomes.WINDSWEPT_FOREST},
             {Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_FOREST, Biomes.WINDSWEPT_FOREST},
@@ -369,7 +369,7 @@ public class ModOverworldBiomeBuilder {
         if (pHumidity < 2) {
             return ModBiomes.SHURIMAN_WASTELAND;
         } else {
-            return pHumidity < 3 ? ModBiomes.SHURIMAN_DESERT : Biomes.WOODED_BADLANDS;
+            return pHumidity < 4 ? ModBiomes.SHURIMAN_WASTELAND : Biomes.WOODED_BADLANDS;
         }
     }
 

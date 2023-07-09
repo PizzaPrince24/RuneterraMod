@@ -2,7 +2,27 @@
   "replace": false,
   "values": [
     "runeterramod:sunfire_aegis",
-    "runeterramod:rylais_scepter",
-    "runeterramod:infinity_edge"
+    "runeterramod:rylais_crystal_scepter",
+    "runeterramod:infinity_edge",
+    "runeterramod:runaans_hurricane",
+    "runeterramod:heartsteel",
+    "runeterramod:bloodthirster",
+    "runeterramod:radiant_virtue",
+    "runeterramod:warmogs",
+    "runeterramod:amplifying_tome",
+    "runeterramod:bfsword",
+    "runeterramod:blasting_wand",
+    "runeterramod:agility_cloak",
+    "runeterramod:cloth_armor",
+    "runeterramod:dagger",
+    "runeterramod:faerie_charm",
+    "runeterramod:long_sword",
+    "runeterramod:needlessly_large_rod",
+    "runeterramod:null_magic_mantle",
+    "runeterramod:pickaxe",
+    "runeterramod:rejuvenation_bead",
+    "runeterramod:ruby_crystal",
+    "runeterramod:sapphire_crystal",
+    "runeterramod:sheen"
   ]
 }

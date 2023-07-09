@@ -1,6 +1,6 @@
-// 1.20.1	2023-06-25T02:28:05.3963286	Registries
+// 1.20.1	2023-06-28T22:00:51.9289916	Registries
 ec1cd25e22020092dde346c35011f02feff7cb02 data/runeterramod/worldgen/biome/shuriman_desert.json
-c8ebd69e36e642bb6050f123f2ac33a1679443b3 data/runeterramod/worldgen/biome/shuriman_wasteland.json
+0f96b2839006b2aec36d76d96a33cb7611819bcb data/runeterramod/worldgen/biome/shuriman_wasteland.json
 b9d971992a62762933df49812f38bf7e42ee0645 data/runeterramod/worldgen/configured_feature/shuriman_cactus.json
 0d7f081f3fdb1068ff930347611adb7a0e36d377 data/runeterramod/worldgen/configured_feature/shuriman_dune.json
 a7d5c2ae45ab28ec63e94686c336ab55025da7b3 data/runeterramod/worldgen/placed_feature/shuriman_cactus_placed.json

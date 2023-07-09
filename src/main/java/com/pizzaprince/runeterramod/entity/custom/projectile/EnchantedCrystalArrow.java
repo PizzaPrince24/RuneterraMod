@@ -1,29 +1,21 @@
 package com.pizzaprince.runeterramod.entity.custom.projectile;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.networking.ModPackets;
-import com.pizzaprince.runeterramod.networking.packet.IceArrowParticleS2CPacket;
 
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class EnchantedCrystalArrow extends AbstractArrow{
@@ -45,8 +37,8 @@ public class EnchantedCrystalArrow extends AbstractArrow{
 	
 	@Override
 	protected void onHitBlock(BlockHitResult p_36755_) {
-		if(this.level() instanceof ServerLevel) {
-			ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.level(), p_36755_.getBlockPos());
+		if(this.level() instanceof ServerLevel level) {
+			level.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.BLUE_ICE.defaultBlockState()), this.getX(), this.getY(), this.getZ(), 20, 0, 0, 0, 0);
 		}
 		this.playSound(soundEvent);
 		this.kill();    
@@ -60,8 +52,10 @@ public class EnchantedCrystalArrow extends AbstractArrow{
 		entity.addEffect(new MobEffectInstance(ModEffects.STUN.get(), 100, 0, false, false, true));
 		      
 		this.playSound(soundEvent);
-		ModPackets.sendToNearbyPlayers(new IceArrowParticleS2CPacket(this.getX(), this.getY(), this.getZ()), this.level(), entity.getOnPos());
-		
+
+		entity.getServer().getLevel(entity.getCommandSenderWorld().dimension())
+				.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.BLUE_ICE.defaultBlockState()), this.getX(), this.getY(), this.getZ(), 20, 0, 0, 0, 0);
+
 		this.kill();
 		this.discard();
 	}

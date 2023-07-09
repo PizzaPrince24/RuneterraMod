@@ -41,6 +41,26 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.SUNFIRE_AEGIS);
 			event.accept(ModItems.RYLAIS_SCEPTER);
 			event.accept(ModItems.INFINITY_EDGE);
+			event.accept(ModItems.RUNAANS_HURICANE);
+			event.accept(ModItems.HEARTSTEEL);
+			event.accept(ModItems.BLOODTHIRSTER);
+			event.accept(ModItems.RADIANT_VIRTUE);
+			event.accept(ModItems.WARMOGS);
+			event.accept(ModItems.AMP_TOME);
+			event.accept(ModItems.BFSWORD);
+			event.accept(ModItems.BLASTING_WAND);
+			event.accept(ModItems.AGILITY_CLOAK);
+			event.accept(ModItems.CLOTH_ARMOR);
+			event.accept(ModItems.DAGGER);
+			event.accept(ModItems.FAERIE_CHARM);
+			event.accept(ModItems.LONG_SWORD);
+			event.accept(ModItems.NEEDLESSLY_LARGE_ROD);
+			event.accept(ModItems.NULL_MAGIC_MANTLE);
+			event.accept(ModItems.PICKAXE);
+			event.accept(ModItems.REJUVENATION_BEAD);
+			event.accept(ModItems.RUBY_CRYSTAL);
+			event.accept(ModItems.SAPPHIRE_CRYSTAL);
+			event.accept(ModItems.SHEEN);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

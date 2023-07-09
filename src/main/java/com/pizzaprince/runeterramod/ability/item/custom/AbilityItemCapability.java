@@ -48,7 +48,7 @@ public class AbilityItemCapability {
     public boolean fireSelectedAbility(Level level, LivingEntity entity){
         if(this.abilities.get(selectedSlot).getCurrentCooldown() == 0){
             this.abilities.get(selectedSlot).fireAbility(entity, level);
-            this.abilities.get(selectedSlot).setOnCooldown();
+            this.abilities.get(selectedSlot).setOnCooldown(entity);
             return true;
         } else {
             if(entity instanceof Player player){

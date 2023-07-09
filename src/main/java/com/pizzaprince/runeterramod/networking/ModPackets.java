@@ -33,12 +33,6 @@ public class ModPackets {
 		
 		INSTANCE = net;
 		
-		net.messageBuilder(IceArrowParticleS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.decoder(IceArrowParticleS2CPacket::new)
-				.encoder(IceArrowParticleS2CPacket::toBytes)
-				.consumerMainThread(IceArrowParticleS2CPacket::handle)
-				.add();
-		
 		net.messageBuilder(KeyPressC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
 				.decoder(KeyPressC2SPacket::new)
 				.encoder(KeyPressC2SPacket::toBytes)
