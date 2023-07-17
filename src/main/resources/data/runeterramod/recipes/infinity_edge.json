@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:bfsword"
+    },
+    {
+      "item": "runeterramod:pickaxe"
+    },
+    {
+      "item": "runeterramod:agility_cloak"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:infinity_edge"
+  }
+}

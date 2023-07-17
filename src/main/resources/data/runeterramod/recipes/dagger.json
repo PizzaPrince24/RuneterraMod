@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "item": "minecraft:soul_torch"
+    },
+    {
+      "item": "minecraft:blackstone"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:dagger"
+  }
+}

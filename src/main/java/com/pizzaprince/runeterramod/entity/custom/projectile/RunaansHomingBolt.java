@@ -43,7 +43,7 @@ public class RunaansHomingBolt extends AbstractArrow {
                     double y = entity.getY() - this.getY();
                     double z = entity.getZ() - this.getZ();
                     double sqrt = Mth.sqrt((float) (x * x +  z * z));
-                    shoot(x, y + sqrt * 0.2, z, 1.6F, 2.0F);
+                    shoot(x, y + sqrt * 0.2, z, 1.0F, 2.0F);
                     break;
                 }
             }

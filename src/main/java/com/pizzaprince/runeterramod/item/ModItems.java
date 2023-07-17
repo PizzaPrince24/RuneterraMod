@@ -6,10 +6,12 @@ import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.custom.AsheBow;
 import com.pizzaprince.runeterramod.item.custom.BaccaiStaff;
+import com.pizzaprince.runeterramod.item.custom.ShurimanTransfuserItem;
 import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
-import com.pizzaprince.runeterramod.item.custom.curios.*;
 import com.pizzaprince.runeterramod.item.custom.curios.base.*;
+import com.pizzaprince.runeterramod.item.custom.curios.epic.*;
+import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -122,7 +124,6 @@ public class ModItems {
 	public static final RegistryObject<Item> SHEEN = ITEMS.register("sheen",
 			() -> new Sheen(new Item.Properties().stacksTo(1)));
 
-
 	public static final RegistryObject<Item> CACTUS_JUICE = ITEMS.register("cactus_juice",
 			() -> new Item(new Item.Properties().stacksTo(64).food(
 					new FoodProperties.Builder().saturationMod(7).nutrition(6)
@@ -131,6 +132,39 @@ public class ModItems {
 							.effect(() -> new MobEffectInstance(MobEffects.LUCK, 90*20, 2, false, false, false), 1)
 							.alwaysEat().build()
 			)));
+
+	public static final RegistryObject<Item> SHURIMAN_TRANSFUSER_ITEM = ITEMS.register("shuriman_transfuser",
+			() -> new ShurimanTransfuserItem(ModBlocks.SHURIMAN_ITEM_TRANSFUSER.get(), new Item.Properties()));
+
+	public static final RegistryObject<Item> NEXUS_CRYSTAL = ITEMS.register("nexus_crystal",
+			() -> new Item(new Item.Properties()));
+
+	public static final RegistryObject<Item> BAMIS_CINDER = ITEMS.register("bamis_cinder",
+			() -> new BamisCinder(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> CHAIN_VEST = ITEMS.register("chain_vest",
+			() -> new ChainVest(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> GIANTS_BELT = ITEMS.register("giants_belt",
+			() -> new GiantsBelt(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> RECURVE_BOW = ITEMS.register("recurve_bow",
+			() -> new RecurveBow(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> ZEAL = ITEMS.register("zeal",
+			() -> new Zeal(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> CRYSTALLINE_BRACER = ITEMS.register("crystalline_bracer",
+			() -> new CrystallineBracer(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> KINDLEGEM = ITEMS.register("kindlegem",
+			() -> new Kindlegem(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> VAMPIRIC_SCEPTER = ITEMS.register("vampiric_scepter",
+			() -> new VampiricScepter(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> AEGIS_OF_THE_LEGION = ITEMS.register("aegis_of_the_legion",
+			() -> new AegisOfTheLegion(new Item.Properties().stacksTo(1)));
 
 
 	public static void register(IEventBus eventBus) {

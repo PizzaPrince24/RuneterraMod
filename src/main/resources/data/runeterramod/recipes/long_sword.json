@@ -1,0 +1,19 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:enchanted_book",
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\",lvl:3s}]}"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:long_sword"
+  }
+}

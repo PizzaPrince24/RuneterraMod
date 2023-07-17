@@ -1,0 +1,19 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:leather_chestplate",
+      "nbt": "{display:{color:16701501}}"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:null_magic_mantle"
+  }
+}

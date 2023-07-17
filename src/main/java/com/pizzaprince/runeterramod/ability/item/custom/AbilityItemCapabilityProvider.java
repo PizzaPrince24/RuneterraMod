@@ -1,7 +1,6 @@
 package com.pizzaprince.runeterramod.ability.item.custom;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapability;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

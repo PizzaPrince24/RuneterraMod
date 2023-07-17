@@ -2,13 +2,8 @@ package com.pizzaprince.runeterramod.networking.packet;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapabilityProvider;
-import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapabilityProvider;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
-import com.pizzaprince.runeterramod.effect.ModEffects;
-import com.pizzaprince.runeterramod.item.custom.curios.BloodThirster;
-import com.pizzaprince.runeterramod.item.custom.curios.RadiantVirtue;
-import com.pizzaprince.runeterramod.item.custom.curios.RylaisCrystalScepter;
-import com.pizzaprince.runeterramod.item.custom.curios.SunfireAegis;
+import com.pizzaprince.runeterramod.item.custom.curios.legendary.RadiantVirtue;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

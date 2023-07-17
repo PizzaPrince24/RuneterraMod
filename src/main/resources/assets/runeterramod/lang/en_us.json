@@ -35,6 +35,7 @@
 	"item.runeterramod.ruby_crystal": "Ruby Crystal",
 	"item.runeterramod.sapphire_crystal": "Sapphire Crystal",
 	"item.runeterramod.sheen": "Sheen",
+	"item.runeterramod.nexus_crystal": "Nexus Crystal Shard",
 	
 	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
 	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
@@ -51,6 +52,7 @@
 	"block.runeterramod.smooth_shuriman_sandstone_slab": "Smooth Shuriman Sandstone Slab",
 	"block.runeterramod.fancy_goblet": "Fancy Goblet",
 	"block.runeterramod.basic_goblet": "Basic Goblet",
+	"block.runeterramod.shuriman_transfuser": "Shuriman Item Transfuser",
 	
 	"itemGroup.runeterratab": "Runeterra", 
 	

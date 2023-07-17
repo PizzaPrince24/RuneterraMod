@@ -1,0 +1,19 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:enchanted_book",
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\",lvl:5s}]}"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:bfsword"
+  }
+}

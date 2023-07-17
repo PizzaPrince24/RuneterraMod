@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_chestplate"
+    },
+    {
+      "item": "minecraft:leather_chestplate"
+    },
+    {
+      "item": "minecraft:white_wool"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:cloth_armor"
+  }
+}

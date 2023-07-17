@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:nexus_crystal"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:blasting_wand"
+  }
+}

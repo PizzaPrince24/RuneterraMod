@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "runeterramod:block/shuriman_transfuser"},
+    "facing=south": { "model": "runeterramod:block/shuriman_transfuser", "y": 180},
+    "facing=west": { "model": "runeterramod:block/shuriman_transfuser", "y": 270},
+    "facing=east": { "model": "runeterramod:block/shuriman_transfuser", "y": 90}
+  }
+}

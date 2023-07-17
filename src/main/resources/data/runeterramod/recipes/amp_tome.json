@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:experience_bottle"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:amplifying_tome"
+  }
+}

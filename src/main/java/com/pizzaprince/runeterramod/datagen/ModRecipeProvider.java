@@ -3,9 +3,11 @@ package com.pizzaprince.runeterramod.datagen;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.item.ModItems;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
@@ -20,6 +22,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
         nineBlockStorageRecipes(pWriter, RecipeCategory.BUILDING_BLOCKS, ModItems.SUN_STONE.get(), RecipeCategory.MISC, ModBlocks.SUN_STONE_BLOCK.get());
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.NEXUS_CRYSTAL.get())
+                .requires(Items.DRAGON_BREATH).requires(Items.ENDER_PEARL).requires(Items.ENDER_PEARL)
+                .requires(Items.AMETHYST_CLUSTER)
+                .unlockedBy("has_nexus_crystal_items", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.DRAGON_BREATH, Items.ENDER_PEARL, Items.AMETHYST_CLUSTER).build()))
+                .save(pWriter);
 
         // ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BLACK_OPAL.get())
         //         .requires(ModBlocks.BLACK_OPAL_BLOCK.get())

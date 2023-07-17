@@ -1,0 +1,14 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:bamis_cinder"
+    },
+    {
+      "item": "runeterramod:chain_vest"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:sunfire_aegis"
+  }
+}

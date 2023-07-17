@@ -3,6 +3,7 @@ package com.pizzaprince.runeterramod;
 import com.mojang.logging.LogUtils;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
+import com.pizzaprince.runeterramod.block.entity.client.ShurimanTransfuserRenderer;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
@@ -12,6 +13,7 @@ import com.pizzaprince.runeterramod.entity.client.*;
 import com.pizzaprince.runeterramod.item.ModCreativeModeTab;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
+import com.pizzaprince.runeterramod.recipe.ModRecipes;
 import com.pizzaprince.runeterramod.util.ModItemProperties;
 import com.pizzaprince.runeterramod.world.biome.ModBiomes;
 import com.pizzaprince.runeterramod.world.biome.ModOverworldRegionPrimary;
@@ -58,6 +60,8 @@ public class RuneterraMod {
 
         ModMenuTypes.register(modEventBus);
 
+        ModRecipes.register(modEventBus);
+
         ModPlantTypes.register();
 
         ModDimensions.register();
@@ -89,6 +93,7 @@ public class RuneterraMod {
             EntityRenderers.register(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiRenderer::new);
             MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
             BlockEntityRenderers.register(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
+            BlockEntityRenderers.register(ModBlockEntities.SHURIMAN_ITEM_TRANSFUSER_ENTITY.get(), ShurimanTransfuserRenderer::new);
         }
         
         @SubscribeEvent

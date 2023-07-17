@@ -4,15 +4,12 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.networking.packet.*;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.gui.MinecraftServerGui;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.PacketDistributor.TargetPoint;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class ModPackets {
@@ -51,10 +48,10 @@ public class ModPackets {
 				.consumerMainThread(CancelShaderS2CPacket::handle)
 				.add();
 
-		net.messageBuilder(SunDiskItemStackSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.decoder(SunDiskItemStackSyncS2CPacket::new)
-				.encoder(SunDiskItemStackSyncS2CPacket::toBytes)
-				.consumerMainThread(SunDiskItemStackSyncS2CPacket::handle)
+		net.messageBuilder(BlockEntityItemStackSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(BlockEntityItemStackSyncS2CPacket::new)
+				.encoder(BlockEntityItemStackSyncS2CPacket::toBytes)
+				.consumerMainThread(BlockEntityItemStackSyncS2CPacket::handle)
 				.add();
 	}
 	

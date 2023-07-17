@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "runeterramod:nexus_crystal"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:sheen"
+  }
+}

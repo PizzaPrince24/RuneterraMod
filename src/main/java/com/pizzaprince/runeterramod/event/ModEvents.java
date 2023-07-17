@@ -6,38 +6,27 @@ import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapabilityPro
 import com.pizzaprince.runeterramod.ability.item.custom.curios.*;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
-import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 import com.pizzaprince.runeterramod.entity.custom.projectile.RunaansHomingBolt;
-import com.pizzaprince.runeterramod.item.ModItems;
-import com.pizzaprince.runeterramod.item.custom.AsheBow;
-import com.pizzaprince.runeterramod.item.custom.curios.*;
 import com.pizzaprince.runeterramod.item.custom.curios.base.AgilityCloak;
 import com.pizzaprince.runeterramod.item.custom.curios.base.RejuvenationBead;
 import com.pizzaprince.runeterramod.item.custom.curios.base.Sheen;
+import com.pizzaprince.runeterramod.item.custom.curios.epic.BamisCinder;
+import com.pizzaprince.runeterramod.item.custom.curios.epic.CrystallineBracer;
+import com.pizzaprince.runeterramod.item.custom.curios.epic.VampiricScepter;
+import com.pizzaprince.runeterramod.item.custom.curios.epic.Zeal;
+import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
 import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
-import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.level.BlockEvent;
 
@@ -61,7 +50,6 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
@@ -85,7 +73,7 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void attachItemCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
 			if (event.getObject().getItem() instanceof SunfireAegis) {
-				event.addCapability(SunfireAegisCapabilityProvider.SUNFIRE_AEGIS_CAPABILITY_RL, new SunfireAegisCapabilityProvider());
+				event.addCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY_RL, new ImmolationCapabilityProvider(2, 20));
 			}
 			if (event.getObject().getItem() instanceof IAbilityItem) {
 				event.addCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY_RL, new AbilityItemCapabilityProvider(event.getObject()));
@@ -97,7 +85,13 @@ public class ModEvents {
 				event.addCapability(WarmogsCapabilityProvider.WARMOGS_CAPABILITY_RL, new WarmogsCapabilityProvider());
 			}
 			if(event.getObject().getItem() instanceof RejuvenationBead){
-				event.addCapability(RejuvenationBeadCapabilityProvider.REJUVENATION_BEAD_CAPABILITY_RL, new RejuvenationBeadCapabilityProvider());
+				event.addCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY_RL, new RegenerationCapabilityProvider(1, 200));
+			}
+			if(event.getObject().getItem() instanceof BamisCinder){
+				event.addCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY_RL, new ImmolationCapabilityProvider(1, 20));
+			}
+			if(event.getObject().getItem() instanceof CrystallineBracer){
+				event.addCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY_RL, new RegenerationCapabilityProvider(1, 100));
 			}
 		}
 
@@ -142,6 +136,9 @@ public class ModEvents {
 							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof AgilityCloak) {
 								event.setDamageModifier(event.getDamageModifier() + 0.1f);
 							}
+							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Zeal) {
+								event.setDamageModifier(event.getDamageModifier() + 0.15f);
+							}
 						}
 					});
 				});
@@ -155,7 +152,7 @@ public class ModEvents {
 					inventory.getCurios().values().forEach(curio -> {
 						for (int slot = 0; slot < curio.getSlots(); slot++) {
 							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis) {
-								curio.getStacks().getStackInSlot(slot).getCapability(SunfireAegisCapabilityProvider.SUNFIRE_AEGIS_CAPABILITY).ifPresent(cap -> {
+								curio.getStacks().getStackInSlot(slot).getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
 									cap.startBurn();
 								});
 							}
@@ -174,7 +171,7 @@ public class ModEvents {
 					inventory.getCurios().values().forEach(curio -> {
 						for (int slot = 0; slot < curio.getSlots(); slot++) {
 							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis) {
-								curio.getStacks().getStackInSlot(slot).getCapability(SunfireAegisCapabilityProvider.SUNFIRE_AEGIS_CAPABILITY).ifPresent(cap -> {
+								curio.getStacks().getStackInSlot(slot).getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
 									cap.startBurn();
 								});
 							}
@@ -198,6 +195,9 @@ public class ModEvents {
 									}
 								});
 							}
+							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof VampiricScepter) {
+								player.heal(event.getAmount() * 0.05f);
+							}
 						}
 					});
 				});
@@ -218,11 +218,11 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
 			event.register(PlayerAbilities.class);
-			event.register(SunfireAegisCapability.class);
+			event.register(ImmolationCapability.class);
 			event.register(AbilityItemCapability.class);
 			event.register(HeartsteelCapability.class);
 			event.register(WarmogsCapability.class);
-			event.register(RejuvenationBeadCapability.class);
+			event.register(RegenerationCapability.class);
 		}
 
 

@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:emerald"
+    },
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "item": "minecraft:emerald"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:rejuvenation_bead"
+  }
+}

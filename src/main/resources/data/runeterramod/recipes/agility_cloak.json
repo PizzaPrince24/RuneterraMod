@@ -1,0 +1,21 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:potion",
+      "nbt": "{Potion:\"minecraft:strong_swiftness\"}"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "minecraft:leather_chestplate",
+      "nbt": "{display:{color:8991416}}"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:agility_cloak"
+  }
+}

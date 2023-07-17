@@ -2,9 +2,7 @@ package com.pizzaprince.runeterramod.block;
 
 import com.google.common.base.Supplier;
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.block.custom.ShurimanCactus;
-import com.pizzaprince.runeterramod.block.custom.ShurimanSand;
-import com.pizzaprince.runeterramod.block.custom.SunDiskAltar;
+import com.pizzaprince.runeterramod.block.custom.*;
 import com.pizzaprince.runeterramod.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -39,7 +37,7 @@ public class ModBlocks {
 			() -> new Block(BlockBehaviour.Properties.copy(Blocks.SMOOTH_SANDSTONE).strength(0.8f).requiresCorrectToolForDrops()));
 
 	public static final RegistryObject<Block> SMOOTH_SHURIMAN_SANDSTONE_STAIRS = registerBlock("smooth_shuriman_sandstone_stairs",
-			() -> new StairBlock(() -> SMOOTH_SHURIMAN_SANDSTONE.get().defaultBlockState(),BlockBehaviour.Properties.copy(Blocks.SMOOTH_SANDSTONE_STAIRS)));
+			() -> new StairBlock(() -> SMOOTH_SHURIMAN_SANDSTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.SMOOTH_SANDSTONE_STAIRS)));
 
 	public static final RegistryObject<Block> SMOOTH_SHURIMAN_SANDSTONE_SLAB = registerBlock("smooth_shuriman_sandstone_slab",
 			() -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.SANDSTONE_SLAB)));
@@ -57,11 +55,13 @@ public class ModBlocks {
 			() -> new ShurimanCactus(BlockBehaviour.Properties.copy(Blocks.CACTUS).noOcclusion()));
 
 	public static final RegistryObject<Block> FANCY_GOBLET = registerBlock("fancy_goblet",
-			() -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).noOcclusion()));
+			() -> new FancyGoblet(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).noOcclusion()));
 
 	public static final RegistryObject<Block> BASIC_GOBLET = registerBlock("basic_goblet",
-			() -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).noOcclusion()));
+			() -> new BasicGoblet(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).noOcclusion()));
 
+	public static final RegistryObject<Block> SHURIMAN_ITEM_TRANSFUSER = BLOCKS.register("shuriman_transfuser",
+			() -> new ShurimanTransfuser(BlockBehaviour.Properties.copy(Blocks.ENCHANTING_TABLE).strength(4f).requiresCorrectToolForDrops().noOcclusion().noLootTable()));
 
 	private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block){
 		RegistryObject<T> toReturn = BLOCKS.register(name, block);

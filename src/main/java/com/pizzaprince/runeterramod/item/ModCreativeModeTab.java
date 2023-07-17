@@ -61,6 +61,17 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.RUBY_CRYSTAL);
 			event.accept(ModItems.SAPPHIRE_CRYSTAL);
 			event.accept(ModItems.SHEEN);
+			event.accept(ModItems.SHURIMAN_TRANSFUSER_ITEM);
+			event.accept(ModItems.NEXUS_CRYSTAL);
+			event.accept(ModItems.BAMIS_CINDER);
+			event.accept(ModItems.CHAIN_VEST);
+			event.accept(ModItems.GIANTS_BELT);
+			event.accept(ModItems.RECURVE_BOW);
+			event.accept(ModItems.ZEAL);
+			event.accept(ModItems.CRYSTALLINE_BRACER);
+			event.accept(ModItems.KINDLEGEM);
+			event.accept(ModItems.VAMPIRIC_SCEPTER);
+			event.accept(ModItems.AEGIS_OF_THE_LEGION);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

@@ -1,10 +1,8 @@
 package com.pizzaprince.runeterramod.item.custom.curios.base;
 
-import com.pizzaprince.runeterramod.ability.item.custom.curios.RejuvenationBeadCapabilityProvider;
-import com.pizzaprince.runeterramod.ability.item.custom.curios.SunfireAegisCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.item.custom.curios.RegenerationCapabilityProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,7 +20,7 @@ public class RejuvenationBead extends Item implements ICurioItem {
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        stack.getCapability(RejuvenationBeadCapabilityProvider.REJUVENATION_BEAD_CAPABILITY).ifPresent(cap -> {
+        stack.getCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY).ifPresent(cap -> {
             cap.tick(slotContext.entity());
         });
     }

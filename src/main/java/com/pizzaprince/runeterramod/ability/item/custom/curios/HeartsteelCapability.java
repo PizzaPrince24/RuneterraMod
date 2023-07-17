@@ -1,21 +1,12 @@
 package com.pizzaprince.runeterramod.ability.item.custom.curios;
 
-import com.pizzaprince.runeterramod.item.custom.curios.Heartsteel;
-import com.pizzaprince.runeterramod.item.custom.curios.InfinityEdge;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import org.checkerframework.checker.units.qual.A;
-import top.theillusivec4.curios.api.CuriosCapability;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class HeartsteelCapability {
-    private int stacks = 1;
+    private int stacks = 2;
 
     private AttributeModifier modifier;
 

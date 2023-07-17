@@ -6,7 +6,7 @@ import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarMenu;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
-import com.pizzaprince.runeterramod.networking.packet.SunDiskItemStackSyncS2CPacket;
+import com.pizzaprince.runeterramod.networking.packet.BlockEntityItemStackSyncS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -48,7 +48,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
         protected void onContentsChanged(int slot) {
             setChanged();
             if(!level.isClientSide()){
-                ModPackets.sendToClients(new SunDiskItemStackSyncS2CPacket(this, worldPosition));
+                ModPackets.sendToClients(new BlockEntityItemStackSyncS2CPacket(this, worldPosition));
             }
         }
     };
