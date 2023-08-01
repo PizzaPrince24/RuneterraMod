@@ -9,14 +9,18 @@ import com.pizzaprince.runeterramod.item.custom.BaccaiStaff;
 import com.pizzaprince.runeterramod.item.custom.ShurimanTransfuserItem;
 import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
+import com.pizzaprince.runeterramod.item.custom.armor.RampagingBaccaiArmorItem;
 import com.pizzaprince.runeterramod.item.custom.curios.base.*;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.*;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,26 +29,26 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, RuneterraMod.MOD_ID);
-	
+
 	public static final RegistryObject<Item> SUN_STONE = ITEMS.register("sun_stone",
 			() -> new Item(new Item.Properties()));
-	
-	public static final RegistryObject<Item> ASHE_BOW = ITEMS.register("ashe_bow", 
+
+	public static final RegistryObject<Item> ASHE_BOW = ITEMS.register("ashe_bow",
 			() -> new AsheBow(new Item.Properties().stacksTo(1)));
-	
-	public static final RegistryObject<Item> ASHE_HELMET = ITEMS.register("ashe_helmet", 
+
+	public static final RegistryObject<Item> ASHE_HELMET = ITEMS.register("ashe_helmet",
 			() -> new AsheArmorItem(ModArmorMaterials.ASHE_ARMOR, ArmorItem.Type.HELMET, new Item.Properties()));
-	
-	public static final RegistryObject<Item> ASHE_CHESTPLATE = ITEMS.register("ashe_chestplate", 
+
+	public static final RegistryObject<Item> ASHE_CHESTPLATE = ITEMS.register("ashe_chestplate",
 			() -> new AsheArmorItem(ModArmorMaterials.ASHE_ARMOR, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-	
-	public static final RegistryObject<Item> ASHE_LEGGINGS = ITEMS.register("ashe_leggings", 
+
+	public static final RegistryObject<Item> ASHE_LEGGINGS = ITEMS.register("ashe_leggings",
 			() -> new AsheArmorItem(ModArmorMaterials.ASHE_ARMOR, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-	
-	public static final RegistryObject<Item> ASHE_BOOTS = ITEMS.register("ashe_boots", 
+
+	public static final RegistryObject<Item> ASHE_BOOTS = ITEMS.register("ashe_boots",
 			() -> new AsheArmorItem(ModArmorMaterials.ASHE_ARMOR, ArmorItem.Type.BOOTS, new Item.Properties()));
-	
-	public static final RegistryObject<Item> REKSAI_SPAWN_EGG = ITEMS.register("reksai_spawn_egg", 
+
+	public static final RegistryObject<Item> REKSAI_SPAWN_EGG = ITEMS.register("reksai_spawn_egg",
 			() -> new ForgeSpawnEggItem(ModEntityTypes.REKSAI, 0x1C1C1C, 0x456296, new Item.Properties()));
 
 	public static final RegistryObject<Item> RAMPAGING_BACCAI_SPAWN_EGG = ITEMS.register("rampaging_baccai_spawn_egg",
@@ -166,6 +170,14 @@ public class ModItems {
 	public static final RegistryObject<Item> AEGIS_OF_THE_LEGION = ITEMS.register("aegis_of_the_legion",
 			() -> new AegisOfTheLegion(new Item.Properties().stacksTo(1)));
 
+	public static final RegistryObject<Item> SUNFISH_BUCKET = ITEMS.register("sunfish_bucket",
+			() -> new MobBucketItem(() -> ModEntityTypes.SUNFISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> SUNFISH_SPAWN_EGG = ITEMS.register("sunfish_spawn_egg",
+			() -> new ForgeSpawnEggItem(ModEntityTypes.SUNFISH, 7434350, 14211288, new Item.Properties()));
+
+	public static final RegistryObject<Item> RAMPAGING_BACCAI_ARMOR = ITEMS.register("rampaging_baccai_armor",
+			() -> new RampagingBaccaiArmorItem(ModArmorMaterials.RAMPAGING_BACCAI_ARMOR, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
 
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);

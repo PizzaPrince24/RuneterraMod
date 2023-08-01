@@ -9,33 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class ClientAbilityData {
-	private static int cooldown;
-	private static boolean canUseAbilities;
 	private static boolean isStunned = false;
 	private static int stunDuration;
-	public static final int STATIC_COOLDOWN = 10*20;
-	public static int cooldownTracker;
-	
-	public static void addCooldown(int cooldown) {
-		ClientAbilityData.cooldown = Math.max(0, cooldown*20);
-		if(cooldown != 0) {
-			ClientAbilityData.canUseAbilities = false;
-		}
-	}
-	
-	public static void resetCooldown() {
-		ClientAbilityData.cooldown = 0;
-		ClientAbilityData.canUseAbilities = true;
-	}
-	
-	public static boolean canUseAbilities() {
-		return ClientAbilityData.canUseAbilities;
-	}
-	
-	public static void addStun(float seconds) {
-		ClientAbilityData.isStunned = true;
-		ClientAbilityData.stunDuration = (int)(seconds*20);
-	}
 	
 	public static boolean isStunned() {
 		return ClientAbilityData.isStunned;
@@ -47,13 +22,6 @@ public class ClientAbilityData {
 	}
 	
 	public static void tick() {
-		ClientAbilityData.cooldown--;
-		ClientAbilityData.cooldown = Math.max(0, ClientAbilityData.cooldown);
-		if(ClientAbilityData.cooldown == 0) {
-			ClientAbilityData.canUseAbilities = true;
-		} else {
-			ClientAbilityData.canUseAbilities = false;
-		}
 		ClientAbilityData.stunDuration--;
 		ClientAbilityData.stunDuration = Math.max(0, ClientAbilityData.stunDuration);
 		if(ClientAbilityData.stunDuration == 0) {
@@ -98,18 +66,6 @@ public class ClientAbilityData {
 	    } else {
 	    	return false;
 	    }
-	}
-	
-	public static void trackCooldown() {
-		ClientAbilityData.cooldownTracker++;
-	}
-	
-	public static int getTracker() {
-		return ClientAbilityData.cooldownTracker;
-	}
-	
-	public static void resetTracker() {
-		ClientAbilityData.cooldownTracker = 0;
 	}
 	
 }

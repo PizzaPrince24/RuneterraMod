@@ -1,11 +1,9 @@
 package com.pizzaprince.runeterramod.item.custom.curios.legendary;
 
-import com.pizzaprince.runeterramod.ability.item.custom.curios.HeartsteelCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.curios.HeartsteelCapabilityProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -43,7 +41,7 @@ public class Heartsteel extends Item implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pStack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
-            pTooltipComponents.add(Component.literal("Grants more health the more bosses you slay").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.literal("Grants an additional heart for every boss you slay").withStyle(ChatFormatting.RED));
             pTooltipComponents.add(Component.literal("Current Bonus: +" + cap.getStacks() + " Hearts").withStyle(ChatFormatting.GOLD));
         });
 

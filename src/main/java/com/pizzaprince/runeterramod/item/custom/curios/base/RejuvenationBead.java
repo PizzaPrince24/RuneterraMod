@@ -1,6 +1,6 @@
 package com.pizzaprince.runeterramod.item.custom.curios.base;
 
-import com.pizzaprince.runeterramod.ability.item.custom.curios.RegenerationCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.curios.RegenerationCapabilityProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

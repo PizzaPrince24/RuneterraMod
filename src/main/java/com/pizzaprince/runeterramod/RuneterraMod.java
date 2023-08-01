@@ -7,13 +7,16 @@ import com.pizzaprince.runeterramod.block.entity.client.ShurimanTransfuserRender
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
+import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.client.*;
 import com.pizzaprince.runeterramod.item.ModCreativeModeTab;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
+import com.pizzaprince.runeterramod.particle.ModParticles;
 import com.pizzaprince.runeterramod.recipe.ModRecipes;
+import com.pizzaprince.runeterramod.sound.ModSounds;
 import com.pizzaprince.runeterramod.util.ModItemProperties;
 import com.pizzaprince.runeterramod.world.biome.ModBiomes;
 import com.pizzaprince.runeterramod.world.biome.ModOverworldRegionPrimary;
@@ -42,14 +45,12 @@ import terrablender.api.SurfaceRuleManager;
 public class RuneterraMod {
     public static final String MOD_ID = "runeterramod";
     private static final Logger LOGGER = LogUtils.getLogger();
-    
-    
     public RuneterraMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
+
+        ModEntityTypes.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-        ModEntityTypes.register(modEventBus);
         ModEffects.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         
@@ -62,9 +63,15 @@ public class RuneterraMod {
 
         ModRecipes.register(modEventBus);
 
+        ModParticles.register(modEventBus);
+
+        ModSounds.register(modEventBus);
+
         ModPlantTypes.register();
 
         ModDimensions.register();
+
+        ModDamageTypes.register();
 
         GeckoLib.initialize();
 
@@ -83,24 +90,5 @@ public class RuneterraMod {
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, RuneterraMod.MOD_ID, ModSurfaceRuleData.makeRules());
         });
         ModItemProperties.addCustomItemProperties();
-    }
-
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            EntityRenderers.register(ModEntityTypes.REKSAI.get(), RekSaiRenderer::new);
-            EntityRenderers.register(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiRenderer::new);
-            MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
-            BlockEntityRenderers.register(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
-            BlockEntityRenderers.register(ModBlockEntities.SHURIMAN_ITEM_TRANSFUSER_ENTITY.get(), ShurimanTransfuserRenderer::new);
-        }
-        
-        @SubscribeEvent
-        public static void onClientSetup(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(ModEntityTypes.ICE_ARROW.get(), IceArrowRenderer::new);
-            event.registerEntityRenderer(ModEntityTypes.ENCHANTED_CRYSTAL_ARROW.get(), EnchantedCrystalArrowRenderer::new);
-            event.registerEntityRenderer(ModEntityTypes.RUNAANS_HOMING_BOLT.get(), RunaansHomingBoltRenderer::new);
-        }
     }
 }

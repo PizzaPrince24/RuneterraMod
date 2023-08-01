@@ -1,0 +1,42 @@
+{
+  "name": "runeterramod:ruined_oasis_village/paths",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "terrain_matching",
+        "location": "runeterramod:ruined_oasis_village_long_straight",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "terrain_matching",
+        "location": "runeterramod:ruined_oasis_village_straight",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "terrain_matching",
+        "location": "runeterramod:ruined_oasis_village_right_corner",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "terrain_matching",
+        "location": "runeterramod:ruined_oasis_village_left_corner",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}

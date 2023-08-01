@@ -72,6 +72,8 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.KINDLEGEM);
 			event.accept(ModItems.VAMPIRIC_SCEPTER);
 			event.accept(ModItems.AEGIS_OF_THE_LEGION);
+			event.accept(ModItems.SUNFISH_SPAWN_EGG);
+			event.accept(ModItems.RAMPAGING_BACCAI_ARMOR);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "runeterramod:ruined_oasis_village",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 2071646619,
+    "spacing": 30,
+    "separation": 10
+  }
+}

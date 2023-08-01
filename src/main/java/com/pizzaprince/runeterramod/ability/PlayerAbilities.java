@@ -13,6 +13,8 @@ public class PlayerAbilities {
 	private int abilityHaste = 0;
 
 	private boolean sheenHit = false;
+
+	private int static_cooldown = 10*20;
 	
 	public boolean canUseAbilities() {
 		if(cooldown <= 0) {
@@ -37,6 +39,10 @@ public class PlayerAbilities {
 	public void copyFrom(PlayerAbilities source) {
 		this.cooldown = source.cooldown;
 		this.canUseAbilities = source.canUseAbilities;
+	}
+
+	public void setOnStaticCooldown(){
+		addCooldown(static_cooldown);
 	}
 	
 	public void saveNBTData(CompoundTag nbt) {

@@ -1,0 +1,55 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.rampaging_baccai_armor.idle": {
+			"loop": true,
+			"bones": {
+				"leftbracelet": {
+					"rotation": {
+						"vector": [0, -54.5, 0]
+					},
+					"position": {
+						"vector": [3.375, 10.2, -1.15]
+					},
+					"scale": {
+						"vector": [3, 3, 3]
+					}
+				},
+				"rightbracelet": {
+					"rotation": {
+						"vector": [0, 124.5, 0]
+					},
+					"position": {
+						"vector": [-11.4, 10.2, -0.975]
+					},
+					"scale": {
+						"vector": [3, 3, 3]
+					}
+				},
+				"belt": {
+					"rotation": {
+						"vector": [-12.47074, -3.37255, -0.86573]
+					},
+					"position": {
+						"vector": [7.8, 5.325, -5.075]
+					},
+					"scale": {
+						"vector": [2, 2, 2]
+					}
+				},
+				"goldsash": {
+					"rotation": {
+						"vector": [-13, 0, 0]
+					},
+					"position": {
+						"vector": [0, 2, 7.6]
+					},
+					"scale": {
+						"vector": [2, 2, 2]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

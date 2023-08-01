@@ -38,7 +38,7 @@ public class RubyCrystal extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+1/2 Hearts").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+0.5 Hearts").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

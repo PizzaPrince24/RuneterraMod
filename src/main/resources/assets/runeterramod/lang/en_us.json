@@ -36,6 +36,17 @@
 	"item.runeterramod.sapphire_crystal": "Sapphire Crystal",
 	"item.runeterramod.sheen": "Sheen",
 	"item.runeterramod.nexus_crystal": "Nexus Crystal Shard",
+	"item.runeterramod.sunfish_spawn_egg": "Sunfish Spawn Egg",
+	"item.runeterramod.rampaging_baccai_armor": "Kaboskos' Armor",
+	"item.runeterramod.bamis_cinder": "Bami's Cinder",
+	"item.runeterramod.chain_vest": "Chain Vest",
+	"item.runeterramod.giants_belt": "Giant's Belt",
+	"item.runeterramod.recurve_bow": "Recurve Bow",
+	"item.runeterramod.zeal": "Zeal",
+	"item.runeterramod.crystalline_bracer": "Crystalline Bracer",
+	"item.runeterramod.Kindlegem": "Kindlegem",
+	"item.runeterramod.vampiric_scepter": "Vampiric Scepter",
+	"item.runeterramod.aegis_of_the_legion": "Aegis of the Legion",
 	
 	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
 	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
@@ -61,6 +72,12 @@
 	"effect.runeterramod.rylais_slow": "Rylai's Slowness",
 
 	"curios.identifier.runeterra": "Runeterra",
+
+	"entity.runeterrmod.rampaging_baccai": "Rampaging Baccai",
+
+	"sounds.runeterramod.baccai_grunts": "Baccai grunts",
+	"sounds.runeterramod.baccai_speaks": "Baccai speaks",
+	"sounds.runeterramod.baccai_roars": "Baccai roars",
 	
 	"key.category.runeterramod.runeterra": "Runeterra",
 	"key.runeterramod.ultimate": "Ultimate"

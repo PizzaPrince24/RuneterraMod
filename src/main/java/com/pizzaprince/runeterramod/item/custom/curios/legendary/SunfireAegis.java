@@ -1,6 +1,6 @@
 package com.pizzaprince.runeterramod.item.custom.curios.legendary;
 
-import com.pizzaprince.runeterramod.ability.item.custom.curios.ImmolationCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.curios.ImmolationCapabilityProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -55,7 +55,7 @@ public class SunfireAegis extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("Taking or dealing damage causes nearby entities to burn for the next 3 seconds").withStyle(ChatFormatting.RED));
+        pTooltipComponents.add(Component.literal("Taking or dealing damage causes nearby entities to burn for 2 damage/second for the next 3 seconds").withStyle(ChatFormatting.RED));
         pTooltipComponents.add(Component.literal("+2 Hearts").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.literal("+4 Armor").withStyle(ChatFormatting.GOLD));
 

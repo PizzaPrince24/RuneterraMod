@@ -1,0 +1,22 @@
+{
+  "baccai_grunt": {
+    "subtitle": "sounds.runeterramod.baccai_grunts",
+    "sounds": ["runeterramod:baccai_grunt1", "runeterramod:baccai_grunt2"]
+  },
+  "baccai_no_mercy": {
+    "subtitle": "sounds.runeterramod.baccai_speaks",
+    "sounds": ["runeterramod:baccai_no_mercy"]
+  },
+  "baccai_roar": {
+    "subtitle": "sounds.runeterramod.baccai_roars",
+    "sounds": ["runeterramod:baccai_roar"]
+  },
+  "baccai_attack": {
+    "subtitle": "sounds.runeterramod.baccai_speaks",
+    "sounds": ["runeterramod:baccai_bury", "runeterramod:baccai_now_die", "runeterramod:baccai_suffer", "runeterramod:baccai_unworthy"]
+  },
+  "baccai_penance": {
+    "subtitle": "sounds.runeterramod.baccai_speaks",
+    "sounds": ["runeterramod:baccai_penance"]
+  }
+}

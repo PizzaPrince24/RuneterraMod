@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "runeterramod:item/rampaging_baccai_armor"
+    }
+}

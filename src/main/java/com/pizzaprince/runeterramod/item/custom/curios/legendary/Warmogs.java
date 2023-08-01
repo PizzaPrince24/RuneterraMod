@@ -1,6 +1,6 @@
 package com.pizzaprince.runeterramod.item.custom.curios.legendary;
 
-import com.pizzaprince.runeterramod.ability.item.custom.curios.WarmogsCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.curios.WarmogsCapabilityProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;

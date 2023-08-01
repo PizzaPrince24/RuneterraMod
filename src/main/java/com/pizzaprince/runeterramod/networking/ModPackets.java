@@ -35,12 +35,6 @@ public class ModPackets {
 				.encoder(KeyPressC2SPacket::toBytes)
 				.consumerMainThread(KeyPressC2SPacket::handle)
 				.add();
-		
-		net.messageBuilder(SyncCooldownsS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.decoder(SyncCooldownsS2CPacket::new)
-				.encoder(SyncCooldownsS2CPacket::toBytes)
-				.consumerMainThread(SyncCooldownsS2CPacket::handle)
-				.add();
 
 		net.messageBuilder(CancelShaderS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.decoder(CancelShaderS2CPacket::new)
@@ -52,6 +46,12 @@ public class ModPackets {
 				.decoder(BlockEntityItemStackSyncS2CPacket::new)
 				.encoder(BlockEntityItemStackSyncS2CPacket::toBytes)
 				.consumerMainThread(BlockEntityItemStackSyncS2CPacket::handle)
+				.add();
+
+		net.messageBuilder(AOEParticleS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(AOEParticleS2CPacket::new)
+				.encoder(AOEParticleS2CPacket::toBytes)
+				.consumerMainThread(AOEParticleS2CPacket::handle)
 				.add();
 	}
 	

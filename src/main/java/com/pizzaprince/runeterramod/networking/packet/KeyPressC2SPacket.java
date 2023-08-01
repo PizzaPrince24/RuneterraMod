@@ -1,8 +1,7 @@
 package com.pizzaprince.runeterramod.networking.packet;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
-import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapabilityProvider;
-import com.pizzaprince.runeterramod.client.ClientAbilityData;
+import com.pizzaprince.runeterramod.ability.AbilityItemCapabilityProvider;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.RadiantVirtue;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -54,9 +53,8 @@ public class KeyPressC2SPacket {
 									}
 								});
 							});
+							abilities.setSheenHit(true);
 						}
-						abilities.addCooldown(ClientAbilityData.STATIC_COOLDOWN);
-						abilities.setSheenHit(true);
 					});
 				} else {
 					player.sendSystemMessage(Component.literal("Static Cooldown has " + ((double)abilities.getCooldown() / 20) + " seconds left"));

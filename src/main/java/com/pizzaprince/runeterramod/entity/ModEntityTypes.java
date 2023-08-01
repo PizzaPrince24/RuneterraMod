@@ -3,6 +3,7 @@ package com.pizzaprince.runeterramod.entity;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
 import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;
 import com.pizzaprince.runeterramod.entity.custom.projectile.EnchantedCrystalArrow;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
 
@@ -38,6 +39,10 @@ public class ModEntityTypes {
 	public static final RegistryObject<EntityType<RunaansHomingBolt>> RUNAANS_HOMING_BOLT = ENTITY_TYPES.register("runaans_homing_bolt",
 			() -> EntityType.Builder.of((EntityType.EntityFactory<RunaansHomingBolt>)RunaansHomingBolt::new, MobCategory.MISC).sized(0.5f, 0.5f)
 					.clientTrackingRange(6).updateInterval(20).build(RuneterraMod.MOD_ID + ":runaans_homing_bolt"));
+
+	public static final RegistryObject<EntityType<SunFishEntity>> SUNFISH = ENTITY_TYPES.register("sunfish",
+			() -> EntityType.Builder.of(SunFishEntity::new, MobCategory.WATER_AMBIENT).sized(1, 1)
+					.build(new ResourceLocation(RuneterraMod.MOD_ID, "sunfish").toString()));
 
 	public static void register(IEventBus eventBus) {
 		ENTITY_TYPES.register(eventBus);

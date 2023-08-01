@@ -81,7 +81,7 @@ public class ModOverworldBiomeBuilder {
             {Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_TAIGA, Biomes.SNOWY_TAIGA},
             {Biomes.MEADOW, Biomes.MEADOW, Biomes.FOREST, Biomes.TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA},
             {Biomes.MEADOW, Biomes.MEADOW, Biomes.MEADOW, Biomes.MEADOW, Biomes.DARK_FOREST},
-            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, Biomes.FOREST, Biomes.FOREST, Biomes.JUNGLE},
+            {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND},
             {ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND, ModBiomes.SHURIMAN_WASTELAND}
     };
     private final ResourceKey<Biome>[][] PLATEAU_BIOMES_VARIANT = new ResourceKey[][]{
@@ -369,7 +369,7 @@ public class ModOverworldBiomeBuilder {
         if (pHumidity < 2) {
             return ModBiomes.SHURIMAN_WASTELAND;
         } else {
-            return pHumidity < 4 ? ModBiomes.SHURIMAN_WASTELAND : Biomes.WOODED_BADLANDS;
+            return pHumidity < 4 ? ModBiomes.SHURIMAN_WASTELAND : ModBiomes.SHURIMAN_WASTELAND;
         }
     }
 

@@ -74,7 +74,7 @@ public class ModOverworldBiomes {
         BiomeDefaultFeatures.addDesertVegetation(biomeBuilder);
         BiomeDefaultFeatures.addDesertExtraVegetation(biomeBuilder);
 
-        return biome(Biome.Precipitation.NONE, 2.0f, 0.0f, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+        return biome(Biome.Precipitation.NONE, 2.0f, 0.0f, 4566514, 267827, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 
 }

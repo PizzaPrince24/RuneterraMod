@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.ability;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.item.AbstractAbility;
@@ -58,7 +59,7 @@ public interface IAbilityItem {
 
 	 */
 	
-	ArrayList<AbstractAbility> getAbilities();
+	List<AbstractAbility> getAbilities();
 	/*
 	default boolean fireAbility(Level level, LivingEntity entity, ItemStack stack) {
 		if(this.isOffCooldown(stack)) {

@@ -26,20 +26,11 @@ import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class AsheBow extends BowItem implements IAbilityItem{
-	public static final int COOLDOWN = 90*20;
-	private int cooldownTracker = 0;
-	private int flag = 2;
-	private int trackerFlag = 20;
-	private int id = 0;
-	private EnchantedCrystalArrowAbility enchantedCrystalArrowAbility = new EnchantedCrystalArrowAbility(SoundEvents.ARROW_SHOOT, null, COOLDOWN, id());
-	private ArrayList<AbstractAbility> abilityList = new ArrayList<AbstractAbility>(Arrays.asList(enchantedCrystalArrowAbility));
-	
-	private int id() {
-		return id++;
-	}
+	private List<AbstractAbility> abilityList = List.of(new EnchantedCrystalArrowAbility());
 	
 	public AsheBow(Properties properties) {
 		super(properties);
@@ -135,21 +126,21 @@ public class AsheBow extends BowItem implements IAbilityItem{
 	    return f;
 	}
 
-	@Override
-	public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int count) {
-		if(entity instanceof Player player) {
-			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
-				if(abilities.isTrackingCooldown()) {
-					abilities.trackCooldown(72000 - count);
-				} else {
-					abilities.setTrackingCooldown(true);
-				}
-			});
-		}
-	}
+	//@Override
+	//public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int count) {
+	//	if(entity instanceof Player player) {
+	//		player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
+	//			if(abilities.isTrackingCooldown()) {
+	//				abilities.trackCooldown(72000 - count);
+	//			} else {
+	//				abilities.setTrackingCooldown(true);
+	//			}
+	//		});
+	//	}
+	//}
 
 	@Override
-	public ArrayList<AbstractAbility> getAbilities() {
+	public List<AbstractAbility> getAbilities() {
 		return abilityList;
 	}
 	

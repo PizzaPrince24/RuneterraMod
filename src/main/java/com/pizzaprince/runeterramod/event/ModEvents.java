@@ -1,11 +1,14 @@
 package com.pizzaprince.runeterramod.event;
 
-import com.pizzaprince.runeterramod.ability.IAbilityItem;
-import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapability;
-import com.pizzaprince.runeterramod.ability.item.custom.AbilityItemCapabilityProvider;
-import com.pizzaprince.runeterramod.ability.item.custom.curios.*;
+import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.ability.*;
+import com.pizzaprince.runeterramod.ability.curios.*;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
+import com.pizzaprince.runeterramod.effect.ModEffects;
+import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;
 import com.pizzaprince.runeterramod.entity.custom.projectile.RunaansHomingBolt;
 import com.pizzaprince.runeterramod.item.custom.curios.base.AgilityCloak;
 import com.pizzaprince.runeterramod.item.custom.curios.base.RejuvenationBead;
@@ -15,41 +18,37 @@ import com.pizzaprince.runeterramod.item.custom.curios.epic.CrystallineBracer;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.VampiricScepter;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.Zeal;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
-import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
-import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.event.entity.player.ArrowLooseEvent;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
-import net.minecraftforge.event.level.BlockEvent;
-
-import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.ability.PlayerAbilities;
-import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
-import com.pizzaprince.runeterramod.effect.ModEffects;
-import com.pizzaprince.runeterramod.entity.ModEntityTypes;
-import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
 import com.pizzaprince.runeterramod.networking.ModPackets;
-import com.pizzaprince.runeterramod.networking.packet.SyncCooldownsS2CPacket;
-
+import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
+import com.pizzaprince.runeterramod.particle.ModParticles;
+import com.pizzaprince.runeterramod.particle.custom.SandParticle;
+import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal.Flag;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
+import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
@@ -244,17 +243,6 @@ public class ModEvents {
 		}
 
 		@SubscribeEvent
-		public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
-			if (!event.getLevel().isClientSide()) {
-				if (event.getEntity() instanceof ServerPlayer player) {
-					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
-						ModPackets.sendToPlayer(new SyncCooldownsS2CPacket(abilities.getCooldown()), player);
-					});
-				}
-			}
-		}
-
-		@SubscribeEvent
 		public static void livingTick(LivingTickEvent event) {
 			if (event.getEntity() instanceof Mob mob) {
 				if (mob.hasEffect(ModEffects.STUN.get())) {
@@ -336,6 +324,12 @@ public class ModEvents {
 		public static void EntityAttributeEvent(EntityAttributeCreationEvent event) {
 			event.put(ModEntityTypes.REKSAI.get(), RekSaiEntity.setAttributes());
 			event.put(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiEntity.setAttributes());
+			event.put(ModEntityTypes.SUNFISH.get(), SunFishEntity.setAttributes());
+		}
+
+		@SubscribeEvent
+		public static void registerParticles(RegisterParticleProvidersEvent event){
+			Minecraft.getInstance().particleEngine.register(ModParticles.SAND_PARTICLE.get(), SandParticle.Provider::new);
 		}
 
 
