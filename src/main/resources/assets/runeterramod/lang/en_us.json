@@ -47,6 +47,7 @@
 	"item.runeterramod.Kindlegem": "Kindlegem",
 	"item.runeterramod.vampiric_scepter": "Vampiric Scepter",
 	"item.runeterramod.aegis_of_the_legion": "Aegis of the Legion",
+	"item.runeterramod.crocodile_ascension_pendant": "Crocodile Ascension Pendant",
 	
 	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
 	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
@@ -72,6 +73,7 @@
 	"effect.runeterramod.rylais_slow": "Rylai's Slowness",
 
 	"curios.identifier.runeterra": "Runeterra",
+	"curios.identifier.ascension": "Ascension Pendant",
 
 	"entity.runeterrmod.rampaging_baccai": "Rampaging Baccai",
 

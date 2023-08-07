@@ -1,4 +1,4 @@
-package com.pizzaprince.runeterramod.entity.client;
+package com.pizzaprince.runeterramod.entity.client.custom;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;

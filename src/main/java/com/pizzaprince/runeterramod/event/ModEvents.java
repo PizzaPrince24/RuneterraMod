@@ -150,7 +150,7 @@ public class ModEvents {
 				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
 					inventory.getCurios().values().forEach(curio -> {
 						for (int slot = 0; slot < curio.getSlots(); slot++) {
-							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis) {
+							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis || curio.getStacks().getStackInSlot(slot).getItem() instanceof BamisCinder) {
 								curio.getStacks().getStackInSlot(slot).getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
 									cap.startBurn();
 								});
@@ -163,13 +163,16 @@ public class ModEvents {
 						}
 					});
 				});
+				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+					cap.setInCombat();
+				});
 			}
 
 			if (event.getSource().getEntity() instanceof Player player) {
 				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
 					inventory.getCurios().values().forEach(curio -> {
 						for (int slot = 0; slot < curio.getSlots(); slot++) {
-							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis) {
+							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis || curio.getStacks().getStackInSlot(slot).getItem() instanceof BamisCinder) {
 								curio.getStacks().getStackInSlot(slot).getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
 									cap.startBurn();
 								});
@@ -199,6 +202,13 @@ public class ModEvents {
 							}
 						}
 					});
+				});
+				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+					cap.setInCombat();
+					if(cap.isCrocodileAscended()){
+						event.setAmount(event.getAmount() * (1f + cap.getDamageMultiplierFromRage()));
+						cap.addRage(5);
+					}
 				});
 			}
 		}

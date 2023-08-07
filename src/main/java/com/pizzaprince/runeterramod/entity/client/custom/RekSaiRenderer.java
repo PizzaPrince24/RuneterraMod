@@ -1,4 +1,4 @@
-package com.pizzaprince.runeterramod.entity.client;
+package com.pizzaprince.runeterramod.entity.client.custom;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.pizzaprince.runeterramod.RuneterraMod;

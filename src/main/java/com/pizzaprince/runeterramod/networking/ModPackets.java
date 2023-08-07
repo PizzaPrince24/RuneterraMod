@@ -53,6 +53,12 @@ public class ModPackets {
 				.encoder(AOEParticleS2CPacket::toBytes)
 				.consumerMainThread(AOEParticleS2CPacket::handle)
 				.add();
+
+		net.messageBuilder(CapSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(CapSyncS2CPacket::new)
+				.encoder(CapSyncS2CPacket::toBytes)
+				.consumerMainThread(CapSyncS2CPacket::handle)
+				.add();
 	}
 	
 	public static <MSG> void sendToServer(MSG message) {

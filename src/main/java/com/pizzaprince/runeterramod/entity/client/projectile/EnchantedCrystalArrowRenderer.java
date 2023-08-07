@@ -1,4 +1,4 @@
-package com.pizzaprince.runeterramod.entity.client;
+package com.pizzaprince.runeterramod.entity.client.projectile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

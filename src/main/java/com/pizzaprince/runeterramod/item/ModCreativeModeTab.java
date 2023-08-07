@@ -74,6 +74,7 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.AEGIS_OF_THE_LEGION);
 			event.accept(ModItems.SUNFISH_SPAWN_EGG);
 			event.accept(ModItems.RAMPAGING_BACCAI_ARMOR);
+			event.accept(ModItems.CROCODILE_ASCENSION_PENDANT);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);
