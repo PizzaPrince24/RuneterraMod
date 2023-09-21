@@ -29,8 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class AsheBow extends BowItem implements IAbilityItem{
-	private List<AbstractAbility> abilityList = List.of(new EnchantedCrystalArrowAbility());
+public class AsheBow extends BowItem implements IAbilityItem {
 	
 	public AsheBow(Properties properties) {
 		super(properties);
@@ -141,7 +140,7 @@ public class AsheBow extends BowItem implements IAbilityItem{
 
 	@Override
 	public List<AbstractAbility> getAbilities() {
-		return abilityList;
+		return List.of(new EnchantedCrystalArrowAbility());
 	}
 	
 

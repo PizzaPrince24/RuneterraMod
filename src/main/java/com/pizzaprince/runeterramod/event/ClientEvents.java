@@ -14,6 +14,8 @@ import com.pizzaprince.runeterramod.entity.client.custom.RekSaiRenderer;
 import com.pizzaprince.runeterramod.entity.client.custom.SunFishRenderer;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailModel;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailRenderLayer;
+import com.pizzaprince.runeterramod.entity.client.layer.ShellModel;
+import com.pizzaprince.runeterramod.entity.client.layer.ShellRenderLayer;
 import com.pizzaprince.runeterramod.entity.client.projectile.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.projectile.IceArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.projectile.RunaansHomingBoltRenderer;
@@ -46,11 +48,16 @@ public class ClientEvents {
 		public static void onKeyInput(InputEvent.Key event) {
 			if(KeyBinding.ULTIMATE_KEY.consumeClick()) {
 				if(!ClientAbilityData.isStunned()) {
-					ModPackets.sendToServer(new KeyPressC2SPacket());
+					ModPackets.sendToServer(new KeyPressC2SPacket(KeyBinding.ULTIMATE_KEY.getName()));
 				}
 			}
 			if(KeyBinding.TEST_KEY.consumeClick()){
 				CameraSequences.createTestSequence(MC.player).play();
+			}
+			if(KeyBinding.ASCENDED_KEY.consumeClick()){
+				if(!ClientAbilityData.isStunned()){
+					ModPackets.sendToServer(new KeyPressC2SPacket(KeyBinding.ASCENDED_KEY.getName()));
+				}
 			}
 		}
 
@@ -91,6 +98,7 @@ public class ClientEvents {
 		public static void onKeyRegister(RegisterKeyMappingsEvent event) {
 			event.register(KeyBinding.ULTIMATE_KEY);
 			event.register(KeyBinding.TEST_KEY);
+			event.register(KeyBinding.ASCENDED_KEY);
 		}
 
 	}
@@ -119,6 +127,7 @@ public class ClientEvents {
 			for(String name : event.getSkins()){
 				LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin(name);
 				renderer.addLayer(new CrocodileTailRenderLayer<>(renderer, event.getEntityModels()));
+				renderer.addLayer(new ShellRenderLayer<>(renderer, event.getEntityModels()));
 			}
 		}
 

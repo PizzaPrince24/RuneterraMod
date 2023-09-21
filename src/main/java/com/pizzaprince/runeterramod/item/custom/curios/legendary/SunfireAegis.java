@@ -1,6 +1,8 @@
 package com.pizzaprince.runeterramod.item.custom.curios.legendary;
 
+import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.ability.curios.ImmolationCapabilityProvider;
+import com.pizzaprince.runeterramod.item.custom.curios.epic.BamisCinder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -9,11 +11,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class SunfireAegis extends Item implements ICurioItem {
 
@@ -22,6 +27,20 @@ public class SunfireAegis extends Item implements ICurioItem {
 
     private static AttributeModifier SUNFIRE_AEGIS_ARMOR = new AttributeModifier("sunfire_aegis_armor",
             4, AttributeModifier.Operation.ADDITION);
+
+    private Consumer<LivingHurtEvent> hitEffect = event -> {
+        event.getSource().getEntity().getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
+            inventory.getCurios().values().forEach(curio -> {
+                for (int slot = 0; slot < curio.getSlots(); slot++) {
+                    if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis) {
+                        curio.getStacks().getStackInSlot(slot).getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(immolation -> {
+                            immolation.startBurn();
+                        });
+                    }
+                }
+            });
+        });
+    };
     public SunfireAegis(Properties p_41383_) {
         super(p_41383_);
     }
@@ -41,6 +60,11 @@ public class SunfireAegis extends Item implements ICurioItem {
         if(!slotContext.entity().getAttribute(Attributes.ARMOR).hasModifier(SUNFIRE_AEGIS_ARMOR)) {
             slotContext.entity().getAttribute(Attributes.ARMOR).addTransientModifier(SUNFIRE_AEGIS_ARMOR);
         }
+
+        slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+            cap.addPermaHitEffect("sunfire_aegis_burn", hitEffect);
+            cap.addPermaOnDamageEffect("sunfire_aegis_burn", hitEffect);
+        });
     }
 
     @Override
@@ -51,6 +75,11 @@ public class SunfireAegis extends Item implements ICurioItem {
         if(slotContext.entity().getAttribute(Attributes.ARMOR).hasModifier(SUNFIRE_AEGIS_ARMOR)) {
             slotContext.entity().getAttribute(Attributes.ARMOR).removeModifier(SUNFIRE_AEGIS_ARMOR);
         }
+
+        slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+            cap.removePermaHitEffect("sunfire_aegis_burn");
+            cap.removePermaOnDamageEffect("sunfire_aegis_burn");
+        });
     }
 
     @Override

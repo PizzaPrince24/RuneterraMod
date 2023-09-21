@@ -75,6 +75,7 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.SUNFISH_SPAWN_EGG);
 			event.accept(ModItems.RAMPAGING_BACCAI_ARMOR);
 			event.accept(ModItems.CROCODILE_ASCENSION_PENDANT);
+			event.accept(ModItems.TURTLE_ASCENSION_PENDANT);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);
@@ -91,6 +92,7 @@ public class ModCreativeModeTab {
 			event.accept(ModBlocks.SMOOTH_SHURIMAN_SANDSTONE_SLAB);
 			event.accept(ModBlocks.FANCY_GOBLET);
 			event.accept(ModBlocks.BASIC_GOBLET);
+			event.accept(ModBlocks.SHELL_BLOCK);
 		}
 	}
 

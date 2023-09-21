@@ -63,6 +63,9 @@ public class ModBlocks {
 	public static final RegistryObject<Block> SHURIMAN_ITEM_TRANSFUSER = BLOCKS.register("shuriman_transfuser",
 			() -> new ShurimanTransfuser(BlockBehaviour.Properties.copy(Blocks.ENCHANTING_TABLE).strength(4f).requiresCorrectToolForDrops().noOcclusion().noLootTable()));
 
+	public static final RegistryObject<Block> SHELL_BLOCK = registerBlock("shell_block",
+			() -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK)));
+
 	private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block){
 		RegistryObject<T> toReturn = BLOCKS.register(name, block);
 		registerBlockItem(name, toReturn);

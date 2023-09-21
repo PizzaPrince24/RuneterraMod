@@ -14,8 +14,12 @@ public class KeyBinding {
 
 	public static final String KEY_TEST = "key.runeterramod.test";
 
+	public static final String KEY_ASCENDED_ABILITY = "key.runeterramod.ascended";
+
 	public static final KeyMapping ULTIMATE_KEY = new KeyMapping(KEY_ULTIMATE, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, KEY_CATEGORY_RUNETERRA);
 
 	public static final KeyMapping TEST_KEY = new KeyMapping(KEY_TEST, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_T, KEY_CATEGORY_RUNETERRA);
+
+	public static final KeyMapping ASCENDED_KEY = new KeyMapping(KEY_ASCENDED_ABILITY, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, KEY_CATEGORY_RUNETERRA);
 
 }

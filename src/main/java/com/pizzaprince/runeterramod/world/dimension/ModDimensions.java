@@ -17,6 +17,12 @@ public class ModDimensions {
     public static final ResourceKey<DimensionType> DISK_FIGHT_DIM_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE,
             DISK_FIGHT_DIM_KEY.registry());
 
+    public static final ResourceKey<Level> TURTLE_SHELL_SPACE_DIM = ResourceKey.create(Registries.DIMENSION,
+            new ResourceLocation(RuneterraMod.MOD_ID, "turtle_shell_dim"));
+
+    public static final ResourceKey<DimensionType> TURTLE_SHELL_SPACE_DIM_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE,
+            TURTLE_SHELL_SPACE_DIM.registry());
+
     public static void register(){
         System.out.println("Registering Mod Dimensions for " + RuneterraMod.MOD_ID);
     }
