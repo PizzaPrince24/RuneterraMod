@@ -4,6 +4,7 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.*;
 import com.pizzaprince.runeterramod.ability.curios.*;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
+import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
@@ -20,13 +21,17 @@ import com.pizzaprince.runeterramod.item.custom.curios.epic.Zeal;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
+import com.pizzaprince.runeterramod.networking.packet.CapSyncS2CPacket;
+import com.pizzaprince.runeterramod.networking.packet.CrocRageS2CPacket;
 import com.pizzaprince.runeterramod.particle.ModParticles;
 import com.pizzaprince.runeterramod.particle.custom.SandParticle;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
 import com.pizzaprince.runeterramod.world.dimension.ShellDimCapabilityProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -39,11 +44,13 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
@@ -159,73 +166,36 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void onHit(LivingHurtEvent event) {
 			if (event.getEntity() instanceof Player player) {
-				//player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
-				//	inventory.getCurios().values().forEach(curio -> {
-				//		for (int slot = 0; slot < curio.getSlots(); slot++) {
-				//			//if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis || curio.getStacks().getStackInSlot(slot).getItem() instanceof BamisCinder) {
-				//			//	curio.getStacks().getStackInSlot(slot).getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
-				//			//		cap.startBurn();
-				//			//	});
-				//			//}
-				//			//if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Warmogs) {
-				//			//	curio.getStacks().getStackInSlot(slot).getCapability(WarmogsCapabilityProvider.WARMOGS_CAPABILITY).ifPresent(cap -> {
-				//			//		cap.setInCombat();
-				//			//	});
-				//			//}
-				//		}
-				//	});
-				//});
 				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 					cap.setInCombat();
 					cap.applyOnDamageEffects(event);
 					if(cap.isTurtleAscended()){
 						cap.calculateShellDamage(event);
 					}
+					if(cap.getRageArtTargetID() != -1){
+						event.setCanceled(true);
+					}
 				});
 			}
-
 			if (event.getSource().getEntity() instanceof Player player) {
-				//player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
-				//	inventory.getCurios().values().forEach(curio -> {
-				//		for (int slot = 0; slot < curio.getSlots(); slot++) {
-				//			if (curio.getStacks().getStackInSlot(slot).getItem() instanceof SunfireAegis || curio.getStacks().getStackInSlot(slot).getItem() instanceof BamisCinder) {
-				//				curio.getStacks().getStackInSlot(slot).getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
-				//					cap.startBurn();
-				//				});
-				//			}
-				//			if (curio.getStacks().getStackInSlot(slot).getItem() instanceof RylaisCrystalScepter) {
-				//				event.getEntity().addEffect(new MobEffectInstance(ModEffects.RYLAIS_SLOW.get(),
-				//						30, 1, true, true, true));
-				//			}
-				//			if (curio.getStacks().getStackInSlot(slot).getItem() instanceof BloodThirster) {
-				//				player.heal(event.getAmount() * 0.2f);
-				//			}
-				//			if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Warmogs) {
-				//				curio.getStacks().getStackInSlot(slot).getCapability(WarmogsCapabilityProvider.WARMOGS_CAPABILITY).ifPresent(cap -> {
-				//					cap.setInCombat();
-				//				});
-				//			}
-				//			if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Sheen) {
-				//				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-				//					if(cap.isSheenHit()){
-				//						event.setAmount(event.getAmount() + 1);
-				//						cap.setSheenHit(false);
-				//					}
-				//				});
-				//			}
-				//			if (curio.getStacks().getStackInSlot(slot).getItem() instanceof VampiricScepter) {
-				//				player.heal(event.getAmount() * 0.05f);
-				//			}
-				//		}
-				//	});
-				//});
 				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 					cap.setInCombat();
 					cap.applyHitEffects(event);
 					if(cap.isCrocodileAscended()){
 						event.setAmount(event.getAmount() * (1f + cap.getDamageMultiplierFromRage()));
-						cap.addRage(5);
+						cap.addRage(5, (ServerPlayer) player);
 					}
+				});
+			}
+			if(event.getEntity().hasEffect(ModEffects.STUN.get())){
+				event.getEntity().level().getServer().getPlayerList().getPlayers().forEach(player -> {
+					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						if(event.getEntity().getId() == cap.getRageArtTargetID()){
+							if(event.getSource().type() != ModDamageTypes.getDamageSource(ModDamageTypes.RAGE_ART, player).type()){
+								event.setCanceled(true);
+							}
+						}
+					});
 				});
 			}
 		}
@@ -254,18 +224,22 @@ public class ModEvents {
 
 		@SubscribeEvent
 		public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-			if (event.side == LogicalSide.SERVER) {
-				event.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
-					abilities.tick(event.player);
-				});
-				for (ItemStack item : event.player.getInventory().items) {
-					item.getCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY).ifPresent(cap -> {
-						cap.tick();
-					});
+			if(event.phase == TickEvent.Phase.START) {
+				if (event.side == LogicalSide.SERVER) {
+					if (event.player instanceof ServerPlayer player) {
+						event.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
+							abilities.tick(player);
+						});
+					}
+					for (ItemStack item : event.player.getInventory().items) {
+						item.getCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY).ifPresent(cap -> {
+							cap.tick();
+						});
+					}
 				}
-			}
-			if (event.side == LogicalSide.CLIENT) {
-				ClientAbilityData.tick();
+				if (event.side == LogicalSide.CLIENT) {
+					ClientAbilityData.tick();
+				}
 			}
 		}
 
@@ -339,21 +313,6 @@ public class ModEvents {
 					});
 				}
 			}
-		}
-
-		@SubscribeEvent
-		public static void onRightClickItem(PlayerInteractEvent.RightClickItem event){
-			Player player = event.getEntity();
-			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-				cap.addRage(-20);
-				if(cap.isCrocodileAscended() && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SwordItem){
-					cap.addTempHitEffect("rage_stun", e -> {
-						e.getEntity().addEffect(new MobEffectInstance(ModEffects.STUN.get(),
-								40, 1, true, true, true));
-						e.setAmount(e.getAmount() * 1.2f);
-					});
-				}
-			});
 		}
 
 

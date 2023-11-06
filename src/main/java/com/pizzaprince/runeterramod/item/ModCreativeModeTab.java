@@ -76,6 +76,7 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.RAMPAGING_BACCAI_ARMOR);
 			event.accept(ModItems.CROCODILE_ASCENSION_PENDANT);
 			event.accept(ModItems.TURTLE_ASCENSION_PENDANT);
+			event.accept(ModItems.IRON_ELIXIR);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

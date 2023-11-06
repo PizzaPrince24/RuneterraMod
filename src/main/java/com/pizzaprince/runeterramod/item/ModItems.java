@@ -187,6 +187,13 @@ public class ModItems {
 	public static final RegistryObject<Item> TURTLE_ASCENSION_PENDANT = ITEMS.register("turtle_ascension_pendant",
 			() -> new TurtleAscensionPendant(new Item.Properties().stacksTo(1)));
 
+	public static final RegistryObject<Item> IRON_ELIXIR = ITEMS.register("iron_elixir",
+			() -> new Item(new Item.Properties().stacksTo(1).food(
+					new FoodProperties.Builder().saturationMod(0).nutrition(0)
+							.effect(() -> new MobEffectInstance(ModEffects.GIANT.get(), 36000, 1, true, true, true), 1)
+							.alwaysEat().build()
+			)));
+
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 	}

@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class SunDiskAltarScreen extends AbstractContainerScreen<SunDiskAltarMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(RuneterraMod.MOD_ID,"textures/gui/gem_infusing_station_gui.png");
+            new ResourceLocation(RuneterraMod.MOD_ID,"textures/gui/sun_disk_altar.png");
     public SunDiskAltarScreen(SunDiskAltarMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }

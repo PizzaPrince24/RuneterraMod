@@ -7,10 +7,14 @@ import com.pizzaprince.runeterramod.effect.custom.StunEffect;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.UUID;
 
 public class ModEffects {
 	
@@ -24,7 +28,12 @@ public class ModEffects {
 			() -> new QuenchedEffect(MobEffectCategory.HARMFUL, 8989061));
 
 	public static final RegistryObject<MobEffect> RYLAIS_SLOW = MOB_EFFECTS.register("rylais_slow",
-			() -> new RylaisSlow(MobEffectCategory.HARMFUL, 8989061));
+			() -> new RylaisSlow(MobEffectCategory.HARMFUL, 8989061)
+					.addAttributeModifier(Attributes.MOVEMENT_SPEED, UUID.randomUUID().toString(), -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
+
+	public static final RegistryObject<MobEffect> GIANT = MOB_EFFECTS.register("giant",
+			() -> new MobEffect(MobEffectCategory.BENEFICIAL, 8989061)
+					.addAttributeModifier(Attributes.MAX_HEALTH, UUID.randomUUID().toString(), 20, AttributeModifier.Operation.ADDITION));
 
 
 	public static void register(IEventBus eventBus) {

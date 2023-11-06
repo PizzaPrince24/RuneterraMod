@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.camera;
 
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
+import net.minecraft.client.CameraType;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class CameraSequence {
             startTime = System.currentTimeMillis();
             fromTarget = sequence.get(0);
             toTarget = sequence.get(1);
+            MC.options.setCameraType(CameraType.FIRST_PERSON);
         }
     }
 
@@ -60,6 +62,7 @@ public class CameraSequence {
                 startTime = currentTime;
             }
         }
+        MC.options.setCameraType(CameraType.FIRST_PERSON);
     }
 
     public double getValueForEasing(double start, double end, long currentTime, long endTime){

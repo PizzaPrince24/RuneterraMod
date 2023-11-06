@@ -25,8 +25,6 @@ public class RylaisSlow extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if(!entity.level().isClientSide()){
-            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 2, 1, false, false, false));
-
             double r = entity.getBbWidth() / 2;
             double angle = Math.random() * 2 * Math.PI;
             double randHeight = Math.random() * entity.getBbHeight();

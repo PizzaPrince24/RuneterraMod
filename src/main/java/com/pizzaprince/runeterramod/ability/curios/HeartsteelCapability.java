@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import virtuoel.pehkui.api.ScaleTypes;
 
 public class HeartsteelCapability {
     private int stacks = 2;
@@ -34,6 +35,7 @@ public class HeartsteelCapability {
         modifier = createModifier();
 
         player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(modifier);
+        ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() + (this.stacks-2)*0.05f);
     }
 
     public int getStacks(){

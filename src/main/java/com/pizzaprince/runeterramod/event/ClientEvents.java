@@ -1,12 +1,14 @@
 package com.pizzaprince.runeterramod.event;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.ShurimanTransfuserRenderer;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
 import com.pizzaprince.runeterramod.camera.CameraSequences;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
+import com.pizzaprince.runeterramod.client.overlay.CrocAscendentRageOverlay;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.client.custom.RampagingBaccaiRenderer;
@@ -14,32 +16,35 @@ import com.pizzaprince.runeterramod.entity.client.custom.RekSaiRenderer;
 import com.pizzaprince.runeterramod.entity.client.custom.SunFishRenderer;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailModel;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailRenderLayer;
-import com.pizzaprince.runeterramod.entity.client.layer.ShellModel;
 import com.pizzaprince.runeterramod.entity.client.layer.ShellRenderLayer;
 import com.pizzaprince.runeterramod.entity.client.projectile.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.projectile.IceArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.projectile.RunaansHomingBoltRenderer;
 import com.pizzaprince.runeterramod.networking.ModPackets;
-import com.pizzaprince.runeterramod.networking.packet.KeyPressC2SPacket;
+import com.pizzaprince.runeterramod.networking.packet.AscendedKeyPressC2SPacket;
+import com.pizzaprince.runeterramod.networking.packet.UltimateKeyPressC2SPacket;
 import com.pizzaprince.runeterramod.util.KeyBinding;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.renderer.OutlineBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import static com.pizzaprince.runeterramod.camera.CinematicCamera.MC;
-
 public class ClientEvents {
 	@Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID, value = Dist.CLIENT)
 	public static class ClientForgeEvents {
@@ -48,15 +53,17 @@ public class ClientEvents {
 		public static void onKeyInput(InputEvent.Key event) {
 			if(KeyBinding.ULTIMATE_KEY.consumeClick()) {
 				if(!ClientAbilityData.isStunned()) {
-					ModPackets.sendToServer(new KeyPressC2SPacket(KeyBinding.ULTIMATE_KEY.getName()));
+					ModPackets.sendToServer(new UltimateKeyPressC2SPacket());
 				}
 			}
 			if(KeyBinding.TEST_KEY.consumeClick()){
 				CameraSequences.createTestSequence(MC.player).play();
+				MC.player.setDeltaMovement(5, 0, 0);
+				MC.player.hurtMarked = true;
 			}
 			if(KeyBinding.ASCENDED_KEY.consumeClick()){
 				if(!ClientAbilityData.isStunned()){
-					ModPackets.sendToServer(new KeyPressC2SPacket(KeyBinding.ASCENDED_KEY.getName()));
+					ModPackets.sendToServer(new AscendedKeyPressC2SPacket(ClientAbilityData.getLookAtEntityID()));
 				}
 			}
 		}
@@ -90,6 +97,16 @@ public class ClientEvents {
 				event.setCanceled(true);
 			}
 		}
+
+		@SubscribeEvent
+		public static void computeFOVEvent(ComputeFovModifierEvent event){
+			Player player = event.getPlayer();
+			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+				if(cap.getSpinTicks() >= 0) {
+					event.setNewFovModifier(event.getFovModifier() * (2f / ((float) player.getAttributeValue(Attributes.MOVEMENT_SPEED) / player.getAbilities().getWalkingSpeed() + 1.0f)));
+				}
+			});
+		}
 	}
 
 	@Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -100,6 +117,7 @@ public class ClientEvents {
 			event.register(KeyBinding.TEST_KEY);
 			event.register(KeyBinding.ASCENDED_KEY);
 		}
+
 
 	}
 
@@ -112,6 +130,8 @@ public class ClientEvents {
 			MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
 			BlockEntityRenderers.register(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
 			BlockEntityRenderers.register(ModBlockEntities.SHURIMAN_ITEM_TRANSFUSER_ENTITY.get(), ShurimanTransfuserRenderer::new);
+			PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new ResourceLocation(RuneterraMod.MOD_ID, "animation"),
+					1, player -> new ModifierLayer<>());
 		}
 
 		@SubscribeEvent
@@ -134,6 +154,11 @@ public class ClientEvents {
 		@SubscribeEvent
 		public static void addLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event){
 			event.registerLayerDefinition(CrocodileTailModel.LAYER_LOCATION, () -> CrocodileTailModel.createBodyLayer());
+		}
+
+		@SubscribeEvent
+		public static void registerGuis(RegisterGuiOverlaysEvent event){
+			event.registerAboveAll("rage", CrocAscendentRageOverlay.RAGE_GUI);
 		}
 	}
 

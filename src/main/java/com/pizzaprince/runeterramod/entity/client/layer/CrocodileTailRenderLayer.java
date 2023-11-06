@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,7 +34,6 @@ public class CrocodileTailRenderLayer <T extends LivingEntity, M extends EntityM
                 this.getParentModel().copyPropertiesTo(this.tailModel);
                 this.tailModel.setupAnim(pLivingEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
                 VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entitySolid(TAIL_LOCATION));
-                //VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(pBuffer, RenderType.armorCutoutNoCull(resourcelocation), false, itemstack.hasFoil());
                 this.tailModel.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                 pPoseStack.popPose();
             }

@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.networking.packet;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;

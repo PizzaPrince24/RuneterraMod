@@ -7,6 +7,7 @@ package com.pizzaprince.runeterramod.entity.client.layer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.util.KeyBinding;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -275,61 +276,111 @@ public class CrocodileTailModel<T extends LivingEntity> extends EntityModel<T> {
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof Player player && player.hasContainerOpen()) return;
-        this.tail1.xRot = (float)Math.toRadians(-35);
-        this.tail2.xRot = (float)Math.toRadians(10) + Math.abs(tail2.zRot*0.1f);
-        this.tail3.xRot = (float)Math.toRadians(13) + Math.abs(tail3.zRot*0.8f);
-        this.tail4.xRot = (float)Math.toRadians(5);
-        this.tail5.xRot = (float)Math.toRadians(3);
-        float rotate = entity.yBodyRotO-entity.yBodyRot;
-        boolean swimOrFly = entity.getPose() == Pose.FALL_FLYING || entity.getPose() == Pose.SWIMMING;
-        double rotLimit = swimOrFly ? Math.PI/10 : Math.PI/4;
-        boolean isFalling = entity.getDeltaMovement().y < 0.0785;
-        if(entity.getDeltaMovement().length() > 0.0785) {
-            float m = 0.93f;
-            float m1 = 0.10f;
-            this.tail1.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail1.yRot*m, -rotLimit, rotLimit);
-            this.tail2.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail2.yRot*m, -rotLimit, rotLimit);
-            this.tail3.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail3.yRot*m, -rotLimit, rotLimit);
-            this.tail4.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail4.yRot*m, -rotLimit, rotLimit);
-            this.tail5.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail5.yRot*m, -rotLimit, rotLimit);
-            this.tail6.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail6.yRot*m, -rotLimit, rotLimit);
-            this.tail7.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail7.yRot*m, -rotLimit, rotLimit);
-
-            //this.tail1.xRot = this.tail1.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
-            //this.tail2.xRot = this.tail2.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
-            //this.tail3.xRot = this.tail3.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
-            //this.tail4.xRot = this.tail4.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
-            //this.tail5.xRot = this.tail5.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
-            if(Math.abs(entity.getDeltaMovement().y+0.0785) > 0.001) {
-                this.tail1.xRot = (float) Mth.clamp(this.tail1.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-55), Math.toRadians(25));
-                this.tail2.xRot = (float) Mth.clamp(this.tail2.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(40));
-                this.tail3.xRot = (float) Mth.clamp(this.tail3.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(30));
-                this.tail4.xRot = (float) Mth.clamp(this.tail4.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(20));
-                this.tail5.xRot = (float) Mth.clamp(this.tail5.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(20));
+        entity.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+            float rotate = entity.yBodyRotO-entity.yBodyRot;
+            int spinTicks = cap.getSpinTicks();
+            if(spinTicks >= 0){
+                if(tail1.yRot > 0.2){
+                    rotate = -7f;
+                }
+                if(tail1.yRot < 0.2){
+                    rotate = 7f;
+                }
+                if(spinTicks >= 12){
+                    if(tail1.yRot > -0.2){
+                        rotate = -7f;
+                    }
+                }
             }
-        } else if(Math.abs(entity.yBodyRotO-entity.yBodyRot) > 0){
-            float m = 0.05f;
-            float m1 = 0.9975f;
-            this.tail1.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail1.yRot*m1, -rotLimit, rotLimit);
-            this.tail2.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail2.yRot*m1, -rotLimit, rotLimit);
-            this.tail3.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail3.yRot*m1, -rotLimit, rotLimit);
-            this.tail4.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail4.yRot*m1, -rotLimit, rotLimit);
-            this.tail5.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail5.yRot*m1, -rotLimit, rotLimit);
-            this.tail6.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail6.yRot*m1, -rotLimit, rotLimit);
-            this.tail7.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail7.yRot*m1, -rotLimit, rotLimit);
-        }
-        float m = 1f;
-        this.tail2.zRot = this.tail1.yRot*m;
-        this.tail3.zRot = this.tail1.yRot*m*0.75f;
-        if(swimOrFly){
-            this.tail1.xRot -= (float)Math.toRadians(15);
-            this.tail2.xRot = -Math.abs(this.tail2.xRot) - (float)Math.toRadians(10);
-            this.tail3.xRot = -Math.abs(this.tail3.xRot) - (float)Math.toRadians(5);
-            this.tail4.xRot = -Math.abs(this.tail4.xRot) - (float)Math.toRadians(3);
-            this.tail5.xRot = -Math.abs(this.tail5.xRot);
-            this.tail2.zRot = (float)Mth.clamp(tail2.zRot, -Math.PI/6, Math.PI/6);
-            this.tail3.zRot = (float)Mth.clamp(tail3.zRot, -Math.PI/6, Math.PI/6);
-        }
+            float angle = 1;
+            if(spinTicks<=3){
+                angle = (3f - (float)spinTicks) / 3f;
+            } else if(spinTicks > 3 && spinTicks <= 20){
+                angle = 0f;
+            } else if(spinTicks > 20){
+                angle = ((float)(25-spinTicks)) / 5f;
+            }
+            if(spinTicks == -1){
+                angle = 1;
+            }
+            angle = Math.abs(angle);
+            this.tail1.xRot = (float)Math.toRadians(-35)*angle;
+            this.tail2.xRot = ((float)Math.toRadians(10) + Math.abs(tail2.zRot*0.1f))*angle;
+            this.tail3.xRot = ((float)Math.toRadians(13) + Math.abs(tail3.zRot*0.8f))*angle;
+            this.tail4.xRot = (float)Math.toRadians(5)*angle;
+            this.tail5.xRot = (float)Math.toRadians(3)*angle;
+
+            boolean swimOrFly = entity.getPose() == Pose.FALL_FLYING || entity.getPose() == Pose.SWIMMING;
+            double rotLimit = swimOrFly ? Math.PI/10 : Math.PI/4;
+            boolean isFalling = entity.getDeltaMovement().y < 0.0785;
+            int rageArtTicks = cap.getRageArtTicks();
+            if(entity.getDeltaMovement().length() > 0.0785) {
+                float m = 0.93f;
+                float m1 = 0.10f;
+                this.tail1.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail1.yRot*m, -rotLimit, rotLimit);
+                this.tail2.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail2.yRot*m, -rotLimit, rotLimit);
+                this.tail3.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail3.yRot*m, -rotLimit, rotLimit);
+                this.tail4.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail4.yRot*m, -rotLimit, rotLimit);
+                this.tail5.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail5.yRot*m, -rotLimit, rotLimit);
+                this.tail6.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail6.yRot*m, -rotLimit, rotLimit);
+                this.tail7.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail7.yRot*m, -rotLimit, rotLimit);
+
+                //this.tail1.xRot = this.tail1.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
+                //this.tail2.xRot = this.tail2.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
+                //this.tail3.xRot = this.tail3.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
+                //this.tail4.xRot = this.tail4.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
+                //this.tail5.xRot = this.tail5.xRot - (float)Math.toRadians(entity.getDeltaMovement().y*15);
+                if(Math.abs(entity.getDeltaMovement().y+0.0785) > 0.001) {
+                    this.tail1.xRot = (float) Mth.clamp(this.tail1.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-55), Math.toRadians(25));
+                    this.tail2.xRot = (float) Mth.clamp(this.tail2.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(40));
+                    this.tail3.xRot = (float) Mth.clamp(this.tail3.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(30));
+                    this.tail4.xRot = (float) Mth.clamp(this.tail4.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(20));
+                    this.tail5.xRot = (float) Mth.clamp(this.tail5.xRot - Math.toRadians((entity.getDeltaMovement().y + 0.0784) * 15), Math.toRadians(-15), Math.toRadians(20));
+                }
+            } else if(Math.abs(rotate) > 0){
+                float m = 0.05f;
+                float m1 = 0.9975f;
+                this.tail1.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail1.yRot*m1, -rotLimit, rotLimit);
+                this.tail2.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail2.yRot*m1, -rotLimit, rotLimit);
+                this.tail3.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail3.yRot*m1, -rotLimit, rotLimit);
+                this.tail4.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail4.yRot*m1, -rotLimit, rotLimit);
+                this.tail5.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail5.yRot*m1, -rotLimit, rotLimit);
+                this.tail6.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail6.yRot*m1, -rotLimit, rotLimit);
+                this.tail7.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail7.yRot*m1, -rotLimit, rotLimit);
+            } else if(rageArtTicks >= 0){
+                double rageArtXRot = 0;
+                if(rageArtTicks >= 0 && rageArtTicks < 45){
+                    rageArtXRot = -2;
+                }
+                if(rageArtTicks >= 45 && rageArtTicks < 53){
+                    rageArtXRot = 2;
+                }
+                if(rageArtTicks >= 53 && rageArtTicks < 157){
+                    rageArtXRot = -2;
+                }
+                if(rageArtTicks >= 157){
+                    rageArtXRot = 0.5;
+                }
+
+                this.tail1.xRot = (float) Mth.clamp(this.tail1.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-55), Math.toRadians(25));
+                this.tail2.xRot = (float) Mth.clamp(this.tail2.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(40));
+                this.tail3.xRot = (float) Mth.clamp(this.tail3.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(30));
+                this.tail4.xRot = (float) Mth.clamp(this.tail4.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(20));
+                this.tail5.xRot = (float) Mth.clamp(this.tail5.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(20));
+            }
+            float m = 1f;
+            this.tail2.zRot = this.tail1.yRot*m;
+            this.tail3.zRot = this.tail1.yRot*m*0.75f;
+            if(swimOrFly){
+                this.tail1.xRot -= (float)Math.toRadians(15);
+                this.tail2.xRot = -Math.abs(this.tail2.xRot) - (float)Math.toRadians(10);
+                this.tail3.xRot = -Math.abs(this.tail3.xRot) - (float)Math.toRadians(5);
+                this.tail4.xRot = -Math.abs(this.tail4.xRot) - (float)Math.toRadians(3);
+                this.tail5.xRot = -Math.abs(this.tail5.xRot);
+                this.tail2.zRot = (float)Mth.clamp(tail2.zRot, -Math.PI/6, Math.PI/6);
+                this.tail3.zRot = (float)Mth.clamp(tail3.zRot, -Math.PI/6, Math.PI/6);
+            }
+        });
     }
 
     @Override

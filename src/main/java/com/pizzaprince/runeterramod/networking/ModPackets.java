@@ -30,10 +30,10 @@ public class ModPackets {
 		
 		INSTANCE = net;
 		
-		net.messageBuilder(KeyPressC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-				.decoder(KeyPressC2SPacket::new)
-				.encoder(KeyPressC2SPacket::toBytes)
-				.consumerMainThread(KeyPressC2SPacket::handle)
+		net.messageBuilder(UltimateKeyPressC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(UltimateKeyPressC2SPacket::new)
+				.encoder(UltimateKeyPressC2SPacket::toBytes)
+				.consumerMainThread(UltimateKeyPressC2SPacket::handle)
 				.add();
 
 		net.messageBuilder(CancelShaderS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
@@ -58,6 +58,42 @@ public class ModPackets {
 				.decoder(CapSyncS2CPacket::new)
 				.encoder(CapSyncS2CPacket::toBytes)
 				.consumerMainThread(CapSyncS2CPacket::handle)
+				.add();
+
+		net.messageBuilder(CrocRageS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(CrocRageS2CPacket::new)
+				.encoder(CrocRageS2CPacket::toBytes)
+				.consumerMainThread(CrocRageS2CPacket::handle)
+				.add();
+
+		net.messageBuilder(AscendedKeyPressC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(AscendedKeyPressC2SPacket::new)
+				.encoder(AscendedKeyPressC2SPacket::toBytes)
+				.consumerMainThread(AscendedKeyPressC2SPacket::handle)
+				.add();
+
+		net.messageBuilder(PlayerAnimationS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(PlayerAnimationS2CPacket::new)
+				.encoder(PlayerAnimationS2CPacket::toBytes)
+				.consumerMainThread(PlayerAnimationS2CPacket::handle)
+				.add();
+
+		net.messageBuilder(RageArtCameraSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(RageArtCameraSyncS2CPacket::new)
+				.encoder(RageArtCameraSyncS2CPacket::toBytes)
+				.consumerMainThread(RageArtCameraSyncS2CPacket::handle)
+				.add();
+
+		net.messageBuilder(RageArtTickSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(RageArtTickSyncS2CPacket::new)
+				.encoder(RageArtTickSyncS2CPacket::toBytes)
+				.consumerMainThread(RageArtTickSyncS2CPacket::handle)
+				.add();
+
+		net.messageBuilder(RageArtCapSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.decoder(RageArtCapSyncS2CPacket::new)
+				.encoder(RageArtCapSyncS2CPacket::toBytes)
+				.consumerMainThread(RageArtCapSyncS2CPacket::handle)
 				.add();
 	}
 	

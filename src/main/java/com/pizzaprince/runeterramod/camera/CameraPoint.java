@@ -32,12 +32,24 @@ public class CameraPoint {
     //main usage
     public CameraPoint(Entity start, double rightOffset, double heightOffset, double forwardOffset, float yawOffset, float pitchOffset, float fov, int timeForTravel, Float2FloatFunction easing){
         float yaw = start.getYRot();
-        System.out.println(yaw);
         this.x = start.position().x + Math.sin(Math.toRadians((yaw-90) % 360))*rightOffset - Math.sin(Math.toRadians(yaw % 360))*forwardOffset;
         this.y = start.position().y + heightOffset;
         this.z = start.position().z + Math.cos(Math.toRadians((yaw+90) % 360))*rightOffset + Math.cos(Math.toRadians(yaw % 360))*forwardOffset;
         this.yaw = start.getYRot() + yawOffset;
         this.pitch = start.getXRot() + pitchOffset;
+        this.fov = fov;
+        this.timeToPoint = timeForTravel;
+        this.easingType = easing;
+    }
+
+    public CameraPoint(double startX, double startY, double startZ, float startYaw, float startPitch, double rightOffset, double heightOffset, double forwardOffset,
+                       float yawOffset, float pitchOffset, float fov, int timeForTravel, Float2FloatFunction easing){
+        float yaw = startYaw;
+        this.x = startX + Math.sin(Math.toRadians((yaw-90) % 360))*rightOffset - Math.sin(Math.toRadians(yaw % 360))*forwardOffset;
+        this.y = startY + heightOffset;
+        this.z = startZ + Math.cos(Math.toRadians((yaw+90) % 360))*rightOffset + Math.cos(Math.toRadians(yaw % 360))*forwardOffset;
+        this.yaw = startYaw + yawOffset;
+        this.pitch = startPitch + pitchOffset;
         this.fov = fov;
         this.timeToPoint = timeForTravel;
         this.easingType = easing;

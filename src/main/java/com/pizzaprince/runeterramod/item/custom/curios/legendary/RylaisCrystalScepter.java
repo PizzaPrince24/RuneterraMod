@@ -31,7 +31,7 @@ public class RylaisCrystalScepter extends Item implements ICurioItem {
 
     private Consumer<LivingHurtEvent> hitEffect = event -> {
         event.getEntity().addEffect(new MobEffectInstance(ModEffects.RYLAIS_SLOW.get(),
-                30, 1, true, true, true));
+                30, 0, true, true, true));
     };
     public RylaisCrystalScepter(Properties p_41383_) {
         super(p_41383_);

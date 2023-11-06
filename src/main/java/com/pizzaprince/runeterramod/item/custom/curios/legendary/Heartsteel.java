@@ -11,6 +11,8 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.api.ScaleTypes;
 
 import java.util.List;
 
@@ -35,14 +37,16 @@ public class Heartsteel extends Item implements ICurioItem {
             if(slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(cap.getModifier())) {
                 slotContext.entity().getAttribute(Attributes.MAX_HEALTH).removeModifier(cap.getModifier());
             }
+            ScaleTypes.BASE.getScaleData(slotContext.entity()).setTargetScale(ScaleTypes.BASE.getScaleData(slotContext.entity()).getScale() - (cap.getStacks()-2)*0.05f);
         });
+
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pStack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
-            pTooltipComponents.add(Component.literal("Grants an additional heart for every boss you slay").withStyle(ChatFormatting.RED));
-            pTooltipComponents.add(Component.literal("Current Bonus: +" + cap.getStacks() + " Hearts").withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Component.literal("Grants an additional heart and 5% size for every boss you slay").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.literal("Current Bonus: +" + cap.getStacks() + " Hearts and " + (cap.getStacks()-2)*5 + "% Size").withStyle(ChatFormatting.GOLD));
         });
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
