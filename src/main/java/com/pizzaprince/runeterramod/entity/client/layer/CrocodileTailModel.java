@@ -314,7 +314,27 @@ public class CrocodileTailModel<T extends LivingEntity> extends EntityModel<T> {
             double rotLimit = swimOrFly ? Math.PI/10 : Math.PI/4;
             boolean isFalling = entity.getDeltaMovement().y < 0.0785;
             int rageArtTicks = cap.getRageArtTicks();
-            if(entity.getDeltaMovement().length() > 0.0785) {
+            if(rageArtTicks >= 0){
+                double rageArtXRot = 0;
+                if(rageArtTicks >= 0 && rageArtTicks < 45){
+                    rageArtXRot = 2;
+                }
+                if(rageArtTicks >= 45 && rageArtTicks < 53){
+                    rageArtXRot = -2;
+                }
+                if(rageArtTicks >= 53 && rageArtTicks < 157){
+                    rageArtXRot = 2;
+                }
+                if(rageArtTicks >= 157){
+                    rageArtXRot = -0.1;
+                }
+
+                this.tail1.xRot = (float) Mth.clamp(this.tail1.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-55), Math.toRadians(25));
+                this.tail2.xRot = (float) Mth.clamp(this.tail2.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(40));
+                this.tail3.xRot = (float) Mth.clamp(this.tail3.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(30));
+                this.tail4.xRot = (float) Mth.clamp(this.tail4.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(20));
+                this.tail5.xRot = (float) Mth.clamp(this.tail5.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(20));
+            } else if(entity.getDeltaMovement().length() > 0.0785) {
                 float m = 0.93f;
                 float m1 = 0.10f;
                 this.tail1.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m1 + this.tail1.yRot*m, -rotLimit, rotLimit);
@@ -347,26 +367,6 @@ public class CrocodileTailModel<T extends LivingEntity> extends EntityModel<T> {
                 this.tail5.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail5.yRot*m1, -rotLimit, rotLimit);
                 this.tail6.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail6.yRot*m1, -rotLimit, rotLimit);
                 this.tail7.yRot = (float)Mth.clamp(Math.toRadians(rotate)*m + this.tail7.yRot*m1, -rotLimit, rotLimit);
-            } else if(rageArtTicks >= 0){
-                double rageArtXRot = 0;
-                if(rageArtTicks >= 0 && rageArtTicks < 45){
-                    rageArtXRot = -2;
-                }
-                if(rageArtTicks >= 45 && rageArtTicks < 53){
-                    rageArtXRot = 2;
-                }
-                if(rageArtTicks >= 53 && rageArtTicks < 157){
-                    rageArtXRot = -2;
-                }
-                if(rageArtTicks >= 157){
-                    rageArtXRot = 0.5;
-                }
-
-                this.tail1.xRot = (float) Mth.clamp(this.tail1.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-55), Math.toRadians(25));
-                this.tail2.xRot = (float) Mth.clamp(this.tail2.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(40));
-                this.tail3.xRot = (float) Mth.clamp(this.tail3.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(30));
-                this.tail4.xRot = (float) Mth.clamp(this.tail4.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(20));
-                this.tail5.xRot = (float) Mth.clamp(this.tail5.xRot - Math.toRadians(rageArtXRot * 15), Math.toRadians(-15), Math.toRadians(20));
             }
             float m = 1f;
             this.tail2.zRot = this.tail1.yRot*m;
