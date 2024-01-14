@@ -1,6 +1,7 @@
-// 1.20.1	2023-07-16T17:04:36.9037701	Loot Tables
+// 1.20.1	2024-01-09T20:52:09.4435626	Loot Tables
 79883462a9572bb3b0b636ae625f2ad825bee081 data/runeterramod/loot_tables/blocks/basic_goblet.json
 46249f71f96f0ce9ce8a8ff719ae9c591961d84a data/runeterramod/loot_tables/blocks/fancy_goblet.json
+39f08b0525204e280c3cfeb3847065d83ca14776 data/runeterramod/loot_tables/blocks/shell_block.json
 f3de561074f924e05ffee9725a8628d928b6c29c data/runeterramod/loot_tables/blocks/shuriman_cactus.json
 94334679d06dcec24820107e17490100a1f2a282 data/runeterramod/loot_tables/blocks/shuriman_sand.json
 6f29f210eb48f57835ddb1057627c41cd8f816f0 data/runeterramod/loot_tables/blocks/shuriman_sandstone.json
