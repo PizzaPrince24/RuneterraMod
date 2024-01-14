@@ -3,6 +3,7 @@ package com.pizzaprince.runeterramod.entity;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
 import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.RenektonEntity;
 import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;
 import com.pizzaprince.runeterramod.entity.custom.projectile.EnchantedCrystalArrow;
 import com.pizzaprince.runeterramod.entity.custom.projectile.IceArrow;
@@ -35,6 +36,10 @@ public class ModEntityTypes {
 	public static final RegistryObject<EntityType<RampagingBaccaiEntity>> RAMPAGING_BACCAI = ENTITY_TYPES.register("rampaging_baccai",
 			() -> EntityType.Builder.of(RampagingBaccaiEntity::new, MobCategory.MONSTER).sized(3, 7)
 					.build(new ResourceLocation(RuneterraMod.MOD_ID, "rampaging_baccai").toString()));
+
+	public static final RegistryObject<EntityType<RenektonEntity>> RENEKTON = ENTITY_TYPES.register("renekton",
+			() -> EntityType.Builder.of(RenektonEntity::new, MobCategory.MONSTER).sized(7, 18)
+					.build(new ResourceLocation(RuneterraMod.MOD_ID, "renekton").toString()));
 
 	public static final RegistryObject<EntityType<RunaansHomingBolt>> RUNAANS_HOMING_BOLT = ENTITY_TYPES.register("runaans_homing_bolt",
 			() -> EntityType.Builder.of((EntityType.EntityFactory<RunaansHomingBolt>)RunaansHomingBolt::new, MobCategory.MISC).sized(0.5f, 0.5f)

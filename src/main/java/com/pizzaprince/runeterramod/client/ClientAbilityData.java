@@ -7,9 +7,13 @@ import com.pizzaprince.runeterramod.item.ModItems;
 
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.AOEParticleS2CPacket;
+import com.pizzaprince.runeterramod.world.biome.ModBiomes;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +22,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -53,6 +58,8 @@ public class ClientAbilityData {
 	private static boolean hasTickedRageArt = false;
 	private static float rageArtYRot = -1;
 
+	private static float sandstormLevel = 0f;
+
 	public static boolean isStunned() {
 		return ClientAbilityData.isStunned;
 	}
@@ -76,6 +83,8 @@ public class ClientAbilityData {
 	}
 
 	public static void tick() {
+		Minecraft mc = Minecraft.getInstance();
+		ClientLevel level = mc.level;
 		ClientAbilityData.tickCount = ++ClientAbilityData.tickCount % 20;
 		ClientAbilityData.stunDuration--;
 		ClientAbilityData.stunDuration = Math.max(0, ClientAbilityData.stunDuration);
@@ -93,21 +102,27 @@ public class ClientAbilityData {
 			ClientAbilityData.rageToAdd = ClientAbilityData.rageToAdd - addedRage;
 			ClientAbilityData.currentRage = Math.min(ClientAbilityData.maxRage, ClientAbilityData.currentRage + addedRage);
 		}
-		Minecraft.getInstance().player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+		mc.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 			if(cap.getSpinTicks() >= 22){
-				Minecraft.getInstance().options.setCameraType(ClientAbilityData.lastCamera);
+				mc.options.setCameraType(ClientAbilityData.lastCamera);
 				ClientAbilityData.hasSpunTick = false;
 			} else if(cap.getSpinTicks() >= 0){
-				if(ClientAbilityData.hasSpunTick == false){
+				if(!ClientAbilityData.hasSpunTick){
 					ClientAbilityData.hasSpunTick = true;
-					ClientAbilityData.lastCamera = Minecraft.getInstance().options.getCameraType();
-					Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+					ClientAbilityData.lastCamera = mc.options.getCameraType();
+					mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
 				}
 			}
-			setLookAtTarget(Minecraft.getInstance().player);
+			setLookAtTarget(mc.player);
 			updateRageArtMovement();
 		});
-		//System.out.println("Client: " + Minecraft.getInstance().player.getDeltaMovement());
+		Holder<Biome> biome = level.getBiome(mc.cameraEntity.blockPosition());
+		if((biome.is(ModBiomes.SHURIMAN_DESERT) || biome.is(ModBiomes.SHURIMAN_WASTELAND)) && level.isRaining()){
+			ClientAbilityData.sandstormLevel += 0.025f;
+		} else {
+			ClientAbilityData.sandstormLevel -= 0.025f;
+		}
+		ClientAbilityData.sandstormLevel = Mth.clamp(ClientAbilityData.sandstormLevel, 0f, 1f);
 	}
 
 	private static void updateRageArtMovement(){
@@ -191,6 +206,10 @@ public class ClientAbilityData {
 
 	public static int getLookAtEntityID(){
 		return ClientAbilityData.lookAtEntityID;
+	}
+
+	public static float getSandstormLevel(){
+		return ClientAbilityData.sandstormLevel;
 	}
 
 	public static int numArmorPieces(Player player, ArmorMaterial material) {

@@ -50,6 +50,7 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 		if(noise == null) {
 			noise = new SimplexNoise(rand);
 		}
+		rand.
 
 		BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
 		boolean checkBiomes = outlineSurroundingChunks(chunk, level);

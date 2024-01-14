@@ -1,5 +1,6 @@
 package com.pizzaprince.runeterramod.event;
 
+import com.mojang.blaze3d.shaders.FogShape;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
@@ -13,6 +14,7 @@ import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.client.custom.RampagingBaccaiRenderer;
 import com.pizzaprince.runeterramod.entity.client.custom.RekSaiRenderer;
+import com.pizzaprince.runeterramod.entity.client.custom.RenektonRenderer;
 import com.pizzaprince.runeterramod.entity.client.custom.SunFishRenderer;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailModel;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailRenderLayer;
@@ -24,6 +26,7 @@ import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.AscendedKeyPressC2SPacket;
 import com.pizzaprince.runeterramod.networking.packet.UltimateKeyPressC2SPacket;
 import com.pizzaprince.runeterramod.util.KeyBinding;
+import com.pizzaprince.runeterramod.world.biome.ModBiomes;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.minecraft.client.Minecraft;
@@ -35,6 +38,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -107,6 +111,27 @@ public class ClientEvents {
 				}
 			});
 		}
+
+		@SubscribeEvent
+		public static void renderFogEvent(ViewportEvent.RenderFog event){
+			float sandstormLevel = ClientAbilityData.getSandstormLevel();
+			float oFar = event.getFarPlaneDistance();
+			float oNear = event.getNearPlaneDistance();
+			event.setFarPlaneDistance(Mth.lerp(sandstormLevel, oFar, 12f));
+			event.setNearPlaneDistance(Mth.lerp(sandstormLevel, oNear, -3f));
+			if(sandstormLevel > 0.2f){
+				event.setFogShape(FogShape.SPHERE);
+			}
+			event.setCanceled(true);
+		}
+
+		@SubscribeEvent
+		public static void computeFogColor(ViewportEvent.ComputeFogColor event){
+			float sandstormLevel = ClientAbilityData.getSandstormLevel();
+			event.setRed(Mth.lerp(sandstormLevel, event.getRed(), 199f / 255f));
+			event.setGreen(Mth.lerp(sandstormLevel, event.getGreen(), 145f / 255f));
+			event.setBlue(Mth.lerp(sandstormLevel, event.getBlue(), 108f / 255f));
+		}
 	}
 
 	@Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -127,6 +152,7 @@ public class ClientEvents {
 		public static void onClientSetup(FMLClientSetupEvent event) {
 			EntityRenderers.register(ModEntityTypes.REKSAI.get(), RekSaiRenderer::new);
 			EntityRenderers.register(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiRenderer::new);
+			EntityRenderers.register(ModEntityTypes.RENEKTON.get(), RenektonRenderer::new);
 			MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
 			BlockEntityRenderers.register(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
 			BlockEntityRenderers.register(ModBlockEntities.SHURIMAN_ITEM_TRANSFUSER_ENTITY.get(), ShurimanTransfuserRenderer::new);

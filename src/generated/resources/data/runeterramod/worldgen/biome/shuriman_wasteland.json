@@ -9,7 +9,7 @@
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000
     },
-    "sky_color": 7254527,
+    "sky_color": 8364543,
     "water_color": 4566514,
     "water_fog_color": 267827
   },
@@ -32,7 +32,7 @@
       "minecraft:patch_cactus_desert"
     ]
   ],
-  "has_precipitation": false,
+  "has_precipitation": true,
   "spawn_costs": {},
   "spawners": {
     "ambient": [],
@@ -44,5 +44,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 2.0
+  "temperature": 0.0
 }

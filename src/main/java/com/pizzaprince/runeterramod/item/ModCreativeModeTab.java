@@ -77,6 +77,7 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.CROCODILE_ASCENSION_PENDANT);
 			event.accept(ModItems.TURTLE_ASCENSION_PENDANT);
 			event.accept(ModItems.IRON_ELIXIR);
+			event.accept(ModItems.RENEKTON_SPAWN_EGG);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

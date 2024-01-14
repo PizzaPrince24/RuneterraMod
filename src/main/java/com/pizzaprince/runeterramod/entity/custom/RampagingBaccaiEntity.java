@@ -131,7 +131,7 @@ public class RampagingBaccaiEntity extends Monster implements GeoEntity, SmartBr
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 500.0D)
-                .add(Attributes.ARMOR, 12f)
+                .add(Attributes.ARMOR, 6f)
                 .add(Attributes.ATTACK_DAMAGE, 28.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.55f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0f)

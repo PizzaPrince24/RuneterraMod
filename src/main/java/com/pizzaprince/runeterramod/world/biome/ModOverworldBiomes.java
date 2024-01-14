@@ -62,7 +62,7 @@ public class ModOverworldBiomes {
 		biomeBuilder.addFeature(GenerationStep.Decoration.RAW_GENERATION, ModPlacedFeatures.SHURIMAN_DUNE_PLACED_KEY);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.SHURIMAN_CACTUS_PLACED_KEY);
         
-        return biome(Biome.Precipitation.NONE, 2.0F, 0.0F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+        return biome(Biome.Precipitation.RAIN, 0F, 0.0F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
 	}
 
     public static Biome shurimanWasteland(HolderGetter<PlacedFeature> placedFeatureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter){
@@ -74,7 +74,7 @@ public class ModOverworldBiomes {
         BiomeDefaultFeatures.addDesertVegetation(biomeBuilder);
         BiomeDefaultFeatures.addDesertExtraVegetation(biomeBuilder);
 
-        return biome(Biome.Precipitation.NONE, 2.0f, 0.0f, 4566514, 267827, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+        return biome(Biome.Precipitation.RAIN, 0f, 0.0f, 4566514, 267827, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 
 }

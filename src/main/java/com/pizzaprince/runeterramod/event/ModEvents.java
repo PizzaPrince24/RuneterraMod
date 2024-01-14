@@ -9,6 +9,7 @@ import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
 import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
+import com.pizzaprince.runeterramod.entity.custom.RenektonEntity;
 import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;
 import com.pizzaprince.runeterramod.entity.custom.projectile.RunaansHomingBolt;
 import com.pizzaprince.runeterramod.item.custom.curios.base.AgilityCloak;
@@ -326,6 +327,7 @@ public class ModEvents {
 			event.put(ModEntityTypes.REKSAI.get(), RekSaiEntity.setAttributes());
 			event.put(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiEntity.setAttributes());
 			event.put(ModEntityTypes.SUNFISH.get(), SunFishEntity.setAttributes());
+			event.put(ModEntityTypes.RENEKTON.get(), RenektonEntity.setAttributes());
 		}
 
 		@SubscribeEvent

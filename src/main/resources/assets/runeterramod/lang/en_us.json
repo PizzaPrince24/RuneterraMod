@@ -48,6 +48,7 @@
 	"item.runeterramod.vampiric_scepter": "Vampiric Scepter",
 	"item.runeterramod.aegis_of_the_legion": "Aegis of the Legion",
 	"item.runeterramod.crocodile_ascension_pendant": "Crocodile Ascension Pendant",
+	"item.runeterramod.renekton_spawn_egg": "Renekton Spawn Egg",
 	
 	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
 	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
@@ -75,7 +76,9 @@
 	"curios.identifier.runeterra": "Runeterra",
 	"curios.identifier.ascension": "Ascension Pendant",
 
-	"entity.runeterrmod.rampaging_baccai": "Rampaging Baccai",
+	"entity.runeterramod.rampaging_baccai": "Rampaging Baccai",
+	"entity.runeterramod.renekton": "Renekton",
+	"entity.runeterramod.sunfisk": "Sunfish",
 
 	"sounds.runeterramod.baccai_grunts": "Baccai grunts",
 	"sounds.runeterramod.baccai_speaks": "Baccai speaks",

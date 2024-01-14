@@ -194,6 +194,9 @@ public class ModItems {
 							.alwaysEat().build()
 			)));
 
+	public static final RegistryObject<Item> RENEKTON_SPAWN_EGG = ITEMS.register("renekton_spawn_egg",
+			() -> new ForgeSpawnEggItem(ModEntityTypes.RENEKTON, 78368, 40778, new Item.Properties()));
+
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 	}
