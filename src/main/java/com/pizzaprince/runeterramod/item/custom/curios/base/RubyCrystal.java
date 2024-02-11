@@ -17,7 +17,7 @@ import java.util.List;
 public class RubyCrystal extends Item implements ICurioItem {
 
     private static AttributeModifier RUBY_CRYSTAL_HEALTH = new AttributeModifier("ruby_crystal_health",
-            1, AttributeModifier.Operation.ADDITION);
+            3, AttributeModifier.Operation.ADDITION);
     public RubyCrystal(Properties pProperties) {
         super(pProperties);
     }
@@ -38,7 +38,7 @@ public class RubyCrystal extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+0.5 Hearts").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+1.5 Hearts").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

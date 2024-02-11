@@ -23,10 +23,10 @@ import java.util.function.Consumer;
 public class SunfireAegis extends Item implements ICurioItem {
 
     private static AttributeModifier SUNFIRE_AEGIS_HEALTH = new AttributeModifier("sunfire_aegis_health",
-            4, AttributeModifier.Operation.ADDITION);
+            9, AttributeModifier.Operation.ADDITION);
 
     private static AttributeModifier SUNFIRE_AEGIS_ARMOR = new AttributeModifier("sunfire_aegis_armor",
-            4, AttributeModifier.Operation.ADDITION);
+            5, AttributeModifier.Operation.ADDITION);
 
     private Consumer<LivingHurtEvent> hitEffect = event -> {
         event.getSource().getEntity().getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
@@ -85,8 +85,8 @@ public class SunfireAegis extends Item implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("Taking or dealing damage causes nearby entities to burn for 2 damage/second for the next 3 seconds").withStyle(ChatFormatting.RED));
-        pTooltipComponents.add(Component.literal("+2 Hearts").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.literal("+4 Armor").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+4.5 Hearts").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+5 Armor").withStyle(ChatFormatting.GOLD));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.item.custom.curios.epic;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.effect.ModAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -21,13 +22,10 @@ import java.util.function.Consumer;
 public class VampiricScepter extends Item implements ICurioItem {
 
     private static AttributeModifier VAMPIRIC_SCEPTER_DAMAGE = new AttributeModifier("vampiric_scepter_damage",
-            1, AttributeModifier.Operation.ADDITION);
+            1.5, AttributeModifier.Operation.ADDITION);
 
-    private Consumer<LivingHurtEvent> hitEffect = event -> {
-        if (event.getSource().getEntity() instanceof Player player) {
-            player.heal(event.getAmount() * 0.05f);
-        }
-    };
+    private static AttributeModifier VAMPIRIC_SCEPTER_OMNI = new AttributeModifier("vampiric_scepter_omni",
+            0.07, AttributeModifier.Operation.ADDITION);
     public VampiricScepter(Properties pProperties) {
         super(pProperties);
     }
@@ -37,9 +35,9 @@ public class VampiricScepter extends Item implements ICurioItem {
         if(!slotContext.entity().getAttribute(Attributes.ATTACK_DAMAGE).hasModifier(VAMPIRIC_SCEPTER_DAMAGE)) {
             slotContext.entity().getAttribute(Attributes.ATTACK_DAMAGE).addTransientModifier(VAMPIRIC_SCEPTER_DAMAGE);
         }
-        slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-            cap.addPermaHitEffect("vampiric_scepter_heal", hitEffect);
-        });
+        if(!slotContext.entity().getAttribute(ModAttributes.OMNIVAMP.get()).hasModifier(VAMPIRIC_SCEPTER_OMNI)) {
+            slotContext.entity().getAttribute(ModAttributes.OMNIVAMP.get()).addTransientModifier(VAMPIRIC_SCEPTER_OMNI);
+        }
     }
 
     @Override
@@ -47,15 +45,15 @@ public class VampiricScepter extends Item implements ICurioItem {
         if(slotContext.entity().getAttribute(Attributes.ATTACK_DAMAGE).hasModifier(VAMPIRIC_SCEPTER_DAMAGE)){
             slotContext.entity().getAttribute(Attributes.ATTACK_DAMAGE).removeModifier(VAMPIRIC_SCEPTER_DAMAGE);
         }
-        slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-            cap.removePermaHitEffect("vampiric_scepter_heal");
-        });
+        if(slotContext.entity().getAttribute(ModAttributes.OMNIVAMP.get()).hasModifier(VAMPIRIC_SCEPTER_OMNI)){
+            slotContext.entity().getAttribute(ModAttributes.OMNIVAMP.get()).removeModifier(VAMPIRIC_SCEPTER_OMNI);
+        }
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+5% Life Steal").withStyle(ChatFormatting.GOLD));
-        pTooltipComponents.add(Component.literal("+1 Attack Damage").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+7% Omnivamp").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+1.5 Attack Damage").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

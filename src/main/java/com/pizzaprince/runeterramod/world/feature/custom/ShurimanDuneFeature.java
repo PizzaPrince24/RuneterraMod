@@ -42,7 +42,7 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		BlockPos origin = context.origin();
 		WorldGenLevel level = context.level();
-		RandomSource rand = context.random();
+		RandomSource rand = RandomSource.create(level.getSeed());
 		ChunkAccess chunk = level.getChunk(origin);
 		int startX = chunk.getPos().x * 16;
 		int startZ = chunk.getPos().z * 16;
@@ -50,7 +50,6 @@ public class ShurimanDuneFeature extends Feature<NoneFeatureConfiguration>{
 		if(noise == null) {
 			noise = new SimplexNoise(rand);
 		}
-		rand.
 
 		BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
 		boolean checkBiomes = outlineSurroundingChunks(chunk, level);

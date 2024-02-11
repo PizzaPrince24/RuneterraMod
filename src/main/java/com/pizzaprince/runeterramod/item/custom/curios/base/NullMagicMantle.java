@@ -1,5 +1,6 @@
 package com.pizzaprince.runeterramod.item.custom.curios.base;
 
+import com.pizzaprince.runeterramod.effect.ModAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -24,21 +25,21 @@ public class NullMagicMantle extends Item implements ICurioItem {
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if(!slotContext.entity().getAttribute(Attributes.ARMOR).hasModifier(NULL_MAGIC_MANTLE_ARMOR)) {
-            slotContext.entity().getAttribute(Attributes.ARMOR).addTransientModifier(NULL_MAGIC_MANTLE_ARMOR);
+        if(!slotContext.entity().getAttribute(ModAttributes.MAGIC_RESIST.get()).hasModifier(NULL_MAGIC_MANTLE_ARMOR)) {
+            slotContext.entity().getAttribute(ModAttributes.MAGIC_RESIST.get()).addTransientModifier(NULL_MAGIC_MANTLE_ARMOR);
         }
     }
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if(slotContext.entity().getAttribute(Attributes.ARMOR).hasModifier(NULL_MAGIC_MANTLE_ARMOR)) {
-            slotContext.entity().getAttribute(Attributes.ARMOR).removeModifier(NULL_MAGIC_MANTLE_ARMOR);
+        if(slotContext.entity().getAttribute(ModAttributes.MAGIC_RESIST.get()).hasModifier(NULL_MAGIC_MANTLE_ARMOR)) {
+            slotContext.entity().getAttribute(ModAttributes.MAGIC_RESIST.get()).removeModifier(NULL_MAGIC_MANTLE_ARMOR);
         }
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+1 Armor").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+1 Magic Resist").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

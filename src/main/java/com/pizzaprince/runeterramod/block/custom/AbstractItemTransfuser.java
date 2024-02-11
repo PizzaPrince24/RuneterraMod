@@ -56,7 +56,7 @@ public abstract class AbstractItemTransfuser extends BaseEntityBlock {
                         }
 
                     } else {
-                        for(int slot = 0; slot < itemHandler.getSlots()-1; slot++){
+                        for(int slot = 0; slot < itemHandler.getSlots(); slot++){
                             if(itemHandler.getStackInSlot(slot).isEmpty()){
                                 itemHandler.insertItem(slot, pPlayer.getItemInHand(InteractionHand.MAIN_HAND).copyWithCount(1), false);
                                 pPlayer.setItemInHand(InteractionHand.MAIN_HAND, pPlayer.getItemInHand(InteractionHand.MAIN_HAND)

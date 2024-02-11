@@ -17,7 +17,7 @@ import java.util.List;
 public class Pickaxe extends Item implements ICurioItem {
 
     private static AttributeModifier PICKAXE_DAMAGE = new AttributeModifier("pickaxe_damage",
-            0.66, AttributeModifier.Operation.ADDITION);
+            1, AttributeModifier.Operation.ADDITION);
     public Pickaxe(Properties pProperties) {
         super(pProperties);
     }
@@ -38,7 +38,7 @@ public class Pickaxe extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+0.66 Attack Damage").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+1 Attack Damage").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

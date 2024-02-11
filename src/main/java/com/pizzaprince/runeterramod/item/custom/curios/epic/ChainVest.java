@@ -17,7 +17,7 @@ import java.util.List;
 public class ChainVest extends Item implements ICurioItem {
 
     private static AttributeModifier CHAIN_VEST_ARMOR = new AttributeModifier("chain_vest_armor",
-            2, AttributeModifier.Operation.ADDITION);
+            4, AttributeModifier.Operation.ADDITION);
     public ChainVest(Properties pProperties) {
         super(pProperties);
     }
@@ -38,7 +38,7 @@ public class ChainVest extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+2 Armor").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+4 Armor").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

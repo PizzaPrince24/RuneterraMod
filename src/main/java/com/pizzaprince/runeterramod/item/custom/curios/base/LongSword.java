@@ -17,7 +17,7 @@ import java.util.List;
 public class LongSword extends Item implements ICurioItem {
 
     private static AttributeModifier LONG_SWORD_DAMAGE = new AttributeModifier("long_sword_damage",
-            0.33, AttributeModifier.Operation.ADDITION);
+            0.5, AttributeModifier.Operation.ADDITION);
     public LongSword(Properties pProperties) {
         super(pProperties);
     }
@@ -38,7 +38,7 @@ public class LongSword extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+0.33 Attack Damage").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+0.5 Attack Damage").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

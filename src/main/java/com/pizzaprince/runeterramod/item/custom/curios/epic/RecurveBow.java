@@ -17,7 +17,7 @@ import java.util.List;
 public class RecurveBow extends Item implements ICurioItem {
 
     private static AttributeModifier RECURVE_BOW_ATTACK_SPEED = new AttributeModifier("recurve_bow_attack_speed",
-            0.5, AttributeModifier.Operation.ADDITION);
+            0.20, AttributeModifier.Operation.ADDITION);
     public RecurveBow(Properties pProperties) {
         super(pProperties);
     }
@@ -38,7 +38,7 @@ public class RecurveBow extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+0.5 Attack Speed").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+0.2 Attack Speed").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

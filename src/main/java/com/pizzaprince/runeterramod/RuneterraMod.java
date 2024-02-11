@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
+import com.pizzaprince.runeterramod.effect.ModAttributes;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
@@ -56,6 +57,8 @@ public class RuneterraMod {
         ModParticles.register(modEventBus);
 
         ModSounds.register(modEventBus);
+
+        ModAttributes.register(modEventBus);
 
         ModPlantTypes.register();
 

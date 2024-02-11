@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "runeterramod.refmap.json",
   "mixins": [
-
+    "MixinLivingEntity",
+    "MixinCombatRules"
   ],
   "client": [
     "MixinMinecraftClient",

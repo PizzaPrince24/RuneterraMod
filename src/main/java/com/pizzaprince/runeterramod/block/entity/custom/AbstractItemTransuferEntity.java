@@ -1,9 +1,12 @@
 package com.pizzaprince.runeterramod.block.entity.custom;
 
+import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
+import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.BlockEntityItemStackSyncS2CPacket;
 import com.pizzaprince.runeterramod.recipe.ItemTransfuserRecipe;
+import com.pizzaprince.runeterramod.util.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -140,8 +143,13 @@ public abstract class AbstractItemTransuferEntity extends BlockEntity {
         }
         Optional<ItemTransfuserRecipe> recipe = level.getRecipeManager().getRecipeFor(ItemTransfuserRecipe.Type.INSTANCE, inventory, level);
 
-        return recipe.isPresent() && inventory.getItem(3).isEmpty();
-
+        boolean flag = false;
+        if(recipe.isPresent()){
+            if(recipe.get().output.is(ModTags.Items.BASIC_ITEMS)) return inventory.getItem(3).is(ModItems.SUN_STONE.get());
+            if(recipe.get().output.is(ModTags.Items.EPIC_ITEMS)) return inventory.getItem(3).is(ModBlocks.SUN_STONE_BLOCK.get().asItem());
+            if(recipe.get().output.is(ModTags.Items.LEGENDARY_ITEMS)) return inventory.getItem(3).is(ModItems.PURIFIED_SUN_STONE.get());
+        }
+        return false;
     }
 
     public void resetProgress() {

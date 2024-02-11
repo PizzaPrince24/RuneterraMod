@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class BamisCinder extends Item implements ICurioItem {
 
     private static AttributeModifier BAMIS_CINDER_HEALTH = new AttributeModifier("bamis_cinder_health",
-            2, AttributeModifier.Operation.ADDITION);
+            6, AttributeModifier.Operation.ADDITION);
 
     private Consumer<LivingHurtEvent> hitEffect = event -> {
         event.getSource().getEntity().getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
@@ -74,7 +74,7 @@ public class BamisCinder extends Item implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("Taking or dealing damage causes nearby entities to burn for 1 damage/second for the next 3 seconds").withStyle(ChatFormatting.RED));
-        pTooltipComponents.add(Component.literal("+1 Heart").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+3 Hearts").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

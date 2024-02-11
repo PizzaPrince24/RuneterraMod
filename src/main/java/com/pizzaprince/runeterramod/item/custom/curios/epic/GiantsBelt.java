@@ -17,7 +17,7 @@ import java.util.List;
 public class GiantsBelt extends Item implements ICurioItem {
 
     private static AttributeModifier GIANTS_BELT_HEALTH = new AttributeModifier("giants_belt_health",
-            3, AttributeModifier.Operation.ADDITION);
+            7, AttributeModifier.Operation.ADDITION);
     public GiantsBelt(Properties pProperties) {
         super(pProperties);
     }
@@ -38,7 +38,7 @@ public class GiantsBelt extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+1.5 Hearts").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+3.5 Hearts").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

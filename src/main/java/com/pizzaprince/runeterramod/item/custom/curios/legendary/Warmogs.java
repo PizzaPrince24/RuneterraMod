@@ -23,7 +23,10 @@ import java.util.function.Consumer;
 public class Warmogs extends Item implements ICurioItem {
 
     private static AttributeModifier WARMOGS_HEALTH = new AttributeModifier("warmogs_health",
-            8, AttributeModifier.Operation.ADDITION);
+            15, AttributeModifier.Operation.ADDITION);
+
+    private static AttributeModifier WARMOGS_MOVE_SPEED = new AttributeModifier("warmogs_move_speed",
+            0.05, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     private Consumer<LivingHurtEvent> hitEffect = event -> {
         event.getSource().getEntity().getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
@@ -47,6 +50,9 @@ public class Warmogs extends Item implements ICurioItem {
         if(!slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(WARMOGS_HEALTH)) {
             slotContext.entity().getAttribute(Attributes.MAX_HEALTH).addTransientModifier(WARMOGS_HEALTH);
         }
+        if(!slotContext.entity().getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(WARMOGS_MOVE_SPEED)) {
+            slotContext.entity().getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(WARMOGS_MOVE_SPEED);
+        }
         slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
             cap.addPermaHitEffect("warmogs_combat", hitEffect);
             cap.addPermaOnDamageEffect("warmogs_combat", hitEffect);
@@ -57,6 +63,9 @@ public class Warmogs extends Item implements ICurioItem {
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if(slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(WARMOGS_HEALTH)){
             slotContext.entity().getAttribute(Attributes.MAX_HEALTH).removeModifier(WARMOGS_HEALTH);
+        }
+        if(slotContext.entity().getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(WARMOGS_MOVE_SPEED)){
+            slotContext.entity().getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(WARMOGS_MOVE_SPEED);
         }
         slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
             cap.removePermaHitEffect("warmogs_combat");
@@ -74,7 +83,8 @@ public class Warmogs extends Item implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("Heal over time when out of combat").withStyle(ChatFormatting.RED));
-        pTooltipComponents.add(Component.literal("+4 Hearts").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+7.5 Hearts").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+5% Movement Speed").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

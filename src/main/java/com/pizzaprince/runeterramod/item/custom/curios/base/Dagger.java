@@ -18,7 +18,7 @@ import java.util.List;
 public class Dagger extends Item implements ICurioItem {
 
     private static AttributeModifier DAGGER_ATTACK_SPEED = new AttributeModifier("dagger_attack_speed",
-            0.25, AttributeModifier.Operation.ADDITION);
+            0.12, AttributeModifier.Operation.ADDITION);
     public Dagger(Properties pProperties) {
         super(pProperties);
     }
@@ -39,7 +39,7 @@ public class Dagger extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+0.25 Attack Speed").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+0.12 Attack Speed").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

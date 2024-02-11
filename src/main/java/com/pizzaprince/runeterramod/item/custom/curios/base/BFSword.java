@@ -17,7 +17,7 @@ import java.util.List;
 public class BFSword extends Item implements ICurioItem {
 
     private static AttributeModifier BFSWORD_DAMAGE = new AttributeModifier("bfsword_damage",
-            1, AttributeModifier.Operation.ADDITION);
+            2, AttributeModifier.Operation.ADDITION);
     public BFSword(Properties pProperties) {
         super(pProperties);
     }
@@ -38,7 +38,7 @@ public class BFSword extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+1 Attack Damage").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+2 Attack Damage").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

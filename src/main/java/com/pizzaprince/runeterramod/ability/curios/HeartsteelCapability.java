@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import virtuoel.pehkui.api.ScaleTypes;
 
 public class HeartsteelCapability {
-    private int stacks = 2;
+    private int stacks = 9;
 
     private AttributeModifier modifier;
 
@@ -35,7 +35,17 @@ public class HeartsteelCapability {
         modifier = createModifier();
 
         player.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(modifier);
-        ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() + (this.stacks-2)*0.05f);
+        setScale(player);
+    }
+
+    public void setScale(Player player){
+        float scale = (float)(Math.floor(player.getAttributeValue(Attributes.MAX_HEALTH)/20)-1)*0.05f;
+        ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() + scale);
+    }
+
+    public void resetScale(Player player){
+        float scale = (float)(Math.floor(Math.max((player.getAttributeValue(Attributes.MAX_HEALTH)/20)-1, 0)))*0.05f;
+        ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() - scale);
     }
 
     public int getStacks(){

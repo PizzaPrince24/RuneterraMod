@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.item.custom.curios.epic;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.effect.ModAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -19,9 +20,10 @@ import java.util.List;
 public class Kindlegem extends Item implements ICurioItem {
 
     private static AttributeModifier KINDLEGEM_HEALTH = new AttributeModifier("kindlegem_health",
-            2, AttributeModifier.Operation.ADDITION);
+            4, AttributeModifier.Operation.ADDITION);
 
-    private int numAbilityHaste = 10;
+    private static AttributeModifier KINDLEGEM_AH = new AttributeModifier("kindlegem_ah",
+            10, AttributeModifier.Operation.ADDITION);
     public Kindlegem(Properties pProperties) {
         super(pProperties);
     }
@@ -31,10 +33,8 @@ public class Kindlegem extends Item implements ICurioItem {
         if(!slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(KINDLEGEM_HEALTH)) {
             slotContext.entity().getAttribute(Attributes.MAX_HEALTH).addTransientModifier(KINDLEGEM_HEALTH);
         }
-        if(slotContext.entity() instanceof Player player){
-            player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-                cap.addAbilityHaste(numAbilityHaste);
-            });
+        if(!slotContext.entity().getAttribute(ModAttributes.ABILITY_HASTE.get()).hasModifier(KINDLEGEM_AH)) {
+            slotContext.entity().getAttribute(ModAttributes.ABILITY_HASTE.get()).addTransientModifier(KINDLEGEM_AH);
         }
     }
 
@@ -43,16 +43,14 @@ public class Kindlegem extends Item implements ICurioItem {
         if(slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(KINDLEGEM_HEALTH)){
             slotContext.entity().getAttribute(Attributes.MAX_HEALTH).removeModifier(KINDLEGEM_HEALTH);
         }
-        if(slotContext.entity() instanceof Player player){
-            player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-                cap.removeAbilityHaste(numAbilityHaste);
-            });
+        if(slotContext.entity().getAttribute(ModAttributes.ABILITY_HASTE.get()).hasModifier(KINDLEGEM_AH)){
+            slotContext.entity().getAttribute(ModAttributes.ABILITY_HASTE.get()).removeModifier(KINDLEGEM_AH);
         }
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+1 Heart").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+2 Hearts").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.literal("+10 Ability Haste").withStyle(ChatFormatting.GOLD));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

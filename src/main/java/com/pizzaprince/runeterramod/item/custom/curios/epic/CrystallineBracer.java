@@ -18,7 +18,7 @@ import java.util.List;
 public class CrystallineBracer extends Item implements ICurioItem {
 
     private static AttributeModifier CRYSTALLINE_BRACER_HEALTH = new AttributeModifier("crystalline_bracer_health",
-            2, AttributeModifier.Operation.ADDITION);
+            4, AttributeModifier.Operation.ADDITION);
     public CrystallineBracer(Properties pProperties) {
         super(pProperties);
     }

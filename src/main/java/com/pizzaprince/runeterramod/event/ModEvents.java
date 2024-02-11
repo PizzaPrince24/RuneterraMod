@@ -4,6 +4,7 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.*;
 import com.pizzaprince.runeterramod.ability.curios.*;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
+import com.pizzaprince.runeterramod.effect.ModAttributes;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
@@ -14,28 +15,24 @@ import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;
 import com.pizzaprince.runeterramod.entity.custom.projectile.RunaansHomingBolt;
 import com.pizzaprince.runeterramod.item.custom.curios.base.AgilityCloak;
 import com.pizzaprince.runeterramod.item.custom.curios.base.RejuvenationBead;
-import com.pizzaprince.runeterramod.item.custom.curios.base.Sheen;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.BamisCinder;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.CrystallineBracer;
-import com.pizzaprince.runeterramod.item.custom.curios.epic.VampiricScepter;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.Zeal;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
-import com.pizzaprince.runeterramod.networking.packet.CapSyncS2CPacket;
-import com.pizzaprince.runeterramod.networking.packet.CrocRageS2CPacket;
 import com.pizzaprince.runeterramod.particle.ModParticles;
 import com.pizzaprince.runeterramod.particle.custom.SandParticle;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
 import com.pizzaprince.runeterramod.world.dimension.ShellDimCapabilityProvider;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.FastColor;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal.Flag;
@@ -43,15 +40,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
@@ -60,8 +55,8 @@ import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
@@ -80,6 +75,18 @@ public class ModEvents {
 					event.addCapability(new ResourceLocation(RuneterraMod.MOD_ID, "properties"), new PlayerAbilitiesProvider());
 				}
 			}
+		}
+
+		@SubscribeEvent
+		public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+			event.register(PlayerAbilities.class);
+			event.register(ImmolationCapability.class);
+			event.register(AbilityItemCapability.class);
+			event.register(HeartsteelCapability.class);
+			event.register(WarmogsCapability.class);
+			event.register(RegenerationCapability.class);
+			event.register(JakShoCapability.class);
+			event.register(RodOfAgesCapability.class);
 		}
 
 		@SubscribeEvent
@@ -104,6 +111,12 @@ public class ModEvents {
 			}
 			if(event.getObject().getItem() instanceof CrystallineBracer){
 				event.addCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY_RL, new RegenerationCapabilityProvider(1, 100));
+			}
+			if(event.getObject().getItem() instanceof JakSho){
+				event.addCapability(JakShoCapabilityProvider.JAKSHO_CAPABILITY_RL, new JakShoCapabilityProvider());
+			}
+			if(event.getObject().getItem() instanceof RodOfAges){
+				event.addCapability(RodOfAgesCapabilityProvider.CAPABILITY_RL, new RodOfAgesCapabilityProvider());
 			}
 		}
 
@@ -144,6 +157,7 @@ public class ModEvents {
 
 		@SubscribeEvent
 		public static void onCriticalHit(CriticalHitEvent event) {
+			event.setResult(Event.Result.DENY);
 			Player player = event.getEntity();
 			if (event.isVanillaCritical()) {
 				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
@@ -178,15 +192,21 @@ public class ModEvents {
 					}
 				});
 			}
-			if (event.getSource().getEntity() instanceof Player player) {
-				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-					cap.setInCombat();
-					cap.applyHitEffects(event);
-					if(cap.isCrocodileAscended()){
-						event.setAmount(event.getAmount() * (1f + cap.getDamageMultiplierFromRage()));
-						cap.addRage(5, (ServerPlayer) player);
-					}
-				});
+			if (event.getSource().getEntity() instanceof LivingEntity entity) {
+				if(entity.getAttributeValue(ModAttributes.CRIT_CHANCE.get()) > Math.random()){
+					event.setAmount(event.getAmount()*(float)entity.getAttributeValue(ModAttributes.CRIT_DAMAGE.get()));
+				}
+
+				if(entity instanceof Player player) {
+					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.setInCombat();
+						cap.applyHitEffects(event);
+						if (cap.isCrocodileAscended()) {
+							event.setAmount(event.getAmount() * (1f + cap.getDamageMultiplierFromRage()));
+							cap.addRage(5, (ServerPlayer) player);
+						}
+					});
+				}
 			}
 			if(event.getEntity().hasEffect(ModEffects.STUN.get())){
 				event.getEntity().level().getServer().getPlayerList().getPlayers().forEach(player -> {
@@ -202,6 +222,13 @@ public class ModEvents {
 		}
 
 		@SubscribeEvent
+		public static void onDamage(LivingDamageEvent event){
+			if(event.getSource().getEntity() instanceof LivingEntity entity){
+				entity.heal(event.getAmount()*(float)entity.getAttributeValue(ModAttributes.OMNIVAMP.get()));
+			}
+		}
+
+		@SubscribeEvent
 		public static void onPlayerCloned(PlayerEvent.Clone event) {
 			if (event.isWasDeath()) {
 				event.getOriginal().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(oldStore -> {
@@ -212,15 +239,7 @@ public class ModEvents {
 			}
 		}
 
-		@SubscribeEvent
-		public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-			event.register(PlayerAbilities.class);
-			event.register(ImmolationCapability.class);
-			event.register(AbilityItemCapability.class);
-			event.register(HeartsteelCapability.class);
-			event.register(WarmogsCapability.class);
-			event.register(RegenerationCapability.class);
-		}
+
 
 
 		@SubscribeEvent
@@ -313,7 +332,27 @@ public class ModEvents {
 						});
 					});
 				}
+				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
+					inventory.getCurios().values().forEach(curio -> {
+						for (int slot = 0; slot < curio.getSlots(); slot++) {
+							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Opportunity) {
+								player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 1, true, true, true));
+							}
+						}
+					});
+				});
 			}
+		}
+
+		@SubscribeEvent
+		public static void addMobEffectInstance(MobEffectEvent.Added event){
+			MobEffectInstance oldInstance = event.getEffectInstance();
+			if(oldInstance.getEffect().getCategory() != MobEffectCategory.HARMFUL) return;
+			int newDuration = oldInstance.getDuration() - (int)(oldInstance.getDuration()*event.getEntity().getAttributeValue(ModAttributes.TENACITY.get()));
+			MobEffectInstance newInstance = new MobEffectInstance(oldInstance.getEffect(), newDuration, oldInstance.getAmplifier(), oldInstance.isAmbient(),
+					oldInstance.isVisible(), oldInstance.showIcon(), null, oldInstance.getFactorData());
+			newInstance.setCurativeItems(oldInstance.getCurativeItems());
+			oldInstance.setDetailsFrom(newInstance);
 		}
 
 
@@ -333,6 +372,21 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void registerParticles(RegisterParticleProvidersEvent event){
 			Minecraft.getInstance().particleEngine.register(ModParticles.SAND_PARTICLE.get(), SandParticle.Provider::new);
+		}
+
+		@SubscribeEvent
+		public static void newAttributes(EntityAttributeModificationEvent event){
+			event.getTypes().forEach(type -> {
+				event.add(type, ModAttributes.ABILITY_POWER.get());
+				event.add(type, ModAttributes.ABILITY_HASTE.get());
+				event.add(type, ModAttributes.MAGIC_RESIST.get());
+				event.add(type, ModAttributes.MAGIC_PENETRATION.get());
+				event.add(type, ModAttributes.LETHALITY.get());
+				event.add(type, ModAttributes.OMNIVAMP.get());
+				event.add(type, ModAttributes.TENACITY.get());
+				event.add(type, ModAttributes.CRIT_CHANCE.get());
+				event.add(type, ModAttributes.CRIT_DAMAGE.get());
+			});
 		}
 
 
