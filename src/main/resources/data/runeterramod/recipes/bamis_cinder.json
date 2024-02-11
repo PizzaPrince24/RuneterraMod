@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:ruby_crystal"
+    },
+    {
+      "item": "runeterramod:ruby_crystal"
+    },
+    {
+      "item": "runeterramod:ruby_crystal"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:bamis_cinder"
+  }
+}
