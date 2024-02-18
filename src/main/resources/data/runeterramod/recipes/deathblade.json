@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:noonquiver"
+    },
+    {
+      "item": "runeterramod:zeal"
+    },
+    {
+      "item": "runeterramod:zeal"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:deathblade"
+  }
+}

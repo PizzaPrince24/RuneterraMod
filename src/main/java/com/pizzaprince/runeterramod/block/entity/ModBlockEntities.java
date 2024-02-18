@@ -4,6 +4,7 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.custom.ShurimanTransfuserEntity;
 import com.pizzaprince.runeterramod.block.entity.custom.SunDiskAltarEntity;
+import com.pizzaprince.runeterramod.block.entity.custom.SunForgeEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,6 +16,9 @@ public class ModBlockEntities {
 
     public static final RegistryObject<BlockEntityType<SunDiskAltarEntity>> SUN_DISK_ALTAR_ENTITY = BLOCK_ENTITIES.register("animated_sun_disk_altar",
             () -> BlockEntityType.Builder.of(SunDiskAltarEntity::new, ModBlocks.SUN_DISK_ALTAR.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<SunForgeEntity>> SUN_FORGE_ENTITY = BLOCK_ENTITIES.register("animated_sun_forge",
+            () -> BlockEntityType.Builder.of(SunForgeEntity::new, ModBlocks.SUN_FORGE.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<ShurimanTransfuserEntity>> SHURIMAN_ITEM_TRANSFUSER_ENTITY = BLOCK_ENTITIES.register("animated_shuriman_item_transfuser",
             () -> BlockEntityType.Builder.of(ShurimanTransfuserEntity::new, ModBlocks.SHURIMAN_ITEM_TRANSFUSER.get()).build(null));

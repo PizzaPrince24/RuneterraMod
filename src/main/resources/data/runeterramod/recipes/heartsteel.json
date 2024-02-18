@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:giants_belt"
+    },
+    {
+      "item": "runeterramod:giants_belt"
+    },
+    {
+      "item": "runeterramod:crystalline_bracer"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:heartsteel"
+  }
+}

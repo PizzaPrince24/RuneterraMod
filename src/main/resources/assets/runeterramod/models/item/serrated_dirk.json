@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "runeterramod:item/sapphire_crystal"
+    "layer0": "runeterramod:item/serrated_dirk"
   }
 }

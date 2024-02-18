@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:ruby_crystal"
+    },
+    {
+      "item": "runeterramod:glowing_mote"
+    },
+    {
+      "item": "runeterramod:glowing_mote"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:kindlegem"
+  }
+}

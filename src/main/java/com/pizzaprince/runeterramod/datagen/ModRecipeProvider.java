@@ -30,6 +30,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.DRAGON_BREATH, Items.ENDER_PEARL, Items.AMETHYST_CLUSTER).build()))
                 .save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PURIFIED_SUN_STONE.get())
+                .define('#', ModItems.PURIFIED_SUN_STONE_DUST.get())
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .unlockedBy("has_purified_sun_stone_dust", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(ModItems.PURIFIED_SUN_STONE_DUST.get()).build()))
+                .save(pWriter);
+
         // ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BLACK_OPAL.get())
         //         .requires(ModBlocks.BLACK_OPAL_BLOCK.get())
         //         .unlockedBy("has_black_opal_block", inventoryTrigger(ItemPredicate.Builder.item()

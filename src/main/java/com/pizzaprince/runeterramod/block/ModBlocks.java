@@ -48,6 +48,9 @@ public class ModBlocks {
 	public static final RegistryObject<Block> SUN_DISK_ALTAR = BLOCKS.register("sun_disk_altar",
 			() -> new SunDiskAltar(BlockBehaviour.Properties.copy(Blocks.ENCHANTING_TABLE).strength(4f).requiresCorrectToolForDrops().noOcclusion().noLootTable()));
 
+	public static final RegistryObject<Block> SUN_FORGE = BLOCKS.register("sun_forge",
+			() -> new SunForge(BlockBehaviour.Properties.copy(Blocks.ENCHANTING_TABLE).strength(4f).requiresCorrectToolForDrops().noOcclusion()));
+
 	public static final RegistryObject<Block> SUN_DISK_BLOCK = registerBlock("sun_disk_block",
 			() -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(-1).noLootTable()));
 

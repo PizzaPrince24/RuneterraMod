@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:bfsword"
+    },
+    {
+      "item": "runeterramod:recurve_bow"
+    },
+    {
+      "item": "runeterramod:zeal"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:giant_slayer"
+  }
+}

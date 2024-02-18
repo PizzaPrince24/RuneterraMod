@@ -1,0 +1,12 @@
+{
+  "type": "runeterramod:sun_forge",
+  "ingredients": [
+    {
+      "item": "runeterramod:sun_stone_block"
+    }
+  ],
+  "energy": 40000,
+  "output": {
+    "item": "runeterramod:purified_sun_stone_dust"
+  }
+}

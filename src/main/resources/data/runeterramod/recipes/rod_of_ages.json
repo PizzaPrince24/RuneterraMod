@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:lost_chapter"
+    },
+    {
+      "item": "runeterramod:giants_belt"
+    },
+    {
+      "item": "runeterramod:kindlegem"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:rod_of_ages"
+  }
+}

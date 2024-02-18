@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:amplifying_tome"
+    },
+    {
+      "item": "runeterramod:glowing_mote"
+    },
+    {
+      "item": "runeterramod:needlessly_large_rod"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:lost_chapter"
+  }
+}

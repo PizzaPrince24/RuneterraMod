@@ -1,0 +1,12 @@
+{
+  "type": "runeterramod:sun_forge",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "energy": 5000,
+  "output": {
+    "item": "runeterramod:sun_stone"
+  }
+}

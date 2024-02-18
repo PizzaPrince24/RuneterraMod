@@ -1,4 +1,4 @@
-// 1.20.1	2024-01-09T20:52:09.4435626	Loot Tables
+// 1.20.1	2024-02-11T00:43:11.393943	Loot Tables
 79883462a9572bb3b0b636ae625f2ad825bee081 data/runeterramod/loot_tables/blocks/basic_goblet.json
 46249f71f96f0ce9ce8a8ff719ae9c591961d84a data/runeterramod/loot_tables/blocks/fancy_goblet.json
 39f08b0525204e280c3cfeb3847065d83ca14776 data/runeterramod/loot_tables/blocks/shell_block.json
@@ -10,5 +10,6 @@ a311050ed51df993504b73fe20469b269196c439 data/runeterramod/loot_tables/blocks/sm
 ea48494004d20fddfe095bb7942385fa64776c1b data/runeterramod/loot_tables/blocks/smooth_shuriman_sandstone_slab.json
 94b9460cb389cef3c8d7dfda7dcd4d2fe450aa8b data/runeterramod/loot_tables/blocks/smooth_shuriman_sandstone_stairs.json
 82b390acd8a24e6bfd8a6a2725bc594fac4c1ab4 data/runeterramod/loot_tables/blocks/sun_disk_shard.json
+f0d638d0d3aedaf3b2a87a7d1f6b8d26ff8f595a data/runeterramod/loot_tables/blocks/sun_forge.json
 221b2f2a9ac948372182d3b9b28ad7029da4637c data/runeterramod/loot_tables/blocks/sun_stone_block.json
 7f3ce1258a2339b887d03ea398d0d0000a2de890 data/runeterramod/loot_tables/blocks/sun_stone_ore.json

@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:lost_chapter"
+    },
+    {
+      "item": "runeterramod:kindlegem"
+    },
+    {
+      "item": "runeterramod:kindlegem"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:cosmic_drive"
+  }
+}

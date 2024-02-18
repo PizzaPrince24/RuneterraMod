@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:vampiric_scepter"
+    },
+    {
+      "item": "runeterramod:vampiric_scepter"
+    },
+    {
+      "item": "runeterramod:vampiric_scepter"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:bloodthirster"
+  }
+}

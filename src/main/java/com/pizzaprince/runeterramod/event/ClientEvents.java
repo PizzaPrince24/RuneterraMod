@@ -6,11 +6,13 @@ import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.ShurimanTransfuserRenderer;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
+import com.pizzaprince.runeterramod.block.entity.client.SunForgeRenderer;
 import com.pizzaprince.runeterramod.camera.CameraSequences;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.overlay.CrocAscendentRageOverlay;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
+import com.pizzaprince.runeterramod.client.screen.SunForgeScreen;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.client.custom.RampagingBaccaiRenderer;
 import com.pizzaprince.runeterramod.entity.client.custom.RekSaiRenderer;
@@ -154,7 +156,9 @@ public class ClientEvents {
 			EntityRenderers.register(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiRenderer::new);
 			EntityRenderers.register(ModEntityTypes.RENEKTON.get(), RenektonRenderer::new);
 			MenuScreens.register(ModMenuTypes.SUN_DISK_ALTAR_MENU.get(), SunDiskAltarScreen::new);
+			MenuScreens.register(ModMenuTypes.SUN_FORGE_MENU.get(), SunForgeScreen::new);
 			BlockEntityRenderers.register(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), SunDiskAltarRenderer::new);
+			BlockEntityRenderers.register(ModBlockEntities.SUN_FORGE_ENTITY.get(), SunForgeRenderer::new);
 			BlockEntityRenderers.register(ModBlockEntities.SHURIMAN_ITEM_TRANSFUSER_ENTITY.get(), ShurimanTransfuserRenderer::new);
 			PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new ResourceLocation(RuneterraMod.MOD_ID, "animation"),
 					1, player -> new ModifierLayer<>());

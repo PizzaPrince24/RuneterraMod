@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:dagger"
+    },
+    {
+      "item": "runeterramod:dagger"
+    },
+    {
+      "item": "runeterramod:dagger"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:recurve_bow"
+  }
+}

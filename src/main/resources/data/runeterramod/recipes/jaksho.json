@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:chain_vest"
+    },
+    {
+      "item": "runeterramod:bamis_cinder"
+    },
+    {
+      "item": "runeterramod:giants_belt"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:jaksho"
+  }
+}

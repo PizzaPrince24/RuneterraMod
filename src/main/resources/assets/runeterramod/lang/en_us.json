@@ -1,6 +1,7 @@
 {
 	"item.runeterramod.sun_stone": "Sun Stone",
 	"item.runeterramod.purified_sun_stone": "Purified Sun Stone",
+	"item.runeterramod.purified_sun_stone_dust": "Purified Sun Stone Dust",
 	"item.runeterramod.reksai_spawn_egg": "Rek'Sai Spawn Egg",
 	"item.runeterramod.cactus_juice": "Cactus Juice",
 	"item.runeterramod.ashe_bow": "Ashe's Bow",
@@ -39,9 +40,8 @@
 	"item.runeterramod.recurve_bow": "Recurve Bow",
 	"item.runeterramod.zeal": "Zeal",
 	"item.runeterramod.crystalline_bracer": "Crystalline Bracer",
-	"item.runeterramod.Kindlegem": "Kindlegem",
+	"item.runeterramod.kindlegem": "Kindlegem",
 	"item.runeterramod.vampiric_scepter": "Vampiric Scepter",
-	"item.runeterramod.aegis_of_the_legion": "Aegis of the Legion",
 	"item.runeterramod.noonquiver": "Noonquiver",
 
 	"item.runeterramod.sunfire_aegis": "Sunfire Aegis",
@@ -62,10 +62,10 @@
 	"item.runeterramod.giant_slayer": "Giant Slayer",
 	"item.runeterramod.deathblade": "Deathblade",
 	"item.runeterramod.rabadons_deathcap": "Rabadon's Deathcap",
+	"item.runeterramod.jeweled_gauntlet": "Jeweled Gauntlet",
 
 	"block.runeterramod.sun_stone_block": "Block of Sun Stone",
 	"block.runeterramod.sun_stone_ore": "Sun Stone Ore",
-	"block.runeterramod.deepslate_zircon_ore": "Deepslate Zircon Ore",
 	"block.runeterramod.shuriman_sand": "Shuriman Sand",
 	"block.runeterramod.shuriman_sandstone": "Shuriman Sandstone",
 	"block.runeterramod.sun_disk_shard": "Shard of Sun Disk",
@@ -79,6 +79,7 @@
 	"block.runeterramod.fancy_goblet": "Fancy Goblet",
 	"block.runeterramod.basic_goblet": "Basic Goblet",
 	"block.runeterramod.shuriman_transfuser": "Shuriman Item Transfuser",
+	"block.runeterramod.sun_forge": "Sun Forge",
 	
 	"itemGroup.runeterratab": "Runeterra", 
 	

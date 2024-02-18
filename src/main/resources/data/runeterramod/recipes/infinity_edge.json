@@ -2,10 +2,10 @@
   "type": "runeterramod:item_transfusing",
   "ingredients": [
     {
-      "item": "runeterramod:bfsword"
+      "item": "runeterramod:noonquiver"
     },
     {
-      "item": "runeterramod:pickaxe"
+      "item": "runeterramod:zeal"
     },
     {
       "item": "runeterramod:agility_cloak"

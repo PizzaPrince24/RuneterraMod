@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:long_sword"
+    },
+    {
+      "item": "runeterramod:bfsword"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:vampiric_scepter"
+  }
+}

@@ -4,10 +4,7 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
-import com.pizzaprince.runeterramod.item.custom.AsheBow;
-import com.pizzaprince.runeterramod.item.custom.BaccaiStaff;
-import com.pizzaprince.runeterramod.item.custom.ShurimanTransfuserItem;
-import com.pizzaprince.runeterramod.item.custom.SunDiskAltarItem;
+import com.pizzaprince.runeterramod.item.custom.*;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 import com.pizzaprince.runeterramod.item.custom.armor.RampagingBaccaiArmorItem;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.CrocodileAscensionPendant;
@@ -47,6 +44,9 @@ public class ModItems {
 	public static final RegistryObject<Item> PURIFIED_SUN_STONE = ITEMS.register("purified_sun_stone",
 			() -> new Item(new Item.Properties()));
 
+	public static final RegistryObject<Item> PURIFIED_SUN_STONE_DUST = ITEMS.register("purified_sun_stone_dust",
+			() -> new Item(new Item.Properties()));
+
 	public static final RegistryObject<Item> ASHE_BOW = ITEMS.register("ashe_bow",
 			() -> new AsheBow(new Item.Properties().stacksTo(1)));
 
@@ -69,6 +69,9 @@ public class ModItems {
 			() -> new ForgeSpawnEggItem(ModEntityTypes.RAMPAGING_BACCAI, 16750899, 16776960, new Item.Properties()));
 	public static final RegistryObject<Item> SUN_DISK_ALTAR_ITEM = ITEMS.register("sun_disk_altar",
 			() -> new SunDiskAltarItem(ModBlocks.SUN_DISK_ALTAR.get(), new Item.Properties()));
+
+	public static final RegistryObject<Item> SUN_FORGE_ITEM = ITEMS.register("sun_forge",
+			() -> new SunForgeItem(ModBlocks.SUN_FORGE.get(), new Item.Properties()));
 
 	public static final RegistryObject<Item> BACCAI_STAFF = ITEMS.register("baccai_staff",
 			() -> new BaccaiStaff(new Item.Properties().stacksTo(1).setNoRepair()));
@@ -200,6 +203,12 @@ public class ModItems {
 
 	public static final RegistryObject<Item> NOONQUIVER = ITEMS.register("noonquiver",
 			() -> new Noonquiver(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> LOST_CHAPTER = ITEMS.register("lost_chapter",
+			() -> new LostChapter(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> SERRATED_DIRK = ITEMS.register("serrated_dirk",
+			() -> new SerratedDirk(new Item.Properties().stacksTo(1)));
 
 
 

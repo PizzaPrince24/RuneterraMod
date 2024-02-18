@@ -143,11 +143,11 @@ public abstract class AbstractItemTransuferEntity extends BlockEntity {
         }
         Optional<ItemTransfuserRecipe> recipe = level.getRecipeManager().getRecipeFor(ItemTransfuserRecipe.Type.INSTANCE, inventory, level);
 
-        boolean flag = false;
         if(recipe.isPresent()){
             if(recipe.get().output.is(ModTags.Items.BASIC_ITEMS)) return inventory.getItem(3).is(ModItems.SUN_STONE.get());
-            if(recipe.get().output.is(ModTags.Items.EPIC_ITEMS)) return inventory.getItem(3).is(ModBlocks.SUN_STONE_BLOCK.get().asItem());
-            if(recipe.get().output.is(ModTags.Items.LEGENDARY_ITEMS)) return inventory.getItem(3).is(ModItems.PURIFIED_SUN_STONE.get());
+            else if(recipe.get().output.is(ModTags.Items.EPIC_ITEMS)) return inventory.getItem(3).is(ModBlocks.SUN_STONE_BLOCK.get().asItem());
+            else if(recipe.get().output.is(ModTags.Items.LEGENDARY_ITEMS)) return inventory.getItem(3).is(ModItems.PURIFIED_SUN_STONE.get());
+            else return inventory.getItem(3).isEmpty();
         }
         return false;
     }

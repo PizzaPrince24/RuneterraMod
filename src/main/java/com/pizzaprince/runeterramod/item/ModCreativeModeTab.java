@@ -29,6 +29,7 @@ public class ModCreativeModeTab {
 			//items
 			event.accept(ModItems.SUN_STONE);
 			event.accept(ModItems.PURIFIED_SUN_STONE);
+			event.accept(ModItems.PURIFIED_SUN_STONE_DUST);
 			event.accept(ModItems.ASHE_BOW);
 			event.accept(ModItems.ASHE_HELMET);
 			event.accept(ModItems.ASHE_CHESTPLATE);
@@ -36,6 +37,7 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.ASHE_BOOTS);
 			event.accept(ModItems.REKSAI_SPAWN_EGG);
 			event.accept(ModItems.SUN_DISK_ALTAR_ITEM);
+			event.accept(ModItems.SUN_FORGE_ITEM);
 			event.accept(ModItems.BACCAI_STAFF);
 			event.accept(ModItems.CACTUS_JUICE);
 			event.accept(ModItems.RAMPAGING_BACCAI_SPAWN_EGG);
@@ -74,6 +76,8 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.BAMIS_CINDER);
 			event.accept(ModItems.CHAIN_VEST);
 			event.accept(ModItems.NOONQUIVER);
+			event.accept(ModItems.LOST_CHAPTER);
+			event.accept(ModItems.SERRATED_DIRK);
 			event.accept(ModItems.GIANT_SLAYER);
 			event.accept(ModItems.GIANTS_BELT);
 			event.accept(ModItems.RECURVE_BOW);

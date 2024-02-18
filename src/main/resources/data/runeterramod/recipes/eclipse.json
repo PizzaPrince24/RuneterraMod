@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:noonquiver"
+    },
+    {
+      "item": "runeterramod:serrated_dirk"
+    },
+    {
+      "item": "runeterramod:bfsword"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:eclipse"
+  }
+}

@@ -36,7 +36,6 @@ public class ShurimanTransfuserRenderer extends GeoBlockRenderer<ShurimanTransfu
                 if(bone.getName().equals("itemstack1") || bone.getName().equals("itemstack2") || bone.getName().equals("itemstack3") || bone.getName().equals("itemstack4")){
                     poseStack.scale(.12f, .12f, .12f);
                 }
-
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });

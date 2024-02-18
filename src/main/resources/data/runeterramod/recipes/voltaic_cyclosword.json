@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:serrated_dirk"
+    },
+    {
+      "item": "runeterramod:serrated_dirk"
+    },
+    {
+      "item": "runeterramod:recurve_bow"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:voltaic_cyclosword"
+  }
+}

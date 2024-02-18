@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:agility_cloak"
+    },
+    {
+      "item": "runeterramod:dagger"
+    },
+    {
+      "item": "runeterramod:agility_cloak"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:zeal"
+  }
+}

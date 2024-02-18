@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "runeterramod:block/sun_forge"},
+    "facing=south": { "model": "runeterramod:block/sun_forge", "y": 180},
+    "facing=west": { "model": "runeterramod:block/sun_forge", "y": 270},
+    "facing=east": { "model": "runeterramod:block/sun_forge", "y": 90}
+  }
+}

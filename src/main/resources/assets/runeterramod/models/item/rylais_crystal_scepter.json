@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "runeterramod:item/rylais_scepter"
+    "layer0": "runeterramod:item/rylais_crystal_scepter"
   }
 }

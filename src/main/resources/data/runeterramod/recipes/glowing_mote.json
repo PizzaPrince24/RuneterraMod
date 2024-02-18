@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "minecraft:soul_lantern"
+    },
+    {
+      "item": "runeterramod:nexus_crystal"
+    },
+    {
+      "item": "minecraft:soul_lantern"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:glowing_mote"
+  }
+}

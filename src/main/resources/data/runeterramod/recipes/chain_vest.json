@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:cloth_armor"
+    },
+    {
+      "item": "runeterramod:cloth_armor"
+    },
+    {
+      "item": "runeterramod:cloth_armor"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:chain_vest"
+  }
+}

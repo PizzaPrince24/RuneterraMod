@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:long_sword"
+    },
+    {
+      "item": "runeterramod:dagger"
+    },
+    {
+      "item": "runeterramod:long_sword"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:noonquiver"
+  }
+}

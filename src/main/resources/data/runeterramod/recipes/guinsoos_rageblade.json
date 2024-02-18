@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:recurve_bow"
+    },
+    {
+      "item": "runeterramod:recurve_bow"
+    },
+    {
+      "item": "runeterramod:recurve_bow"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:guinsoos_rageblade"
+  }
+}

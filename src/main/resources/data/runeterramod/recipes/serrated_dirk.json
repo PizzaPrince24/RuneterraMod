@@ -1,0 +1,17 @@
+{
+  "type": "runeterramod:item_transfusing",
+  "ingredients": [
+    {
+      "item": "runeterramod:bfsword"
+    },
+    {
+      "item": "runeterramod:bfsword"
+    },
+    {
+      "item": "runeterramod:long_sword"
+    }
+  ],
+  "output": {
+    "item": "runeterramod:serrated_dirk"
+  }
+}
