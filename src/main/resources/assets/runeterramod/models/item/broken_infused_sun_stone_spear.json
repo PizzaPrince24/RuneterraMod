@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "runeterramod:item/broken_infused_sun_stone_spear"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ 0, -90, 55 ],
+      "translation": [ 0, 4.0, 1 ],
+      "scale": [ 2, 2, 2 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ 0, 90, -55 ],
+      "translation": [ 0, 4.0, 1 ],
+      "scale": [ 2, 2, 2 ]
+    }
+  }
+}

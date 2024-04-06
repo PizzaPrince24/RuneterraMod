@@ -15,11 +15,8 @@ import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.monster.Giant;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -115,6 +112,15 @@ public class ModItems {
 
 	public static final RegistryObject<Item> RENEKTON_SPAWN_EGG = ITEMS.register("renekton_spawn_egg",
 			() -> new ForgeSpawnEggItem(ModEntityTypes.RENEKTON, 78368, 40778, new Item.Properties()));
+
+	public static final RegistryObject<Item> SUN_STONE_SPEAR = ITEMS.register("sun_stone_spear",
+			() -> new SunStoneSpear(ModToolTiers.SUN_STONE, 3, -2f, new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> INFUSED_SUN_STONE_SPEAR = ITEMS.register("infused_sun_stone_spear",
+			() -> new SunStoneSpear(ModToolTiers.INFUSED_SUN_STONE, 3, -2f, new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> PURIFIED_SUN_STONE_SPEAR = ITEMS.register("purified_sun_stone_spear",
+			() -> new SunStoneSpear(ModToolTiers.PURIFIED_SUN_STONE, 3, -2f, new Item.Properties().stacksTo(1)));
 
 
 

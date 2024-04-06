@@ -18,7 +18,7 @@ import java.util.List;
 public class Deathblade extends Item implements ICurioItem {
 
     private static AttributeModifier DEATHBLADE_DAMAGE = new AttributeModifier("deathblade_damage",
-            6, AttributeModifier.Operation.ADDITION);
+            4, AttributeModifier.Operation.ADDITION);
 
     private static AttributeModifier DEATHBLADE_DAMAGE_MULT = new AttributeModifier("deathblade_damage_multiplied",
             0.35, AttributeModifier.Operation.MULTIPLY_TOTAL);
@@ -48,7 +48,7 @@ public class Deathblade extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("+6 Attack Damage").withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.literal("+4 Attack Damage").withStyle(ChatFormatting.GOLD));
         pTooltipComponents.add(Component.literal("+35% Attack Damage").withStyle(ChatFormatting.GOLD));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

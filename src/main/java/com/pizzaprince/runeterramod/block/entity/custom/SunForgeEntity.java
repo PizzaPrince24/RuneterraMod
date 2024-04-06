@@ -167,6 +167,14 @@ public class SunForgeEntity extends BlockEntity implements MenuProvider, GeoBloc
                     entity.guiAnimCraft = 0;
                 }
             }
+        } else if(hasSunStoneItemToRepair(entity) && entity.sunEnergy > 20 && entity.getSunPower() > 0){
+            entity.guiAnimCraft++;
+            if(entity.guiAnimCraft >= 19) entity.guiAnimCraft = 0;
+            int newProgress = (int)(20f*((float)entity.getSunPower()/30f));
+            entity.sunEnergy = Math.max(0, entity.sunEnergy-newProgress);
+            ItemStack item = entity.itemHandler.getStackInSlot(2);
+            item.setDamageValue(Math.max(0, item.getDamageValue()-newProgress));
+            entity.progress = 1;
         } else {
             entity.progress = 0;
             entity.toCraft = ItemStack.EMPTY;
@@ -177,12 +185,21 @@ public class SunForgeEntity extends BlockEntity implements MenuProvider, GeoBloc
         level.sendBlockUpdated(blockPos, entity.getBlockState(), entity.getBlockState(), 3);
     }
 
+    private static boolean hasSunStoneItemToRepair(SunForgeEntity entity) {
+        ItemStack item = entity.itemHandler.getStackInSlot(2);
+        return item.is(ModTags.Items.SUN_FORGE_REPAIRABLE) && item.isDamaged();
+    }
+
     private static void craftItem(SunForgeEntity entity){
         Optional<SunForgeRecipe> recipe = getRecipe(entity);
         if(recipe.isPresent()){
+            CompoundTag nbt = null;
+            if(entity.itemHandler.getStackInSlot(1).hasTag()) nbt = entity.itemHandler.getStackInSlot(1).getTag();
+            if(entity.itemHandler.getStackInSlot(0).hasTag()) nbt = entity.itemHandler.getStackInSlot(0).getTag();
             entity.itemHandler.extractItem(0, 1, false);
             entity.itemHandler.extractItem(1, 1, false);
             entity.itemHandler.setStackInSlot(2, new ItemStack(recipe.get().output.getItem()));
+            if(nbt != null) entity.itemHandler.getStackInSlot(2).setTag(nbt);
         }
     }
 

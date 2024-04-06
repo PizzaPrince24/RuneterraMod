@@ -1,9 +1,13 @@
-// 1.20.1	2024-02-17T21:53:01.5691	Recipes
+// 1.20.1	2024-02-19T23:59:26.1180557	Recipes
+8122fb9d2745ec3e44306aea27ae77181b4e6c66 data/runeterramod/advancements/recipes/building_blocks/smooth_shuriman_sandstone.json
+a94cfc43336911c85cc6ac1851b8fd5884442b36 data/runeterramod/advancements/recipes/building_blocks/sun_forge.json
 9067b503cb67d84d5937d8f8968ced765055724b data/runeterramod/advancements/recipes/building_blocks/sun_stone.json
 2ca16bf4e11b9da99b107f705973e0eadf53d128 data/runeterramod/advancements/recipes/misc/nexus_crystal.json
-488dc4bb3b05fbbe7392dbf6e8107829b2a3f11e data/runeterramod/advancements/recipes/misc/purified_sun_stone.json
+5de2c825f5811c3f8a161e08ba31e7e4fe489e67 data/runeterramod/advancements/recipes/misc/purified_sun_stone.json
 8d100802df981d47e5f0224a13625d1f11f4c604 data/runeterramod/advancements/recipes/misc/sun_stone_block.json
 dba249e8dee19476184e8fcb752825f86d4874c1 data/runeterramod/recipes/nexus_crystal.json
 b9267e5aeeaaef3b6988504c8fe857605c00afc0 data/runeterramod/recipes/purified_sun_stone.json
+d867d02ffb172aac04a0a729f721748deb45d736 data/runeterramod/recipes/smooth_shuriman_sandstone.json
+3380deea95d9651c24824ba75cc35ac67af59827 data/runeterramod/recipes/sun_forge.json
 7439c602e2d0807f40fcae671526a9b1fd9784ec data/runeterramod/recipes/sun_stone.json
 fdfd82113b41d9bbd61d2c085a861f7ddf586fd1 data/runeterramod/recipes/sun_stone_block.json

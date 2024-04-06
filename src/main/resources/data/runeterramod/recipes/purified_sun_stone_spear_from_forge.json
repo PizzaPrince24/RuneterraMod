@@ -1,0 +1,15 @@
+{
+  "type": "runeterramod:sun_forge",
+  "ingredients": [
+    {
+      "item": "runeterramod:infused_sun_stone_spear"
+    },
+    {
+      "item": "runeterramod:purified_sun_stone"
+    }
+  ],
+  "energy": 80000,
+  "output": {
+    "item": "runeterramod:purified_sun_stone_spear"
+  }
+}

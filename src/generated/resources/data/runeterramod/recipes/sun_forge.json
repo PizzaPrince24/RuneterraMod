@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "runeterramod:sun_stone_block"
+    },
+    "$": {
+      "item": "minecraft:gold_block"
+    },
+    "%": {
+      "item": "runeterramod:sun_stone"
+    },
+    "*": {
+      "item": "runeterramod:smooth_shuriman_sandstone"
+    }
+  },
+  "pattern": [
+    "$%$",
+    "%#%",
+    "***"
+  ],
+  "result": {
+    "item": "runeterramod:sun_forge"
+  },
+  "show_notification": true
+}

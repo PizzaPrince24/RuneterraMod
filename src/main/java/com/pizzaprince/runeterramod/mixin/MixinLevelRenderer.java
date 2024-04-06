@@ -74,5 +74,23 @@ public class MixinLevelRenderer {
                 SAND_LOCATION : rl;
     }
 
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;tickRain(Lnet/minecraft/client/Camera;)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V"),
+            cancellable = true)
+    private void nullifyRainSound(Camera pCamera, CallbackInfo ci) {
+        if (minecraft.level.getBiome(minecraft.cameraEntity.blockPosition()).is(ModBiomes.SHURIMAN_DESERT) ||
+                minecraft.level.getBiome(minecraft.cameraEntity.blockPosition()).is(ModBiomes.SHURIMAN_WASTELAND)) {
+            ci.cancel();
+        }
+    }
+
+    @ModifyArg(method = "tickRain",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"),
+            index = 0)
+    private ParticleOptions renderSandOnGround(ParticleOptions particleoptions, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed){
+        return minecraft.level.getBiome(new BlockPos((int)x, (int)y, (int)z)).is(ModBiomes.SHURIMAN_DESERT) ||
+                minecraft.level.getBiome(new BlockPos((int)x, (int)y, (int)z)).is(ModBiomes.SHURIMAN_WASTELAND) ?
+                ModParticles.SAND_PARTICLE.get() : particleoptions;
+    }
 
 }

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "runeterramod:sand_blast"
+    "runeterramod:sand_blast",
+    "runeterramod:sun_energy"
   ]
 }

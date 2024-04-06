@@ -23,6 +23,7 @@ import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
 import com.pizzaprince.runeterramod.particle.ModParticles;
 import com.pizzaprince.runeterramod.particle.custom.SandParticle;
+import com.pizzaprince.runeterramod.particle.custom.GlowParticle;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
 import com.pizzaprince.runeterramod.world.dimension.ShellDimCapabilityProvider;
 import net.minecraft.client.Minecraft;
@@ -372,6 +373,7 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void registerParticles(RegisterParticleProvidersEvent event){
 			Minecraft.getInstance().particleEngine.register(ModParticles.SAND_PARTICLE.get(), SandParticle.Provider::new);
+			Minecraft.getInstance().particleEngine.register(ModParticles.GLOW_PARTICLE.get(), GlowParticle.Provider::new);
 		}
 
 		@SubscribeEvent

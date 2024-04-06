@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_purified_sun_stone_items": {
+    "has_shuriman_sandstone": {
       "conditions": {
         "items": [
           {
             "items": [
-              "runeterramod:purified_sun_stone_dust"
+              "runeterramod:shuriman_sandstone"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "runeterramod:purified_sun_stone"
+        "recipe": "runeterramod:smooth_shuriman_sandstone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_purified_sun_stone_items",
+      "has_shuriman_sandstone",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "runeterramod:purified_sun_stone"
+      "runeterramod:smooth_shuriman_sandstone"
     ]
   },
   "sends_telemetry_event": false

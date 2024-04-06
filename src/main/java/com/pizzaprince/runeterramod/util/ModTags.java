@@ -24,6 +24,8 @@ public class ModTags {
 
         public static final TagKey<Item> LEGENDARY_ITEMS = tag("legendary_items");
 
+        public static final TagKey<Item> SUN_FORGE_REPAIRABLE = tag("sun_forge_repairable");
+
         private static TagKey<Item> tag(String name){
             return TagKey.create(Registries.ITEM, new ResourceLocation(RuneterraMod.MOD_ID, name));
         }

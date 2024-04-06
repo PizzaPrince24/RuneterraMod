@@ -6,9 +6,12 @@ import com.pizzaprince.runeterramod.item.ModItems;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import javax.annotation.Nullable;
@@ -35,8 +38,25 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
-                .unlockedBy("has_purified_sun_stone_dust", inventoryTrigger(ItemPredicate.Builder.item()
+                .unlockedBy("has_purified_sun_stone_items", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(ModItems.PURIFIED_SUN_STONE_DUST.get()).build()))
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModItems.SUN_FORGE_ITEM.get())
+                .define('#', ModBlocks.SUN_STONE_BLOCK.get().asItem())
+                .define('$', Blocks.GOLD_BLOCK.asItem())
+                .define('%', ModItems.SUN_STONE.get())
+                .define('*', ModBlocks.SMOOTH_SHURIMAN_SANDSTONE.get())
+                .pattern("$%$")
+                .pattern("%#%")
+                .pattern("***")
+                .unlockedBy("has_sun_forge_items", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(ModItems.SUN_STONE.get(), ModBlocks.SUN_STONE_BLOCK.get().asItem(), Blocks.GOLD_BLOCK, ModBlocks.SMOOTH_SHURIMAN_SANDSTONE.get()).build()))
+                .save(pWriter);
+
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.SHURIMAN_SANDSTONE.get().asItem()), RecipeCategory.BUILDING_BLOCKS,
+                ModBlocks.SMOOTH_SHURIMAN_SANDSTONE.get(), 0.3f, 200)
+                .unlockedBy("has_shuriman_sandstone", inventoryTrigger(ItemPredicate.Builder.item().of(ModBlocks.SHURIMAN_SANDSTONE.get().asItem()).build()))
                 .save(pWriter);
 
         // ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BLACK_OPAL.get())
