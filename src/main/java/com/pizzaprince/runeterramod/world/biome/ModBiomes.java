@@ -25,6 +25,8 @@ public class ModBiomes {
 	public static final ResourceKey<Biome> SHURIMAN_DESERT = createBiome("shuriman_desert");
 
 	public static final ResourceKey<Biome> SHURIMAN_WASTELAND = createBiome("shuriman_wasteland");
+
+	public static final ResourceKey<Biome> SHELL_BIOME = createBiome("shell_biome");
 	
 	private static ResourceKey<Biome> createBiome(String name) {
 		return ResourceKey.create(Registries.BIOME, new ResourceLocation(RuneterraMod.MOD_ID, name));
@@ -51,5 +53,7 @@ public class ModBiomes {
 		register(context, SHURIMAN_DESERT, ModOverworldBiomes.shurimanDesert(placedFeatureGetter, carverGetter));
 
 		register(context, SHURIMAN_WASTELAND, ModOverworldBiomes.shurimanWasteland(placedFeatureGetter, carverGetter));
+
+		register(context, SHELL_BIOME, ModOverworldBiomes.shellBiome(placedFeatureGetter, carverGetter));
 	}
 }

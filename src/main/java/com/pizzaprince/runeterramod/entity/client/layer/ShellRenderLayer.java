@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -20,6 +21,7 @@ import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -36,46 +38,24 @@ public class ShellRenderLayer<T extends LivingEntity, M extends EntityModel<T>> 
     private GeoObjectRenderer renderer;
 
     AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private HumanoidModel<?> baseModel;
-
-    private RenderLayerParent<T, M> pRenderer;
-
-    boolean retract = false;
-
-    boolean isRetracted = false;
 
     private static final ResourceLocation SHELL_LOCATION = new ResourceLocation(RuneterraMod.MOD_ID, "textures/entity/layer/shell.png");
-
-    private GeoAnimatable animatable;
     public ShellRenderLayer(RenderLayerParent<T, M> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
         this.renderer = new GeoObjectRenderer(new ShellModel());
-
-        if(pRenderer.getModel() instanceof HumanoidModel<?> model){
-            this.baseModel = model;
-        }
-        this.pRenderer = pRenderer;
     }
 
     @Override
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         pLivingEntity.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-            if(cap.isTurtleAscended()){
-                retract = cap.isRetracting();
-                isRetracted = cap.isRetracted();
-                //pRenderer = (RenderLayerParent<T, M>)Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(pLivingEntity);
+            if(cap.getAscendantType() == AscendantType.TURTLE){
                 if(this.getParentModel() instanceof HumanoidModel<?> model) {
-                    ModelPart body = model.body;
                     Optional<GeoBone> optional = renderer.getGeoModel().getBone("shell");
                     optional.ifPresent(bone -> {
-                        RenderUtils.matchModelPartRot(body, bone);
-                        bone.updatePosition(body.x, -body.y, body.z);
-                        System.out.println("" + body.x + ", " + body.y + ", " + body.z);
+                        bone.updateRotation(model.body.xRot, model.body.yRot, model.body.zRot);
                     });
                 }
-                //this.getParentModel().copyPropertiesTo();
-                pPoseStack.translate(!isRetracted ? -0.55 : -0.55*2, -1.4, -0.5);
-                pPoseStack.scale(1.1f, 1.1f, 1.1f);
+                pPoseStack.translate(-0.5, -1.3, -0.5);
                 VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entitySolid(SHELL_LOCATION));
                 this.renderer.render(pPoseStack, this, pBuffer, RenderType.entitySolid(SHELL_LOCATION), vertexconsumer, pPackedLight);
             }
@@ -84,14 +64,7 @@ public class ShellRenderLayer<T extends LivingEntity, M extends EntityModel<T>> 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController(this, "controller", 0, state -> {
-            if(retract || isRetracted){
-                state.setAnimation(RawAnimation.begin().then("animation.shell.retract", Animation.LoopType.HOLD_ON_LAST_FRAME));
-            } else {
-                state.setAnimation(RawAnimation.begin().then("animation.shell.idle", Animation.LoopType.LOOP));
-            }
-            return PlayState.CONTINUE;
-        }));
+        controllerRegistrar.add(new AnimationController(this, "controller", 0, state -> PlayState.CONTINUE));
     }
 
     @Override

@@ -2,6 +2,9 @@ package com.pizzaprince.runeterramod.event;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.*;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
+import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
+import com.pizzaprince.runeterramod.ability.ascendent.TurtleAscendant;
 import com.pizzaprince.runeterramod.ability.curios.*;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.effect.ModAttributes;
@@ -19,6 +22,7 @@ import com.pizzaprince.runeterramod.item.custom.curios.epic.BamisCinder;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.CrystallineBracer;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.Zeal;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
+import com.pizzaprince.runeterramod.mixin.MixinRangedAttribute;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
 import com.pizzaprince.runeterramod.particle.ModParticles;
@@ -27,6 +31,7 @@ import com.pizzaprince.runeterramod.particle.custom.GlowParticle;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
 import com.pizzaprince.runeterramod.world.dimension.ShellDimCapabilityProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -35,6 +40,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal.Flag;
 import net.minecraft.world.entity.player.Player;
@@ -61,6 +67,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import top.theillusivec4.curios.api.CuriosCapability;
 
 
@@ -185,12 +192,17 @@ public class ModEvents {
 				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 					cap.setInCombat();
 					cap.applyOnDamageEffects(event);
-					if(cap.isTurtleAscended()){
-						cap.calculateShellDamage(event);
+					if(cap.getAscendantType() == AscendantType.TURTLE){
+						((TurtleAscendant)cap.getAscendant()).calculateShellDamage(event);
 					}
-					if(cap.getRageArtTargetID() != -1){
-						event.setCanceled(true);
+					if(cap.getAscendantType() == AscendantType.CROCODILE){
+						if(((CrocodileAscendant)cap.getAscendant()).getRageArtTargetID() != -1){
+							event.setCanceled(true);
+						}
 					}
+				});
+				player.getCapability(AscendantCapabilityProvider.ASCENDENT_CAPABILITY).ifPresent(cap -> {
+					cap.setInCombat();
 				});
 			}
 			if (event.getSource().getEntity() instanceof LivingEntity entity) {
@@ -202,19 +214,26 @@ public class ModEvents {
 					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 						cap.setInCombat();
 						cap.applyHitEffects(event);
-						if (cap.isCrocodileAscended()) {
-							event.setAmount(event.getAmount() * (1f + cap.getDamageMultiplierFromRage()));
-							cap.addRage(5, (ServerPlayer) player);
+						if (cap.getAscendantType() == AscendantType.CROCODILE) {
+							CrocodileAscendant ascendant = (CrocodileAscendant) cap.getAscendant();
+							event.setAmount(event.getAmount() * (1f + ascendant.getDamageMultiplierFromRage()));
+							ascendant.addRage(5, (ServerPlayer) player);
 						}
+					});
+					player.getCapability(AscendantCapabilityProvider.ASCENDENT_CAPABILITY).ifPresent(cap -> {
+						cap.setInCombat();
 					});
 				}
 			}
 			if(event.getEntity().hasEffect(ModEffects.STUN.get())){
 				event.getEntity().level().getServer().getPlayerList().getPlayers().forEach(player -> {
 					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-						if(event.getEntity().getId() == cap.getRageArtTargetID()){
-							if(event.getSource().type() != ModDamageTypes.getDamageSource(ModDamageTypes.RAGE_ART, player).type()){
-								event.setCanceled(true);
+						if(cap.getAscendantType() == AscendantType.CROCODILE){
+							CrocodileAscendant ascendant = (CrocodileAscendant) cap.getAscendant();
+							if(event.getEntity().getId() == ascendant.getRageArtTargetID()){
+								if(event.getSource().type() != ModDamageTypes.getDamageSource(ModDamageTypes.RAGE_ART, player).type()){
+									event.setCanceled(true);
+								}
 							}
 						}
 					});
@@ -250,6 +269,9 @@ public class ModEvents {
 					if (event.player instanceof ServerPlayer player) {
 						event.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
 							abilities.tick(player);
+						});
+						event.player.getCapability(AscendantCapabilityProvider.ASCENDENT_CAPABILITY).ifPresent(cap -> {
+							cap.tick(player);
 						});
 					}
 					for (ItemStack item : event.player.getInventory().items) {
@@ -389,6 +411,13 @@ public class ModEvents {
 				event.add(type, ModAttributes.CRIT_CHANCE.get());
 				event.add(type, ModAttributes.CRIT_DAMAGE.get());
 			});
+		}
+
+		@SubscribeEvent
+		public static void modifyAttributeRanges(FMLLoadCompleteEvent event){
+			Attribute armor = BuiltInRegistries.ATTRIBUTE.get(ResourceLocation.tryParse("minecraft:generic.armor"));
+			MixinRangedAttribute ranged = (MixinRangedAttribute) ((Object) armor);
+			ranged.setMaxValue(1028);
 		}
 
 

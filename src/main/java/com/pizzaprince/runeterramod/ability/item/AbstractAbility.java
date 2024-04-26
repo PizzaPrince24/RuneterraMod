@@ -3,6 +3,7 @@ package com.pizzaprince.runeterramod.ability.item;
 import javax.annotation.Nullable;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.effect.ModAttributes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -63,9 +64,7 @@ public abstract class AbstractAbility {
 
 	public void setOnCooldown(LivingEntity entity){
 		if(entity instanceof Player player){
-			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-				this.currentCooldown = this.maxCooldown * (100 / (100 + cap.getAbilityHaste()));
-			});
+			this.currentCooldown = this.maxCooldown * (100 / (100 + (int)player.getAttributeValue(ModAttributes.ABILITY_HASTE.get())));
 		} else {
 			this.currentCooldown = this.maxCooldown;
 		}

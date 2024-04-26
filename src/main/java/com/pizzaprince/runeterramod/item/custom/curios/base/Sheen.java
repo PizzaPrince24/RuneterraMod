@@ -1,10 +1,8 @@
 package com.pizzaprince.runeterramod.item.custom.curios.base;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
-import com.pizzaprince.runeterramod.effect.ModEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,19 +20,14 @@ public class Sheen extends Item implements ICurioItem {
         super(pProperties);
     }
 
-    private Consumer<LivingHurtEvent> hitEffect = event -> {
-        event.getSource().getEntity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-            if(cap.isSheenHit()){
-                event.setAmount(event.getAmount() + 1);
-                cap.setSheenHit(false);
-            }
-        });
+    public static Consumer<LivingHurtEvent> SHEEN_HIT_EFFECT = event -> {
+            event.setAmount(event.getAmount() + 1);
     };
 
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-            cap.addPermaHitEffect("sheen_amp", hitEffect);
+            cap.addPermaHitEffect("sheen_amp", SHEEN_HIT_EFFECT);
         });
     }
 

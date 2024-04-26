@@ -5,13 +5,15 @@
   "refmap": "runeterramod.refmap.json",
   "mixins": [
     "MixinLivingEntity",
-    "MixinCombatRules"
+    "MixinCombatRules",
+    "MixinRangedAttribute"
   ],
   "client": [
     "MixinMinecraftClient",
     "MixinEntityClient",
     "MixinLocalPlayer",
-    "MixinLevelRenderer"
+    "MixinLevelRenderer",
+    "MixinLightEngine"
   ],
   "minVersion": "0.8.4"
 }

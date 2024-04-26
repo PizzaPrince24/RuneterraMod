@@ -2,6 +2,7 @@ package com.pizzaprince.runeterramod.networking.packet;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.ability.AbilityItemCapabilityProvider;
+import com.pizzaprince.runeterramod.item.custom.curios.base.Sheen;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +37,7 @@ public class UltimateKeyPressC2SPacket {
 					ItemStack stack = player.getMainHandItem();
 					stack.getCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY).ifPresent(cap -> {
 						if (cap.fireSelectedAbility(level, player)) {
-							abilities.setSheenHit(true);
+							abilities.addTempHitEffect("sheen_amp", Sheen.SHEEN_HIT_EFFECT);
 						}
 					});
 				} else {

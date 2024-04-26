@@ -33,7 +33,7 @@ public class ModEffects {
 
 	public static final RegistryObject<MobEffect> GIANT = MOB_EFFECTS.register("giant",
 			() -> new MobEffect(MobEffectCategory.BENEFICIAL, 8989061)
-					.addAttributeModifier(Attributes.MAX_HEALTH, UUID.randomUUID().toString(), 1, AttributeModifier.Operation.MULTIPLY_TOTAL));
+					.addAttributeModifier(Attributes.MAX_HEALTH, UUID.randomUUID().toString(), 20, AttributeModifier.Operation.ADDITION));
 
 
 	public static void register(IEventBus eventBus) {

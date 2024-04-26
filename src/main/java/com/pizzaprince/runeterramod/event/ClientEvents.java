@@ -3,6 +3,8 @@ package com.pizzaprince.runeterramod.event;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
+import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.ShurimanTransfuserRenderer;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
@@ -108,7 +110,7 @@ public class ClientEvents {
 		public static void computeFOVEvent(ComputeFovModifierEvent event){
 			Player player = event.getPlayer();
 			player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-				if(cap.getSpinTicks() >= 0) {
+				if(cap.getAscendantType() == AscendantType.CROCODILE && ((CrocodileAscendant)cap.getAscendant()).getSpinTicks() >= 0){
 					event.setNewFovModifier(event.getFovModifier() * (2f / ((float) player.getAttributeValue(Attributes.MOVEMENT_SPEED) / player.getAbilities().getWalkingSpeed() + 1.0f)));
 				}
 			});

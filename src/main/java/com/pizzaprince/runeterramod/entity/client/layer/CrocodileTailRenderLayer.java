@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -28,7 +29,7 @@ public class CrocodileTailRenderLayer <T extends LivingEntity, M extends EntityM
     @Override
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         pLivingEntity.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-            if(cap.isCrocodileAscended()){
+            if(cap.getAscendantType() == AscendantType.CROCODILE){
                 pPoseStack.pushPose();
                 pPoseStack.translate(0.0F, 0.0F, 0.125F);
                 this.getParentModel().copyPropertiesTo(this.tailModel);

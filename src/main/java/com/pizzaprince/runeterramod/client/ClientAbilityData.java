@@ -2,6 +2,8 @@ package com.pizzaprince.runeterramod.client;
 
 import com.ibm.icu.number.Scale;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
+import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.item.ModItems;
 
@@ -103,18 +105,21 @@ public class ClientAbilityData {
 			ClientAbilityData.currentRage = Math.min(ClientAbilityData.maxRage, ClientAbilityData.currentRage + addedRage);
 		}
 		mc.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-			if(cap.getSpinTicks() >= 22){
-				mc.options.setCameraType(ClientAbilityData.lastCamera);
-				ClientAbilityData.hasSpunTick = false;
-			} else if(cap.getSpinTicks() >= 0){
-				if(!ClientAbilityData.hasSpunTick){
-					ClientAbilityData.hasSpunTick = true;
-					ClientAbilityData.lastCamera = mc.options.getCameraType();
-					mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+			if(cap.getAscendantType() == AscendantType.CROCODILE) {
+				CrocodileAscendant ascendant = (CrocodileAscendant) cap.getAscendant();
+				if (ascendant.getSpinTicks() >= 22) {
+					mc.options.setCameraType(ClientAbilityData.lastCamera);
+					ClientAbilityData.hasSpunTick = false;
+				} else if (ascendant.getSpinTicks() >= 0) {
+					if (!ClientAbilityData.hasSpunTick) {
+						ClientAbilityData.hasSpunTick = true;
+						ClientAbilityData.lastCamera = mc.options.getCameraType();
+						mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+					}
 				}
+				setLookAtTarget(mc.player);
+				updateRageArtMovement();
 			}
-			setLookAtTarget(mc.player);
-			updateRageArtMovement();
 		});
 		Holder<Biome> biome = level.getBiome(mc.cameraEntity.blockPosition());
 		if((biome.is(ModBiomes.SHURIMAN_DESERT) || biome.is(ModBiomes.SHURIMAN_WASTELAND)) && level.isRaining()){

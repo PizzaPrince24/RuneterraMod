@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.mixin;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -26,7 +27,7 @@ public class MixinMinecraftClient {
         if(player != null) {
             player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
                 if (pEntity instanceof LivingEntity entity) {
-                    if (cap.isCrocodileAscended() && ClientAbilityData.getRage() == 100) {
+                    if (cap.getAscendantType() == AscendantType.CROCODILE && ClientAbilityData.getRage() == 100) {
                         if (player.hasLineOfSight(entity) && player.distanceTo(entity) <= 15) {
                             cir.setReturnValue(true);
                         }

@@ -8,6 +8,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
+import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
 import com.pizzaprince.runeterramod.util.KeyBinding;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -277,8 +279,10 @@ public class CrocodileTailModel<T extends LivingEntity> extends EntityModel<T> {
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof Player player && player.hasContainerOpen()) return;
         entity.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+            if(cap.getAscendantType() != AscendantType.CROCODILE) return;
+            CrocodileAscendant ascendant = (CrocodileAscendant) cap.getAscendant();
             float rotate = entity.yBodyRotO-entity.yBodyRot;
-            int spinTicks = cap.getSpinTicks();
+            int spinTicks = ascendant.getSpinTicks();
             if(spinTicks >= 0){
                 if(tail1.yRot > 0.2){
                     rotate = -7f;
@@ -313,7 +317,7 @@ public class CrocodileTailModel<T extends LivingEntity> extends EntityModel<T> {
             boolean swimOrFly = entity.getPose() == Pose.FALL_FLYING || entity.getPose() == Pose.SWIMMING;
             double rotLimit = swimOrFly ? Math.PI/10 : Math.PI/4;
             boolean isFalling = entity.getDeltaMovement().y < 0.0785;
-            int rageArtTicks = cap.getRageArtTicks();
+            int rageArtTicks = ascendant.getRageArtTicks();
             if(rageArtTicks >= 0){
                 double rageArtXRot = 0;
                 if(rageArtTicks >= 0 && rageArtTicks < 45){

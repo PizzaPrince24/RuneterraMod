@@ -2,9 +2,12 @@ package com.pizzaprince.runeterramod.networking.packet;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilities;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
+import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -32,7 +35,8 @@ public class RageArtCapSyncS2CPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             Minecraft.getInstance().level.getEntity(entityID).getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-                cap.setRageArtTicks(this.rageArtTicks);
+                cap.ascend((Player) Minecraft.getInstance().level.getEntity(entityID), AscendantType.CROCODILE);
+                ((CrocodileAscendant)cap.getAscendant()).setRageArtTicks(this.rageArtTicks);
             });
         });
         return true;

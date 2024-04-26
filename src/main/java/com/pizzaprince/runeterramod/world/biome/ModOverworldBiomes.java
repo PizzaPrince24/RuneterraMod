@@ -77,4 +77,12 @@ public class ModOverworldBiomes {
         return biome(Biome.Precipitation.RAIN, 2f, 0.0f, 4566514, 267827, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 
+    public static Biome shellBiome(HolderGetter<PlacedFeature> placedFeatureGetter, HolderGetter<ConfiguredWorldCarver<?>> carverGetter){
+        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
+
+        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(placedFeatureGetter, carverGetter);
+
+        return biome(Biome.Precipitation.NONE, 2f, 0.0f, 4566514, 267827, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+    }
+
 }
