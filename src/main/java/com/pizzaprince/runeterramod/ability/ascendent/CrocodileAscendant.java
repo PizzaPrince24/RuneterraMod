@@ -1,5 +1,6 @@
 package com.pizzaprince.runeterramod.ability.ascendent;
 
+import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.effect.ModAttributes;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.networking.ModPackets;
@@ -39,6 +40,7 @@ public class CrocodileAscendant extends BaseAscendant{
     private Vec3 rageArtTargetPos;
     private boolean canRageArtCrash = false;
     private int rage;
+    private boolean overdrive = false;
     @Override
     public void saveNBTData(CompoundTag nbt) {
         nbt.putInt("spinTicks", this.spinTicks);
@@ -53,6 +55,12 @@ public class CrocodileAscendant extends BaseAscendant{
     public void tick(ServerPlayer player) {
         if(tickCount % 4 == 0 && outOfCombat == 0){
             addRage(-1, player);
+        }
+        if(rage == 0 && overdrive){
+            overdrive = false;
+            player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+                cap.removePermaHitEffect("overdrive");
+            });
         }
         updateSpin(player);
         updateRageArt(player);
@@ -88,7 +96,7 @@ public class CrocodileAscendant extends BaseAscendant{
     public void addRage(int rage, ServerPlayer player){
         if(rage > 0){
             if(canGainRage){
-                this.rage = Mth.clamp(this.rage+rage, 0, 100);
+                this.rage = Mth.clamp(overdrive ? (this.rage+rage)*2 : this.rage+rage, 0, 100);
                 ModPackets.sendToPlayer(new CrocRageS2CPacket(this.rage), player);
             }
         } else {
@@ -111,28 +119,6 @@ public class CrocodileAscendant extends BaseAscendant{
             if(this.rageArtTargetPos != null && target != null && rageArtTicks < 90){
                 target.teleportTo(rageArtTargetPos.x, rageArtTargetPos.y, rageArtTargetPos.z);
             }
-            //if(rageArtTicks >= 2 && rageArtTicks < 15){
-            //	Vec3 moveVec = new Vec3(target.getX() - player.getX(), target.getY() - player.getY(), target.getZ() - player.getZ());
-            //	moveVec = moveVec.add(moveVec.x > 0 ? -(target.getBbWidth()/2 + player.getBbWidth()/2) : (target.getBbWidth()/2 + player.getBbWidth()/2), 0,
-            //			moveVec.z > 0 ? -(target.getBbWidth()/2 + player.getBbWidth()/2) : (target.getBbWidth()/2 + player.getBbWidth()/2));
-            //	//player.move(MoverType.SELF, moveVec.multiply((rageArtTicks)/26d, (rageArtTicks)/26d, (rageArtTicks)/26d));
-            //	//player.moveTo(moveVec.multiply((rageArtTicks)/26d, (rageArtTicks)/26d, (rageArtTicks)/26d));
-            //	player.setDeltaMovement(moveVec.multiply((rageArtTicks)/104d, (rageArtTicks)/104d, (rageArtTicks)/104d));
-            //	player.hurtMarked = true;
-            //}
-            //if(rageArtTicks >= 15 && rageArtTicks < 28){
-            //	Vec3 targetVec = new Vec3(target.getX() - player.getX(), (target.getY() + target.getBbHeight()) - player.getY(), target.getZ() - player.getZ());
-            //	//player.move(MoverType.SELF, targetVec.multiply((rageArtTicks - 14)/24d, (rageArtTicks - 14)/24d, (rageArtTicks - 14)/24d));
-            //	//player.moveTo(targetVec.multiply((rageArtTicks - 14)/24d, (rageArtTicks - 14)/24d, (rageArtTicks - 14)/24d));
-            //	player.setDeltaMovement(targetVec.multiply((rageArtTicks - 14)/96d, (rageArtTicks - 14)/96d, (rageArtTicks - 14)/96d));
-            //	player.hurtMarked = true;
-            //}
-            //if(rageArtTicks >= 28 && rageArtTicks < 110){
-            //	player.teleportTo(target.getX(), target.getY() + target.getBbHeight(), target.getZ());
-            //}
-            //if(rageArtTicks > 55 && rageArtTicks < 85){
-            //	player.teleportTo(target.getX(), target.getY() + target.getBbHeight() + 12.3, target.getZ());
-            //}
             if(rageArtTicks == 90){
                 this.canRageArtCrash = true;
             }
@@ -168,6 +154,10 @@ public class CrocodileAscendant extends BaseAscendant{
                 this.rageArtTicks = -1;
                 this.rageArtTargetId = -1;
                 this.canGainRage = true;
+                this.overdrive = true;
+                player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+                    cap.addPermaHitEffect("overdrive", event -> event.setAmount(event.getAmount()*2));
+                });
             }
             ModPackets.sendToPlayer(new RageArtTickSyncS2CPacket(this.rageArtTicks), player);
             ModPackets.sendToClients(new RageArtCapSyncS2CPacket(this.rageArtTicks, player.getId()));
@@ -197,7 +187,7 @@ public class CrocodileAscendant extends BaseAscendant{
                     float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
                     if ((entityRelativeAngle <= angle && entityRelativeAngle >= -angle / 2) || (entityRelativeAngle >= 360 - angle || entityRelativeAngle <= -360 + angle / 2)) {
                         target.hurt(player.level().damageSources().playerAttack(player), (float)player.getAttribute(Attributes.ATTACK_DAMAGE).getValue() + 4f);
-                        player.heal(2);
+                        player.heal((float)player.getAttributeValue(Attributes.ATTACK_DAMAGE)*0.5f);
                     }
                 });
             }
@@ -216,7 +206,7 @@ public class CrocodileAscendant extends BaseAscendant{
                     float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
                     if ((entityRelativeAngle <= angle && entityRelativeAngle >= -angle / 2) || (entityRelativeAngle >= 360 - angle || entityRelativeAngle <= -360 + angle / 2)) {
                         target.hurt(player.level().damageSources().playerAttack(player), (float)player.getAttribute(Attributes.ATTACK_DAMAGE).getValue() + 4f);
-                        player.heal(2);
+                        player.heal((float)player.getAttributeValue(Attributes.ATTACK_DAMAGE)*0.5f);
                         target.knockback(1, -Math.sin(Math.toRadians((player.yBodyRot % 360) - 90)), Math.cos(Math.toRadians((player.yBodyRot % 360) - 90)));
                     }
                 });
@@ -235,7 +225,7 @@ public class CrocodileAscendant extends BaseAscendant{
     }
 
     public float getDamageMultiplierFromRage(){
-        return ((float)this.rage)*0.003f;
+        return ((float)this.rage)*0.005f;
     }
 
     public void startSpin(){

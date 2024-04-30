@@ -91,6 +91,14 @@
 	"effect.runeterramod.stun": "Stunned!",
 	"effect.runeterramod.quenched": "It'll Quench Ya! Nothing's Quenchier! It's the Quenchiest!",
 	"effect.runeterramod.rylais_slow": "Rylai's Slowness",
+	"effect.runeterramod.giant": "Giant",
+
+	"item.minecraft.potion.effect.giant_potion": "Iron Potion",
+	"item.minecraft.splash_potion.effect.giant_potion": "Iron Splash Potion",
+	"item.minecraft.lingering_potion.effect.giant_potion": "Lingering Iron Potion",
+	"item.minecraft.potion.effect.strong_giant_potion": "Strong Iron Potion",
+	"item.minecraft.splash_potion.effect.strong_giant_potion": "Strong Iron Splash Potion",
+	"item.minecraft.lingering_potion.effect.strong_giant_potion": "Strong Lingering Iron Potion",
 
 	"curios.identifier.runeterra": "Runeterra",
 	"curios.identifier.ascension": "Ascension Pendant",

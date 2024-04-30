@@ -20,6 +20,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import virtuoel.pehkui.api.ScaleTypes;
 
@@ -47,7 +48,7 @@ public class TurtleAscendant extends BaseAscendant{
         0: Have over 200 health
         1: Have over 70 armor
         2: Have over 70 magic resist
-        3: Be over 5x normal size
+        3: Be over 3x normal size
         4: Have your shell take over 100 damage from a single hit without breaking
      */
     private byte[] shellUpgrades = new byte[5];
@@ -154,7 +155,7 @@ public class TurtleAscendant extends BaseAscendant{
         if(player.getAttributeValue(ModAttributes.MAGIC_RESIST.get()) >= 70){
             shellUpgrades[2] = 1;
         }
-        if(ScaleTypes.BASE.getScaleData(player).getScale() >= 5){
+        if(ScaleTypes.BASE.getScaleData(player).getScale() >= 3){
             shellUpgrades[3] = 1;
         }
         int count = 0;
@@ -265,7 +266,7 @@ public class TurtleAscendant extends BaseAscendant{
         }
     }
 
-    public void calculateShellDamage(LivingHurtEvent event){
+    public void calculateShellDamage(LivingDamageEvent event){
         if(event.getEntity().level().isClientSide()) return;
         ServerPlayer player = (ServerPlayer) event.getEntity();
         float damageToShell = event.getAmount() * 0.6f;

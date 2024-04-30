@@ -6,7 +6,8 @@
   "mixins": [
     "MixinLivingEntity",
     "MixinCombatRules",
-    "MixinRangedAttribute"
+    "MixinRangedAttribute",
+    "MixinPlayer"
   ],
   "client": [
     "MixinMinecraftClient",

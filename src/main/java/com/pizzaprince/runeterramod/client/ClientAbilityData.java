@@ -61,6 +61,7 @@ public class ClientAbilityData {
 	private static float rageArtYRot = -1;
 
 	private static float sandstormLevel = 0f;
+	private static int eagleDashCooldown = 0;
 
 	public static boolean isStunned() {
 		return ClientAbilityData.isStunned;
@@ -90,6 +91,7 @@ public class ClientAbilityData {
 		ClientAbilityData.tickCount = ++ClientAbilityData.tickCount % 20;
 		ClientAbilityData.stunDuration--;
 		ClientAbilityData.stunDuration = Math.max(0, ClientAbilityData.stunDuration);
+		ClientAbilityData.eagleDashCooldown = Math.max(0, ClientAbilityData.eagleDashCooldown-1);
 		if(ClientAbilityData.stunDuration == 0) {
 			ClientAbilityData.isStunned = false;
 		}
@@ -128,6 +130,14 @@ public class ClientAbilityData {
 			ClientAbilityData.sandstormLevel -= 0.025f;
 		}
 		ClientAbilityData.sandstormLevel = Mth.clamp(ClientAbilityData.sandstormLevel, 0f, 1f);
+	}
+
+	public static int getEagleDashCooldown(){
+		return ClientAbilityData.eagleDashCooldown;
+	}
+
+	public static void setEagleDashOnCooldown(){
+		ClientAbilityData.eagleDashCooldown = 40;
 	}
 
 	private static void updateRageArtMovement(){

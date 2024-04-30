@@ -5,6 +5,7 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
 import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
+import com.pizzaprince.runeterramod.ability.ascendent.EagleAscendant;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.ShurimanTransfuserRenderer;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
@@ -13,6 +14,7 @@ import com.pizzaprince.runeterramod.camera.CameraSequences;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.overlay.CrocAscendentRageOverlay;
+import com.pizzaprince.runeterramod.client.screen.FastFlightScreen;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
 import com.pizzaprince.runeterramod.client.screen.SunForgeScreen;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
@@ -36,6 +38,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -46,6 +49,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -71,6 +75,22 @@ public class ClientEvents {
 			}
 			if(KeyBinding.ASCENDED_KEY.consumeClick()){
 				if(!ClientAbilityData.isStunned()){
+					LocalPlayer player = Minecraft.getInstance().player;
+					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						if(cap.getAscendantType() == AscendantType.EAGLE){
+							if(player.isFallFlying()) {
+								if (ClientAbilityData.getEagleDashCooldown() == 0) {
+									Vec3 movement = player.getDeltaMovement();
+									Vec3 looking = player.getLookAngle();
+									player.setDeltaMovement(movement.add(looking.x * 1.5 + (looking.x * 1.5D - movement.x) * 0.5D,
+											looking.y * 1.5 + (looking.y * 1.5D - movement.y) * 0.5D, looking.z * 1.5 + (looking.z * 1.5D - movement.z) * 0.5D));
+									ClientAbilityData.setEagleDashOnCooldown();
+								}
+							} else if(player.onGround()) {
+								Minecraft.getInstance().setScreen(new FastFlightScreen(player.level(), player));
+							}
+						}
+					});
 					ModPackets.sendToServer(new AscendedKeyPressC2SPacket(ClientAbilityData.getLookAtEntityID()));
 				}
 			}

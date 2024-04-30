@@ -1,9 +1,6 @@
 package com.pizzaprince.runeterramod.ability;
 
-import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
-import com.pizzaprince.runeterramod.ability.ascendent.BaseAscendant;
-import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
-import com.pizzaprince.runeterramod.ability.ascendent.TurtleAscendant;
+import com.pizzaprince.runeterramod.ability.ascendent.*;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
@@ -107,6 +104,7 @@ public class PlayerAbilities {
 			case NONE -> ascendant = null;
 			case CROCODILE -> ascendant = new CrocodileAscendant();
 			case TURTLE -> ascendant = new TurtleAscendant();
+			case EAGLE -> ascendant = new EagleAscendant();
 		}
 		if(ascendant != null) ascendant.loadNBTData(nbt);
 	}
@@ -144,6 +142,7 @@ public class PlayerAbilities {
 		switch (type){
 			case CROCODILE -> ascendant = new CrocodileAscendant();
 			case TURTLE -> ascendant = new TurtleAscendant();
+			case EAGLE -> ascendant = new EagleAscendant();
 		}
 		ascendant.onAscend(player);
 		ascendantType = type;

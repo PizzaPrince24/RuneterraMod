@@ -4,6 +4,7 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.*;
 import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
 import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
+import com.pizzaprince.runeterramod.ability.ascendent.EagleAscendant;
 import com.pizzaprince.runeterramod.ability.ascendent.TurtleAscendant;
 import com.pizzaprince.runeterramod.ability.curios.*;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
@@ -48,17 +49,15 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -192,17 +191,11 @@ public class ModEvents {
 				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 					cap.setInCombat();
 					cap.applyOnDamageEffects(event);
-					if(cap.getAscendantType() == AscendantType.TURTLE){
-						((TurtleAscendant)cap.getAscendant()).calculateShellDamage(event);
-					}
 					if(cap.getAscendantType() == AscendantType.CROCODILE){
 						if(((CrocodileAscendant)cap.getAscendant()).getRageArtTargetID() != -1){
 							event.setCanceled(true);
 						}
 					}
-				});
-				player.getCapability(AscendantCapabilityProvider.ASCENDENT_CAPABILITY).ifPresent(cap -> {
-					cap.setInCombat();
 				});
 			}
 			if (event.getSource().getEntity() instanceof LivingEntity entity) {
@@ -219,9 +212,11 @@ public class ModEvents {
 							event.setAmount(event.getAmount() * (1f + ascendant.getDamageMultiplierFromRage()));
 							ascendant.addRage(5, (ServerPlayer) player);
 						}
-					});
-					player.getCapability(AscendantCapabilityProvider.ASCENDENT_CAPABILITY).ifPresent(cap -> {
-						cap.setInCombat();
+						if(cap.getAscendantType() == AscendantType.EAGLE){
+							if(player.isFallFlying()){
+								event.setAmount(event.getAmount() * 1.5f);
+							}
+						}
 					});
 				}
 			}
@@ -245,6 +240,13 @@ public class ModEvents {
 		public static void onDamage(LivingDamageEvent event){
 			if(event.getSource().getEntity() instanceof LivingEntity entity){
 				entity.heal(event.getAmount()*(float)entity.getAttributeValue(ModAttributes.OMNIVAMP.get()));
+			}
+			if (event.getEntity() instanceof Player player) {
+				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+					if(cap.getAscendantType() == AscendantType.TURTLE){
+						((TurtleAscendant)cap.getAscendant()).calculateShellDamage(event);
+					}
+				});
 			}
 		}
 
@@ -376,6 +378,39 @@ public class ModEvents {
 					oldInstance.isVisible(), oldInstance.showIcon(), null, oldInstance.getFactorData());
 			newInstance.setCurativeItems(oldInstance.getCurativeItems());
 			oldInstance.setDetailsFrom(newInstance);
+		}
+
+		@SubscribeEvent
+		public static void entityJump(LivingEvent.LivingJumpEvent event){
+			if(event.getEntity() instanceof Player player){
+				//Vec3 movement = player.getDeltaMovement();
+				//player.setDeltaMovement(movement.x, movement.y + 2, movement.z);
+				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+					if(cap.getAscendantType() == AscendantType.EAGLE){
+						EagleAscendant ascendant = (EagleAscendant) cap.getAscendant();
+						int crouchTicks = ascendant.getCrouchTicks();
+						if(crouchTicks > 0){
+							Vec3 movement = player.getDeltaMovement();
+							double y = (double)crouchTicks/10d;
+							player.setDeltaMovement(movement.x, movement.y + y, movement.z);
+							ascendant.resetCrouchTicks();
+						}
+					}
+				});
+			}
+		}
+
+		@SubscribeEvent
+		public static void fallDamage(LivingFallEvent event){
+			if(event.getEntity() instanceof Player player){
+				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+					if(cap.getAscendantType() == AscendantType.EAGLE){
+						EagleAscendant ascendant = (EagleAscendant) cap.getAscendant();
+						ascendant.shockwave(player, event.getDistance());
+						event.setDistance(0);
+					}
+				});
+			}
 		}
 
 

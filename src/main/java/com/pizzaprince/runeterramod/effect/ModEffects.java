@@ -23,7 +23,6 @@ public class ModEffects {
 	public static final RegistryObject<MobEffect> STUN = MOB_EFFECTS.register("stun",
 			() -> new StunEffect(MobEffectCategory.HARMFUL, 8989061));
 
-
 	public static final RegistryObject<MobEffect> QUENCHED = MOB_EFFECTS.register("quenched",
 			() -> new QuenchedEffect(MobEffectCategory.HARMFUL, 8989061));
 
@@ -32,7 +31,7 @@ public class ModEffects {
 					.addAttributeModifier(Attributes.MOVEMENT_SPEED, UUID.randomUUID().toString(), -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
 
 	public static final RegistryObject<MobEffect> GIANT = MOB_EFFECTS.register("giant",
-			() -> new MobEffect(MobEffectCategory.BENEFICIAL, 8989061)
+			() -> new MobEffect(MobEffectCategory.BENEFICIAL, 11119017)
 					.addAttributeModifier(Attributes.MAX_HEALTH, UUID.randomUUID().toString(), 20, AttributeModifier.Operation.ADDITION));
 
 

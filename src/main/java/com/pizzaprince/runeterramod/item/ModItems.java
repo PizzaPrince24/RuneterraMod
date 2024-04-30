@@ -8,6 +8,7 @@ import com.pizzaprince.runeterramod.item.custom.*;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 import com.pizzaprince.runeterramod.item.custom.armor.RampagingBaccaiArmorItem;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.CrocodileAscensionPendant;
+import com.pizzaprince.runeterramod.item.custom.curios.ascension.EagleAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.TurtleAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.base.*;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.*;
@@ -102,6 +103,9 @@ public class ModItems {
 
 	public static final RegistryObject<Item> TURTLE_ASCENSION_PENDANT = ITEMS.register("turtle_ascension_pendant",
 			() -> new TurtleAscensionPendant(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> EAGLE_ASCENSION_PENDANT = ITEMS.register("eagle_ascension_pendant",
+			() -> new EagleAscensionPendant(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> IRON_ELIXIR = ITEMS.register("iron_elixir",
 			() -> new Item(new Item.Properties().stacksTo(1).food(

@@ -95,6 +95,18 @@ public class ModPackets {
 				.encoder(RageArtCapSyncS2CPacket::toBytes)
 				.consumerMainThread(RageArtCapSyncS2CPacket::handle)
 				.add();
+
+		net.messageBuilder(EagleFastFlightC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(EagleFastFlightC2SPacket::new)
+				.encoder(EagleFastFlightC2SPacket::toBytes)
+				.consumerMainThread(EagleFastFlightC2SPacket::handle)
+				.add();
+
+		net.messageBuilder(UpdateWayPointC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(UpdateWayPointC2SPacket::new)
+				.encoder(UpdateWayPointC2SPacket::toBytes)
+				.consumerMainThread(UpdateWayPointC2SPacket::handle)
+				.add();
 	}
 	
 	public static <MSG> void sendToServer(MSG message) {

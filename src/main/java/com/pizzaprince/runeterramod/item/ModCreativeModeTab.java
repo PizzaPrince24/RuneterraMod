@@ -96,6 +96,7 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.SUN_STONE_SPEAR);
 			event.accept(ModItems.INFUSED_SUN_STONE_SPEAR);
 			event.accept(ModItems.PURIFIED_SUN_STONE_SPEAR);
+			event.accept(ModItems.EAGLE_ASCENSION_PENDANT);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

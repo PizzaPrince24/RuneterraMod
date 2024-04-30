@@ -3,6 +3,7 @@ package com.pizzaprince.runeterramod.networking.packet;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
 import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
+import com.pizzaprince.runeterramod.ability.ascendent.EagleAscendant;
 import com.pizzaprince.runeterramod.ability.ascendent.TurtleAscendant;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.networking.ModPackets;
@@ -13,6 +14,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 import virtuoel.pehkui.api.ScaleTypes;
 
@@ -53,7 +55,7 @@ public class AscendedKeyPressC2SPacket {
                             ascendant.setSlowUUID(randId);
                         }
                     } else {
-                        if(ascendant.getRage() == 0 && this.entityID != -1){
+                        if(ascendant.getRage() == 100 && this.entityID != -1){
                             if(level.getEntity(this.entityID) instanceof LivingEntity target){
                                 ascendant.startRageArt(this.entityID);
                                 ModPackets.sendToClients(new PlayerAnimationS2CPacket(player.getUUID(), "rage_art"));

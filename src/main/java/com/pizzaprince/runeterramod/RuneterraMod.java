@@ -7,6 +7,7 @@ import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.effect.ModAttributes;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
+import com.pizzaprince.runeterramod.effect.ModPotions;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.ModCreativeModeTab;
 import com.pizzaprince.runeterramod.item.ModItems;
@@ -22,7 +23,13 @@ import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
 import com.pizzaprince.runeterramod.world.feature.ModFeatures;
 import com.pizzaprince.runeterramod.world.plant.ModPlantTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionBrewing;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -44,6 +51,7 @@ public class RuneterraMod {
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModPotions.register(modEventBus);
         
         ModBiomes.register(modEventBus);
         ModFeatures.register(modEventBus);
@@ -81,6 +89,9 @@ public class RuneterraMod {
 
             Regions.register(new ModOverworldRegionPrimary(new ResourceLocation(RuneterraMod.MOD_ID, "primary"), 10));
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, RuneterraMod.MOD_ID, ModSurfaceRuleData.makeRules());
+
+            PotionBrewing.addMix(Potions.AWKWARD, Items.IRON_INGOT, ModPotions.GIANT_POTION.get());
+            PotionBrewing.addMix(ModPotions.GIANT_POTION.get(), Blocks.IRON_BLOCK.asItem(), ModPotions.STRONG_GIANT_POTION.get());
         });
         ModItemProperties.addCustomItemProperties();
     }
