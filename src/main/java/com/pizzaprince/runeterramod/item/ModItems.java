@@ -9,6 +9,7 @@ import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 import com.pizzaprince.runeterramod.item.custom.armor.RampagingBaccaiArmorItem;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.CrocodileAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.EagleAscensionPendant;
+import com.pizzaprince.runeterramod.item.custom.curios.ascension.ScorpionAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.TurtleAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.base.*;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.*;
@@ -107,12 +108,8 @@ public class ModItems {
 	public static final RegistryObject<Item> EAGLE_ASCENSION_PENDANT = ITEMS.register("eagle_ascension_pendant",
 			() -> new EagleAscensionPendant(new Item.Properties().stacksTo(1)));
 
-	public static final RegistryObject<Item> IRON_ELIXIR = ITEMS.register("iron_elixir",
-			() -> new Item(new Item.Properties().stacksTo(1).food(
-					new FoodProperties.Builder().saturationMod(0).nutrition(0)
-							.effect(() -> new MobEffectInstance(ModEffects.GIANT.get(), 36000, 1, true, true, true), 1)
-							.alwaysEat().build()
-			)));
+	public static final RegistryObject<Item> SCORPION_ASCENSION_PENDANT = ITEMS.register("scorpion_ascension_pendant",
+			() -> new ScorpionAscensionPendant(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> RENEKTON_SPAWN_EGG = ITEMS.register("renekton_spawn_egg",
 			() -> new ForgeSpawnEggItem(ModEntityTypes.RENEKTON, 78368, 40778, new Item.Properties()));
@@ -125,6 +122,9 @@ public class ModItems {
 
 	public static final RegistryObject<Item> PURIFIED_SUN_STONE_SPEAR = ITEMS.register("purified_sun_stone_spear",
 			() -> new SunStoneSpear(ModToolTiers.PURIFIED_SUN_STONE, 3, -2f, new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> SCORPION_CHARM = ITEMS.register("scorpion_ascendant_effect_charm",
+			() -> new ScorpionCharm(new Item.Properties().stacksTo(1)));
 
 
 

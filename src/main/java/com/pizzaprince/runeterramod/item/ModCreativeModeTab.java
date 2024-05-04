@@ -91,12 +91,12 @@ public class ModCreativeModeTab {
 			event.accept(ModItems.RAMPAGING_BACCAI_ARMOR);
 			event.accept(ModItems.CROCODILE_ASCENSION_PENDANT);
 			event.accept(ModItems.TURTLE_ASCENSION_PENDANT);
-			event.accept(ModItems.IRON_ELIXIR);
 			event.accept(ModItems.RENEKTON_SPAWN_EGG);
 			event.accept(ModItems.SUN_STONE_SPEAR);
 			event.accept(ModItems.INFUSED_SUN_STONE_SPEAR);
 			event.accept(ModItems.PURIFIED_SUN_STONE_SPEAR);
 			event.accept(ModItems.EAGLE_ASCENSION_PENDANT);
+			event.accept(ModItems.SCORPION_ASCENSION_PENDANT);
 
 			//blocks
 			event.accept(ModBlocks.SUN_STONE_BLOCK);

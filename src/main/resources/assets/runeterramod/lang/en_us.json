@@ -99,9 +99,17 @@
 	"item.minecraft.potion.effect.strong_giant_potion": "Strong Iron Potion",
 	"item.minecraft.splash_potion.effect.strong_giant_potion": "Strong Iron Splash Potion",
 	"item.minecraft.lingering_potion.effect.strong_giant_potion": "Strong Lingering Iron Potion",
+	"item.minecraft.potion.effect.scorpion_poison": "Bottle of Ascended Scorpion Poison",
+	"item.minecraft.splash_potion.effect.scorpion_poison": "Splash Bottle of Ascended Scorpion Poison",
+	"item.minecraft.lingering_potion.effect.scorpion_poison": "Lingering Bottle of Ascended Scorpion Poison",
 
 	"curios.identifier.runeterra": "Runeterra",
 	"curios.identifier.ascension": "Ascension Pendant",
+
+	"potion.potency.6": "VII",
+	"potion.potency.7": "VIII",
+	"potion.potency.8": "IX",
+	"potion.potency.9": "X",
 
 	"entity.runeterramod.rampaging_baccai": "Rampaging Baccai",
 	"entity.runeterramod.renekton": "Renekton",

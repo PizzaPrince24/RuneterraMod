@@ -119,10 +119,10 @@ public class ClientAbilityData {
 						mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
 					}
 				}
-				setLookAtTarget(mc.player);
 				updateRageArtMovement();
 			}
 		});
+		setLookAtTarget(mc.player);
 		Holder<Biome> biome = level.getBiome(mc.cameraEntity.blockPosition());
 		if((biome.is(ModBiomes.SHURIMAN_DESERT) || biome.is(ModBiomes.SHURIMAN_WASTELAND)) && level.isRaining()){
 			ClientAbilityData.sandstormLevel += 0.025f;

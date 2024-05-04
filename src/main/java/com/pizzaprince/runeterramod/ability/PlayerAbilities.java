@@ -105,6 +105,7 @@ public class PlayerAbilities {
 			case CROCODILE -> ascendant = new CrocodileAscendant();
 			case TURTLE -> ascendant = new TurtleAscendant();
 			case EAGLE -> ascendant = new EagleAscendant();
+			case SCORPION -> ascendant = new ScorpionAscendant();
 		}
 		if(ascendant != null) ascendant.loadNBTData(nbt);
 	}
@@ -143,6 +144,7 @@ public class PlayerAbilities {
 			case CROCODILE -> ascendant = new CrocodileAscendant();
 			case TURTLE -> ascendant = new TurtleAscendant();
 			case EAGLE -> ascendant = new EagleAscendant();
+			case SCORPION -> ascendant = new ScorpionAscendant();
 		}
 		ascendant.onAscend(player);
 		ascendantType = type;

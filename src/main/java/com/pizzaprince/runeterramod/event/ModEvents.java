@@ -2,21 +2,20 @@ package com.pizzaprince.runeterramod.event;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.*;
-import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
-import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
-import com.pizzaprince.runeterramod.ability.ascendent.EagleAscendant;
-import com.pizzaprince.runeterramod.ability.ascendent.TurtleAscendant;
+import com.pizzaprince.runeterramod.ability.ascendent.*;
 import com.pizzaprince.runeterramod.ability.curios.*;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.effect.ModAttributes;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
+import com.pizzaprince.runeterramod.effect.ModPotions;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
 import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
 import com.pizzaprince.runeterramod.entity.custom.RenektonEntity;
 import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;
 import com.pizzaprince.runeterramod.entity.custom.projectile.RunaansHomingBolt;
+import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.item.custom.curios.base.AgilityCloak;
 import com.pizzaprince.runeterramod.item.custom.curios.base.RejuvenationBead;
 import com.pizzaprince.runeterramod.item.custom.curios.epic.BamisCinder;
@@ -35,6 +34,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -46,8 +47,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal.Flag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -239,12 +242,33 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void onDamage(LivingDamageEvent event){
 			if(event.getSource().getEntity() instanceof LivingEntity entity){
+				if(entity.hasEffect(ModEffects.EXHAUSTED.get())){
+					for(int i = 0; i < event.getEntity().getEffect(ModEffects.EXHAUSTED.get()).getAmplifier()+1; i++){
+						event.setAmount(event.getAmount()*0.8f);
+					}
+				}
 				entity.heal(event.getAmount()*(float)entity.getAttributeValue(ModAttributes.OMNIVAMP.get()));
 			}
 			if (event.getEntity() instanceof Player player) {
 				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 					if(cap.getAscendantType() == AscendantType.TURTLE){
 						((TurtleAscendant)cap.getAscendant()).calculateShellDamage(event);
+					}
+				});
+			}
+			if(event.getEntity().hasEffect(ModEffects.VULNERABILITY.get())){
+				event.setAmount(event.getAmount()*(1 + 0.2f*(event.getEntity().getEffect(ModEffects.VULNERABILITY.get()).getAmplifier()+1)));
+			}
+			if(event.getSource().getEntity() instanceof Player player && !event.getEntity().hasEffect(ModEffects.EXHAUSTED.get()) && !event.getEntity().hasEffect(ModEffects.VULNERABILITY.get())){
+				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+					if(cap.getAscendantType() == AscendantType.SCORPION){
+						ScorpionAscendant ascendant = (ScorpionAscendant) cap.getAscendant();
+						if(ascendant.getVenom() >= 40){
+							for(MobEffectInstance effect : ModPotions.SCORPION_POISON.get().getEffects()){
+								//event.getEntity().addEffect(new MobEffectInstance(effect.getEffect(), 400, (int)player.getAttributeValue(ModAttributes.ABILITY_POWER.get())/10));
+							}
+							ascendant.addVenom(-40);
+						}
 					}
 				});
 			}
@@ -260,8 +284,6 @@ public class ModEvents {
 				});
 			}
 		}
-
-
 
 
 		@SubscribeEvent

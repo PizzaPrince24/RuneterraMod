@@ -90,8 +90,7 @@ public class RuneterraMod {
             Regions.register(new ModOverworldRegionPrimary(new ResourceLocation(RuneterraMod.MOD_ID, "primary"), 10));
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, RuneterraMod.MOD_ID, ModSurfaceRuleData.makeRules());
 
-            PotionBrewing.addMix(Potions.AWKWARD, Items.IRON_INGOT, ModPotions.GIANT_POTION.get());
-            PotionBrewing.addMix(ModPotions.GIANT_POTION.get(), Blocks.IRON_BLOCK.asItem(), ModPotions.STRONG_GIANT_POTION.get());
+            ModPotions.addPotionRecipes();
         });
         ModItemProperties.addCustomItemProperties();
     }

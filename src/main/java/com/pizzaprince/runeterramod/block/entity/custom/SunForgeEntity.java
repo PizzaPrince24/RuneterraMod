@@ -4,11 +4,13 @@ import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarMenu;
 import com.pizzaprince.runeterramod.client.screen.SunForgeMenu;
+import com.pizzaprince.runeterramod.effect.ModPotions;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.BlockEntityItemStackSyncS2CPacket;
 import com.pizzaprince.runeterramod.recipe.ItemTransfuserRecipe;
 import com.pizzaprince.runeterramod.recipe.SunForgeRecipe;
+import com.pizzaprince.runeterramod.util.ModPotionUtils;
 import com.pizzaprince.runeterramod.util.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -188,53 +190,47 @@ public class SunForgeEntity extends BlockEntity implements MenuProvider, GeoBloc
             if(entity.sunEnergy > 20 && entity.getSunPower() > 0){
                 ItemStack oldPotion = entity.itemHandler.getStackInSlot(0);
                 int elixirLevel = oldPotion.getOrCreateTag().getInt("elixirLevel");
-                if((elixirLevel == 0) && entity.itemHandler.getStackInSlot(1).is(ModBlocks.SUN_STONE_BLOCK.get().asItem())){
+                if((elixirLevel == 0) && (entity.itemHandler.getStackInSlot(1).is(ModBlocks.SUN_STONE_BLOCK.get().asItem()) ||
+                        PotionUtils.getPotion(entity.itemHandler.getStackInSlot(1)) == ModPotions.SCORPION_POISON.get())){
                     entity.guiAnimCraft++;
                     if(entity.guiAnimCraft >= 19) entity.guiAnimCraft = 0;
                     int newProgress = (int)(20f*((float)entity.getSunPower()/30f));
                     entity.progress+=newProgress;
                     entity.sunEnergy = Math.max(0, entity.sunEnergy-newProgress);
-                    if(entity.progress >= 4800){
+                    if(entity.progress >= 9600){
                         entity.progress = 0;
                         entity.guiAnimCraft = 0;
-                        ItemStack newPotion = new ItemStack(oldPotion.getItem());
-                        List<MobEffectInstance> oldEffects = PotionUtils.getMobEffects(oldPotion);
-                        ArrayList<MobEffectInstance> newEffects = new ArrayList<>();
-                        oldEffects.forEach(effect -> {
-                            newEffects.add(new MobEffectInstance(effect.getEffect(), 36000, effect.getAmplifier()+1, effect.isAmbient(), effect.isVisible(), effect.showIcon()));
-                        });
-                        PotionUtils.setCustomEffects(newPotion, newEffects);
-                        MobEffectInstance firstPositiveEffect = getFirstPositiveEffectOrFirst(newEffects);
-                        ResourceLocation nameLocation = level.registryAccess().registry(Registries.MOB_EFFECT).get().getKey(firstPositiveEffect.getEffect());
-                        newPotion.setHoverName(Component.literal("Elixir of ").append(Component.translatable("effect."+nameLocation.getNamespace()+"."+nameLocation.getPath())));
-                        newPotion.getOrCreateTag().putInt("elixirLevel", 1);
-                        newPotion.getOrCreateTag().putInt("CustomPotionColor", firstPositiveEffect.getEffect().getColor());
+                        ItemStack newPotion = ModPotionUtils.makeElixir(oldPotion, level);
                         entity.itemHandler.setStackInSlot(2, newPotion);
                         entity.itemHandler.extractItem(0, 1, false);
                         entity.itemHandler.extractItem(1, 1, false);
                     }
-                } else if((elixirLevel == 1) && entity.itemHandler.getStackInSlot(1).is(ModItems.PURIFIED_SUN_STONE.get())){
+                } else if((elixirLevel == 1) && (entity.itemHandler.getStackInSlot(1).is(ModItems.PURIFIED_SUN_STONE.get()) ||
+                        PotionUtils.getPotion(entity.itemHandler.getStackInSlot(1)) == ModPotions.SCORPION_POISON.get())){
                     entity.guiAnimCraft++;
                     if(entity.guiAnimCraft >= 19) entity.guiAnimCraft = 0;
                     int newProgress = (int)(20f*((float)entity.getSunPower()/30f));
                     entity.progress+=newProgress;
                     entity.sunEnergy = Math.max(0, entity.sunEnergy-newProgress);
-                    if(entity.progress >= 4800){
+                    if(entity.progress >= 19200){
                         entity.progress = 0;
                         entity.guiAnimCraft = 0;
-                        ItemStack newPotion = new ItemStack(oldPotion.getItem());
-                        List<MobEffectInstance> oldEffects = PotionUtils.getMobEffects(oldPotion);
-                        ArrayList<MobEffectInstance> newEffects = new ArrayList<>();
-                        oldEffects.forEach(effect -> {
-                            newEffects.add(new MobEffectInstance(effect.getEffect(), 72000, effect.getAmplifier()+1, effect.isAmbient(), effect.isVisible(), effect.showIcon()));
-                        });
-                        PotionUtils.setCustomEffects(newPotion, newEffects);
-                        MobEffectInstance firstPositiveEffect = getFirstPositiveEffectOrFirst(newEffects);
-                        ResourceLocation nameLocation = level.registryAccess().registry(Registries.MOB_EFFECT).get().getKey(firstPositiveEffect.getEffect());
-                        newPotion.setHoverName(Component.literal("Elixir of ").append(Component.translatable("effect."+nameLocation.getNamespace()+"."+nameLocation.getPath())));
-                        newPotion.getOrCreateTag().putInt("elixirLevel", 2);
-                        newPotion.getOrCreateTag().putInt("CustomPotionColor", firstPositiveEffect.getEffect().getColor());
+                        ItemStack newPotion = ModPotionUtils.makeElixir(oldPotion, level);
                         entity.itemHandler.setStackInSlot(2, newPotion);
+                        entity.itemHandler.extractItem(0, 1, false);
+                        entity.itemHandler.extractItem(1, 1, false);
+                    }
+                } else if(elixirLevel == 2 && PotionUtils.getPotion(entity.itemHandler.getStackInSlot(1)) == ModPotions.SCORPION_POISON.get()){
+                    entity.guiAnimCraft++;
+                    if(entity.guiAnimCraft >= 19) entity.guiAnimCraft = 0;
+                    int newProgress = (int)(20f*((float)entity.getSunPower()/30f));
+                    entity.progress+=newProgress;
+                    entity.sunEnergy = Math.max(0, entity.sunEnergy-newProgress);
+                    if(entity.progress >= 38400){
+                        entity.progress = 0;
+                        entity.guiAnimCraft = 0;
+                        ItemStack charm = ModPotionUtils.makeScorpionCharm(oldPotion, level);
+                        entity.itemHandler.setStackInSlot(2, charm);
                         entity.itemHandler.extractItem(0, 1, false);
                         entity.itemHandler.extractItem(1, 1, false);
                     }
@@ -251,19 +247,7 @@ public class SunForgeEntity extends BlockEntity implements MenuProvider, GeoBloc
         level.sendBlockUpdated(blockPos, entity.getBlockState(), entity.getBlockState(), 3);
     }
 
-    private static MobEffectInstance getFirstPositiveEffectOrFirst(List<MobEffectInstance> list){
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getEffect().getCategory() == MobEffectCategory.BENEFICIAL){
-                return list.get(i);
-            }
-        }
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getEffect().getCategory() == MobEffectCategory.NEUTRAL){
-                return list.get(i);
-            }
-        }
-        return list.get(0);
-    }
+
 
     private static boolean hasSunStoneItemToRepair(SunForgeEntity entity) {
         ItemStack item = entity.itemHandler.getStackInSlot(2);

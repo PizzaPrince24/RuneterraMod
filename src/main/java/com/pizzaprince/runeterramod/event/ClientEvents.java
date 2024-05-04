@@ -5,7 +5,6 @@ import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
 import com.pizzaprince.runeterramod.ability.ascendent.AscendantType;
 import com.pizzaprince.runeterramod.ability.ascendent.CrocodileAscendant;
-import com.pizzaprince.runeterramod.ability.ascendent.EagleAscendant;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.block.entity.client.ShurimanTransfuserRenderer;
 import com.pizzaprince.runeterramod.block.entity.client.SunDiskAltarRenderer;
@@ -14,6 +13,7 @@ import com.pizzaprince.runeterramod.camera.CameraSequences;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.overlay.CrocAscendentRageOverlay;
+import com.pizzaprince.runeterramod.client.screen.CustomPoisonCreationScreen;
 import com.pizzaprince.runeterramod.client.screen.FastFlightScreen;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
 import com.pizzaprince.runeterramod.client.screen.SunForgeScreen;
@@ -28,33 +28,34 @@ import com.pizzaprince.runeterramod.entity.client.layer.ShellRenderLayer;
 import com.pizzaprince.runeterramod.entity.client.projectile.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.projectile.IceArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.projectile.RunaansHomingBoltRenderer;
+import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.AscendedKeyPressC2SPacket;
 import com.pizzaprince.runeterramod.networking.packet.UltimateKeyPressC2SPacket;
 import com.pizzaprince.runeterramod.util.KeyBinding;
-import com.pizzaprince.runeterramod.world.biome.ModBiomes;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.OutlineBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BottleItem;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.pizzaprince.runeterramod.camera.CinematicCamera.MC;
 public class ClientEvents {
@@ -75,6 +76,7 @@ public class ClientEvents {
 			}
 			if(KeyBinding.ASCENDED_KEY.consumeClick()){
 				if(!ClientAbilityData.isStunned()){
+					AtomicBoolean shouldSend = new AtomicBoolean(true);
 					LocalPlayer player = Minecraft.getInstance().player;
 					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 						if(cap.getAscendantType() == AscendantType.EAGLE){
@@ -90,8 +92,14 @@ public class ClientEvents {
 								Minecraft.getInstance().setScreen(new FastFlightScreen(player.level(), player));
 							}
 						}
+						if(cap.getAscendantType() == AscendantType.SCORPION){
+							if(!(player.getMainHandItem().getItem() instanceof BottleItem) && player.isCrouching()){
+								Minecraft.getInstance().setScreen(new CustomPoisonCreationScreen(player.level(), player));
+								shouldSend.set(false);
+							}
+						}
 					});
-					ModPackets.sendToServer(new AscendedKeyPressC2SPacket(ClientAbilityData.getLookAtEntityID()));
+					if(shouldSend.get()) ModPackets.sendToServer(new AscendedKeyPressC2SPacket(ClientAbilityData.getLookAtEntityID()));
 				}
 			}
 		}
@@ -211,6 +219,11 @@ public class ClientEvents {
 		@SubscribeEvent
 		public static void registerGuis(RegisterGuiOverlaysEvent event){
 			event.registerAboveAll("rage", CrocAscendentRageOverlay.RAGE_GUI);
+		}
+
+		@SubscribeEvent
+		public static void registerItemColors(RegisterColorHandlersEvent.Item event){
+			event.register((itemStack, tintIndex) -> PotionUtils.getColor(itemStack), ModItems.SCORPION_CHARM.get());
 		}
 	}
 

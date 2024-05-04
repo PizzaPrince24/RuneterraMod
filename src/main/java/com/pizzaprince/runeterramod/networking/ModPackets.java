@@ -107,6 +107,24 @@ public class ModPackets {
 				.encoder(UpdateWayPointC2SPacket::toBytes)
 				.consumerMainThread(UpdateWayPointC2SPacket::handle)
 				.add();
+
+		net.messageBuilder(UpdateCustomPoisonsC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(UpdateCustomPoisonsC2SPacket::new)
+				.encoder(UpdateCustomPoisonsC2SPacket::toBytes)
+				.consumerMainThread(UpdateCustomPoisonsC2SPacket::handle)
+				.add();
+
+		net.messageBuilder(UpdateSelectedPoisonEffectC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(UpdateSelectedPoisonEffectC2SPacket::new)
+				.encoder(UpdateSelectedPoisonEffectC2SPacket::toBytes)
+				.consumerMainThread(UpdateSelectedPoisonEffectC2SPacket::handle)
+				.add();
+
+		net.messageBuilder(MakePotionFromSelectedC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(MakePotionFromSelectedC2SPacket::new)
+				.encoder(MakePotionFromSelectedC2SPacket::toBytes)
+				.consumerMainThread(MakePotionFromSelectedC2SPacket::handle)
+				.add();
 	}
 	
 	public static <MSG> void sendToServer(MSG message) {

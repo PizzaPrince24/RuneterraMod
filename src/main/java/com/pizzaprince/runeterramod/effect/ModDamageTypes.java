@@ -14,10 +14,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ModDamageTypes {
 
     public static final ResourceKey<DamageType> SAND_BLAST = registerDamageType("sand_blast");
-
     public static final ResourceKey<DamageType> RAGE_ART = registerDamageType("rage_art");
-
     public static final ResourceKey<DamageType> SUN_ENERGY = registerDamageType("sun_energy");
+    public static final ResourceKey<DamageType> SCORPION_POISON = registerDamageType("scorpion_poison");
 
     private static ResourceKey<DamageType> registerDamageType(String name){
         ResourceKey<DamageType> type = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(RuneterraMod.MOD_ID, name));
