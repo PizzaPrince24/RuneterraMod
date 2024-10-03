@@ -31,6 +31,8 @@ public class CustomPoisonCreationScreen extends Screen {
     private Button addAmplifier;
     private Button deletePoisonButton;
     private Button bottlePotionButton;
+    private Button deleteEffectButton;
+    private Button deleteAllEffectsButton;
     private MobEffectList mobEffectList;
     private MobEffectList mobEffectList2;
     private MobEffectList currentPoisonList;
@@ -96,12 +98,18 @@ public class CustomPoisonCreationScreen extends Screen {
     @Override
     public void tick() {
         refreshSelected();
-        if(!nameField.getValue().isBlank()){
+        if(!nameField.getValue().isBlank() && ResourceLocation.isValidPath(nameField.getValue())){
             savePoisonButton.active = true;
             deletePoisonButton.active = true;
+            nameField.setTextColor(16777215);
         } else {
             savePoisonButton.active = false;
             deletePoisonButton.active = false;
+            if(nameField.getValue().isBlank()){
+                nameField.setTextColor(16777215);
+            } else {
+                nameField.setTextColor(16711680);
+            }
         }
         player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
             ScorpionAscendant ascendant = (ScorpionAscendant) cap.getAscendant();
@@ -140,10 +148,19 @@ public class CustomPoisonCreationScreen extends Screen {
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             deletePoison();
         }));
-        bottlePotionButton = addRenderableWidget(new TransparentButton(width - 140, 80, 110, 20, Component.literal("Bottle Selected Poison"), (onPress) -> {
+        bottlePotionButton = addRenderableWidget(new TransparentButton(width - 140, 80, 110, 20, Component.literal("Make Selected Potion"), (onPress) -> {
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             bottlePotion();
         }));
+        deleteEffectButton = addRenderableWidget(new TransparentButton(width/2 - 130, 40, 110, 20, Component.literal("Delete Effect"), (onPress) -> {
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            currentPoisonList.removeFirstEffect();
+        }));
+        deleteAllEffectsButton = addRenderableWidget(new TransparentButton(width/2 + 20, 40, 110, 20, Component.literal("Delete All Effects"), (onPress) -> {
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            currentPoisonList.emptyEntries();
+        }));
+
 
         savePoisonButton.active = false;
         deletePoisonButton.active = false;
@@ -178,4 +195,6 @@ public class CustomPoisonCreationScreen extends Screen {
 
 
     }
+
+
 }

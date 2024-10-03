@@ -113,7 +113,7 @@ public class AscendedKeyPressC2SPacket {
                                 player1.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
                                     if(cap.getAscendantType() == AscendantType.SCORPION){
                                         ScorpionAscendant as = (ScorpionAscendant) cap.getAscendant();
-                                        as.applySelectedPoisonEffectsToEntity(event.getEntity());
+                                        as.applySelectedPoisonEffectsToEntity(event.getEntity(), player1);
                                     }
                                 });
                             }

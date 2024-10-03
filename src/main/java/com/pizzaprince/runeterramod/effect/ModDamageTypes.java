@@ -1,15 +1,19 @@
 package com.pizzaprince.runeterramod.effect;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
 
 public class ModDamageTypes {
 
@@ -27,7 +31,15 @@ public class ModDamageTypes {
         System.out.println("Registering Damage Types for " + RuneterraMod.MOD_ID);
     }
 
-    public static DamageSource getDamageSource(ResourceKey<DamageType> type, Entity source){
-        return new DamageSource(source.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(type), null, source, null);
+    public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> type) {
+        return getEntityDamageSource(level, type, null);
+    }
+
+    public static DamageSource getEntityDamageSource(Level level, ResourceKey<DamageType> type, @Nullable Entity attacker) {
+        return getIndirectEntityDamageSource(level, type, attacker, attacker);
+    }
+
+    public static DamageSource getIndirectEntityDamageSource(Level level, ResourceKey<DamageType> type, @Nullable Entity attacker, @Nullable Entity indirectAttacker) {
+        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(type), attacker, indirectAttacker);
     }
 }

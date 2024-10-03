@@ -34,35 +34,22 @@ import virtuoel.pehkui.api.ScaleEasings;
 import virtuoel.pehkui.api.ScaleTypes;
 
 public class ClientAbilityData {
-
 	private static int currentRage = 0;
-
 	private static int rageToAdd = 0;
-
 	private static final int maxRage = 100;
 	private static boolean isStunned = false;
 	private static int stunDuration;
-
 	private static int tickCount = 0;
-
 	private static int rageTick = -1;
-
 	private static boolean hasSpunTick = false;
-
 	private static CameraType lastCamera = CameraType.FIRST_PERSON;
-
 	private static int lookAtEntityID = -1;
-
 	private static int rageArtTicks = -1;
-
 	private static int rageArtEntityId = -1;
-
 	private static boolean hasTickedRageArt = false;
 	private static float rageArtYRot = -1;
-
 	private static float sandstormLevel = 0f;
 	private static int eagleDashCooldown = 0;
-
 	public static boolean isStunned() {
 		return ClientAbilityData.isStunned;
 	}

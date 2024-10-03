@@ -37,7 +37,7 @@ public class SandBlastAbility extends AbstractAbility {
             EntityHitResult hit = ProjectileUtil.getEntityHitResult(player, origin, target, bb, entity -> !entity.isSpectator() && entity instanceof LivingEntity, ray.lengthSqr());
             if(hit != null){
                 if(hit.getEntity() instanceof LivingEntity pTarget) {
-                    pTarget.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.SAND_BLAST, player), (float) player.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * 0.2f + 2);
+                    pTarget.hurt(ModDamageTypes.getEntityDamageSource(pLevel, ModDamageTypes.SAND_BLAST, player), (float) player.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * 0.2f + 2);
                     ray = ray.scale(player.distanceTo(pTarget) / ray.length());
                 }
             }

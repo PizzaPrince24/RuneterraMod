@@ -18,11 +18,15 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event){
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
-        generator.addProvider(true, new ModRecipeProvider(packOutput));
-        generator.addProvider(true, ModLootTableProvider.create(packOutput));
+        generator.addProvider(event.includeServer(), new ModRecipeProvider(packOutput));
+        generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput));
+
+        generator.addProvider(event.includeClient(), new ModBlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
     }
 
 }

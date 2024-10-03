@@ -33,6 +33,41 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.BASIC_GOBLET.get());
         dropSelf(ModBlocks.SHELL_BLOCK.get());
         dropSelf(ModBlocks.SUN_FORGE.get());
+
+        dropSelf(ModBlocks.TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.WHITE_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.WHITE_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.ORANGE_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.ORANGE_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.MAGENTA_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.MAGENTA_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.LIGHT_BLUE_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.LIGHT_BLUE_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.YELLOW_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.YELLOW_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.LIME_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.LIME_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.PINK_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.PINK_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.GRAY_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.GRAY_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.LIGHT_GRAY_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.LIGHT_GRAY_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.CYAN_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.CYAN_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.PURPLE_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.PURPLE_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.BLUE_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.BLUE_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.BROWN_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.BROWN_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.GREEN_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.GREEN_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.RED_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.RED_TERRACOTTA_SLAB.get());
+        dropSelf(ModBlocks.BLACK_TERRACOTTA_STAIRS.get());
+        dropSelf(ModBlocks.BLACK_TERRACOTTA_SLAB.get());
     }
 
     @Override

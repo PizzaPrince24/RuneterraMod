@@ -52,7 +52,7 @@ public class SunStoneSpear extends SwordItem {
                 EntityHitResult hit = ProjectileUtil.getEntityHitResult(pLivingEntity, origin, target, bb, entity -> !entity.isSpectator() && entity instanceof LivingEntity && entity.invulnerableTime == 0 && entity != pLivingEntity, ray.lengthSqr());
                 if(hit != null){
                     if(hit.getEntity() instanceof LivingEntity pTarget) {
-                        pTarget.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.SUN_ENERGY, pLivingEntity), damage);
+                        pTarget.hurt(ModDamageTypes.getEntityDamageSource(pLevel, ModDamageTypes.SUN_ENERGY, pLivingEntity), damage);
                     }
                 }
             }
@@ -66,7 +66,7 @@ public class SunStoneSpear extends SwordItem {
                 EntityHitResult hit = ProjectileUtil.getEntityHitResult(pLivingEntity, newOrigin, newTarget, bb, entity -> !entity.isSpectator() && entity instanceof LivingEntity && entity.invulnerableTime == 0 && entity != pLivingEntity, ray.lengthSqr());
                 if(hit != null){
                     if(hit.getEntity() instanceof LivingEntity pTarget) {
-                        pTarget.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.SUN_ENERGY, pLivingEntity), damage);
+                        pTarget.hurt(ModDamageTypes.getEntityDamageSource(pLevel, ModDamageTypes.SUN_ENERGY, pLivingEntity), damage);
                     }
                 }
             }

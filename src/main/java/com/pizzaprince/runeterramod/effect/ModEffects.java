@@ -1,10 +1,7 @@
 package com.pizzaprince.runeterramod.effect;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
-import com.pizzaprince.runeterramod.effect.custom.QuenchedEffect;
-import com.pizzaprince.runeterramod.effect.custom.RylaisSlow;
-import com.pizzaprince.runeterramod.effect.custom.ScorpionPoison;
-import com.pizzaprince.runeterramod.effect.custom.StunEffect;
+import com.pizzaprince.runeterramod.effect.custom.*;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -29,8 +26,11 @@ public class ModEffects {
 			() -> new RylaisSlow(MobEffectCategory.HARMFUL, 8989061)
 					.addAttributeModifier(Attributes.MOVEMENT_SPEED, UUID.randomUUID().toString(), -0.3, AttributeModifier.Operation.MULTIPLY_TOTAL));
 	public static final RegistryObject<MobEffect> GIANT = MOB_EFFECTS.register("giant",
-			() -> new MobEffect(MobEffectCategory.BENEFICIAL, 11119017)
+			() -> new MobEffect(MobEffectCategory.NEUTRAL, 11119017)
 					.addAttributeModifier(Attributes.MAX_HEALTH, UUID.randomUUID().toString(), 20, AttributeModifier.Operation.ADDITION));
+	public static final RegistryObject<MobEffect> DWARF = MOB_EFFECTS.register("dwarf",
+			() -> new MobEffect(MobEffectCategory.NEUTRAL, 11119017)
+					.addAttributeModifier(Attributes.MAX_HEALTH, UUID.randomUUID().toString(), -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
 	public static final RegistryObject<MobEffect> VULNERABILITY = MOB_EFFECTS.register("vulnerability",
 			() -> new MobEffect(MobEffectCategory.HARMFUL, 13907767));
 	public static final RegistryObject<MobEffect> EXHAUSTED = MOB_EFFECTS.register("exhausted",

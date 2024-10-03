@@ -265,7 +265,7 @@ public class RampagingBaccaiEntity extends Monster implements GeoEntity, SmartBr
             if (timeToNextEnrageDmg == 0) {
                 this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(10, 3, 10)).forEach(entity -> {
                     if(!entity.is(this)){
-                        entity.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.SAND_BLAST, this), this.level().getDifficulty() == Difficulty.HARD ? 2 : 1);
+                        entity.hurt(ModDamageTypes.getEntityDamageSource(this.level(), ModDamageTypes.SAND_BLAST, this), this.level().getDifficulty() == Difficulty.HARD ? 2 : 1);
                     }
                 });
                 timeToNextEnrageDmg = 40;
@@ -613,7 +613,7 @@ public class RampagingBaccaiEntity extends Monster implements GeoEntity, SmartBr
                     this.getServer().getLevel(this.level().dimension()).sendParticles(ModParticles.SAND_PARTICLE.get(),
                             this.getX() + dirProgress.x, (this.getY() + (enraged ? 24 : 12)) + dirProgress.y, this.getZ() + dirProgress.z, 2, 0, 0, 0, 0.1);
                 }
-                pTarget.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.SAND_BLAST, this), (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue()*0.15f);
+                pTarget.hurt(ModDamageTypes.getEntityDamageSource(this.level(), ModDamageTypes.SAND_BLAST, this), (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue()*0.15f);
             }
         }
     }
@@ -624,7 +624,7 @@ public class RampagingBaccaiEntity extends Monster implements GeoEntity, SmartBr
         for(LivingEntity entity : entities){
             if(entity.is(this)) continue;
             entity.knockback(strength, entity.getX()-this.getX(), entity.getZ()-this.getZ());
-            entity.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.SAND_BLAST, this), 2);
+            entity.hurt(ModDamageTypes.getEntityDamageSource(this.level(), ModDamageTypes.SAND_BLAST, this), 2);
         }
 
     }

@@ -6,6 +6,7 @@ import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.util.CustomPoisonEffect;
 import com.pizzaprince.runeterramod.util.WaypointNBTEntry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -115,8 +116,14 @@ public class ScorpionAscendant extends BaseAscendant{
         return count*10;
     }
 
-    public void applySelectedPoisonEffectsToEntity(LivingEntity entity){
-        getMobEffectsFromSelected().forEach(entity::addEffect);
+    public void applySelectedPoisonEffectsToEntity(LivingEntity entity, Player player){
+        getMobEffectsFromSelected().forEach(effect -> {
+            if(effect.getEffect().isInstantenous()){
+                effect.getEffect().applyInstantenousEffect(player, player, entity, effect.getAmplifier(), 1.0);
+            } else {
+                entity.addEffect(effect);
+            }
+        });
     }
 
     private List<MobEffectInstance> getMobEffectsFromSelected(){
@@ -129,7 +136,7 @@ public class ScorpionAscendant extends BaseAscendant{
             if(effect.getEffects()[i] != null){
                 if(!effect.getEffects()[i].equals(CustomPoisonEffect.LENGTHEN) && !effect.getEffects()[i].equals(CustomPoisonEffect.AMP) && !effect.getEffects()[i].equals(CustomPoisonEffect.EMPTY)) {
                     if(selectedEffect != null){
-                        effects.add(new MobEffectInstance(selectedEffect, (int)(40*Math.pow(2, durationCount)), amplifierCount));
+                        effects.add(new MobEffectInstance(selectedEffect, (int)(100*Math.pow(2, durationCount)), amplifierCount));
                         selectedEffect = ForgeRegistries.MOB_EFFECTS.getValue(effect.getEffects()[i]);
                         durationCount = 0;
                         amplifierCount = 0;
@@ -145,7 +152,7 @@ public class ScorpionAscendant extends BaseAscendant{
                 }
             }
         }
-        if(selectedEffect != null) effects.add(new MobEffectInstance(selectedEffect, (int)(40*Math.pow(2, durationCount)), amplifierCount));
+        if(selectedEffect != null) effects.add(new MobEffectInstance(selectedEffect, (int)(100*Math.pow(2, durationCount)), amplifierCount));
         return effects;
     }
 
@@ -168,6 +175,7 @@ public class ScorpionAscendant extends BaseAscendant{
         ItemStack bottleItem = new ItemStack(Items.POTION);
         PotionUtils.setCustomEffects(bottleItem, getMobEffectsFromSelected());
         bottleItem.getTag().putInt("CustomPotionColor", 6950317);
+        bottleItem.setHoverName(Component.literal(getSelectedPoisonEffect().getName()));
         if(!player.addItem(bottleItem)){
             player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), bottleItem));
         }
@@ -175,6 +183,7 @@ public class ScorpionAscendant extends BaseAscendant{
     }
 
     public CustomPoisonEffect getSelectedPoisonEffect(){
+        if(customPoisonEffects.isEmpty()) return new CustomPoisonEffect((int)(ap/5d));
         return customPoisonEffects.get(selectedPoison);
     }
 

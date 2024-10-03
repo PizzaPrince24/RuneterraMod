@@ -31,11 +31,17 @@ import com.pizzaprince.runeterramod.particle.custom.GlowParticle;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
 import com.pizzaprince.runeterramod.world.dimension.ShellDimCapabilityProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -70,7 +76,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import org.joml.Vector3f;
 import top.theillusivec4.curios.api.CuriosCapability;
+import virtuoel.pehkui.api.ScaleTypes;
 
 
 public class ModEvents {
@@ -82,7 +90,12 @@ public class ModEvents {
 		public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 			if (event.getObject() instanceof Player) {
 				if (!event.getObject().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).isPresent()) {
-					event.addCapability(new ResourceLocation(RuneterraMod.MOD_ID, "properties"), new PlayerAbilitiesProvider());
+					event.addCapability(new ResourceLocation(RuneterraMod.MOD_ID, "player_properties"), new PlayerAbilitiesProvider());
+				}
+			}
+			if(event.getObject() instanceof LivingEntity entity){
+				if (!event.getObject().getCapability(LivingEntityCapabilityProvider.CAPABILITY).isPresent()) {
+					event.addCapability(new ResourceLocation(RuneterraMod.MOD_ID, "living_entity_properties"), new LivingEntityCapabilityProvider());
 				}
 			}
 		}
@@ -90,6 +103,7 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
 			event.register(PlayerAbilities.class);
+			event.register(LivingEntityCapability.class);
 			event.register(ImmolationCapability.class);
 			event.register(AbilityItemCapability.class);
 			event.register(HeartsteelCapability.class);
@@ -158,10 +172,12 @@ public class ModEvents {
 		}
 
 		@SubscribeEvent
-		public static void mobEffectEvent(MobEffectEvent.Remove event) {
-			if (event.getEffectInstance().getEffect() == ModEffects.QUENCHED.get()) {
-				if (event.getEntity() instanceof ServerPlayer player)
-					ModPackets.sendToPlayer(new CancelShaderS2CPacket(), player);
+		public static void mobEffectEvent(MobEffectEvent event) {
+			if(event instanceof MobEffectEvent.Remove || event instanceof MobEffectEvent.Expired) {
+				if (event.getEffectInstance().getEffect() == ModEffects.QUENCHED.get()) {
+					if (event.getEntity() instanceof ServerPlayer player)
+						ModPackets.sendToPlayer(new CancelShaderS2CPacket(), player);
+				}
 			}
 		}
 
@@ -229,7 +245,7 @@ public class ModEvents {
 						if(cap.getAscendantType() == AscendantType.CROCODILE){
 							CrocodileAscendant ascendant = (CrocodileAscendant) cap.getAscendant();
 							if(event.getEntity().getId() == ascendant.getRageArtTargetID()){
-								if(event.getSource().type() != ModDamageTypes.getDamageSource(ModDamageTypes.RAGE_ART, player).type()){
+								if(event.getSource().type() != ModDamageTypes.getDamageSource(player.level(), ModDamageTypes.RAGE_ART).type()){
 									event.setCanceled(true);
 								}
 							}
@@ -243,9 +259,7 @@ public class ModEvents {
 		public static void onDamage(LivingDamageEvent event){
 			if(event.getSource().getEntity() instanceof LivingEntity entity){
 				if(entity.hasEffect(ModEffects.EXHAUSTED.get())){
-					for(int i = 0; i < event.getEntity().getEffect(ModEffects.EXHAUSTED.get()).getAmplifier()+1; i++){
-						event.setAmount(event.getAmount()*0.8f);
-					}
+					event.setAmount(event.getAmount() * (float)Math.pow(0.8, event.getEntity().getEffect(ModEffects.EXHAUSTED.get()).getAmplifier()+1));
 				}
 				entity.heal(event.getAmount()*(float)entity.getAttributeValue(ModAttributes.OMNIVAMP.get()));
 			}
@@ -258,19 +272,6 @@ public class ModEvents {
 			}
 			if(event.getEntity().hasEffect(ModEffects.VULNERABILITY.get())){
 				event.setAmount(event.getAmount()*(1 + 0.2f*(event.getEntity().getEffect(ModEffects.VULNERABILITY.get()).getAmplifier()+1)));
-			}
-			if(event.getSource().getEntity() instanceof Player player && !event.getEntity().hasEffect(ModEffects.EXHAUSTED.get()) && !event.getEntity().hasEffect(ModEffects.VULNERABILITY.get())){
-				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-					if(cap.getAscendantType() == AscendantType.SCORPION){
-						ScorpionAscendant ascendant = (ScorpionAscendant) cap.getAscendant();
-						if(ascendant.getVenom() >= 40){
-							for(MobEffectInstance effect : ModPotions.SCORPION_POISON.get().getEffects()){
-								//event.getEntity().addEffect(new MobEffectInstance(effect.getEffect(), 400, (int)player.getAttributeValue(ModAttributes.ABILITY_POWER.get())/10));
-							}
-							ascendant.addVenom(-40);
-						}
-					}
-				});
 			}
 		}
 
@@ -294,9 +295,12 @@ public class ModEvents {
 						event.player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(abilities -> {
 							abilities.tick(player);
 						});
+						/*
 						event.player.getCapability(AscendantCapabilityProvider.ASCENDENT_CAPABILITY).ifPresent(cap -> {
 							cap.tick(player);
 						});
+
+						 */
 					}
 					for (ItemStack item : event.player.getInventory().items) {
 						item.getCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY).ifPresent(cap -> {
@@ -307,6 +311,21 @@ public class ModEvents {
 				if (event.side == LogicalSide.CLIENT) {
 					ClientAbilityData.tick();
 				}
+			}
+		}
+
+		@SubscribeEvent
+		public static void onServerTick(TickEvent.ServerTickEvent event){
+			if(event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER){
+				event.getServer().getAllLevels().forEach(level -> {
+					level.getAllEntities().forEach(entity -> {
+						if(entity instanceof LivingEntity livingEntity){
+							livingEntity.getCapability(LivingEntityCapabilityProvider.CAPABILITY).ifPresent(cap -> {
+								cap.tick(livingEntity);
+							});
+						}
+					});
+				});
 			}
 		}
 
@@ -405,8 +424,6 @@ public class ModEvents {
 		@SubscribeEvent
 		public static void entityJump(LivingEvent.LivingJumpEvent event){
 			if(event.getEntity() instanceof Player player){
-				//Vec3 movement = player.getDeltaMovement();
-				//player.setDeltaMovement(movement.x, movement.y + 2, movement.z);
 				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 					if(cap.getAscendantType() == AscendantType.EAGLE){
 						EagleAscendant ascendant = (EagleAscendant) cap.getAscendant();
@@ -416,6 +433,14 @@ public class ModEvents {
 							double y = (double)crouchTicks/10d;
 							player.setDeltaMovement(movement.x, movement.y + y, movement.z);
 							ascendant.resetCrouchTicks();
+							if(player.level() instanceof ClientLevel level){
+								for (int i = 0; i < 30; i++) {
+									double randX = Math.random() * player.getBbWidth() - player.getBbWidth() / 2;
+									double randZ = Math.random() * player.getBbWidth() - player.getBbWidth() / 2;
+									level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, level.getBlockState(player.getOnPos())),
+											player.getX()+randX, player.getY(), player.getZ()+randZ, 0, 0, 0);
+								}
+							}
 						}
 					}
 				});

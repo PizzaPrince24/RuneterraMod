@@ -12,7 +12,7 @@ public class ScorpionPoison extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-        pLivingEntity.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.SCORPION_POISON, pLivingEntity), 1.0F);
+        pLivingEntity.hurt(ModDamageTypes.getDamageSource(pLivingEntity.level(), ModDamageTypes.SCORPION_POISON), 1.0F);
     }
 
     @Override

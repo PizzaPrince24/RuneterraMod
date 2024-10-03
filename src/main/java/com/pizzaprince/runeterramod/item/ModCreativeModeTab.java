@@ -2,14 +2,17 @@ package com.pizzaprince.runeterramod.item;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
 import com.pizzaprince.runeterramod.block.ModBlocks;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = RuneterraMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -114,6 +117,42 @@ public class ModCreativeModeTab {
 			event.accept(ModBlocks.FANCY_GOBLET);
 			event.accept(ModBlocks.BASIC_GOBLET);
 			event.accept(ModBlocks.SHELL_BLOCK);
+		}
+		if(event.getTab() == BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.BUILDING_BLOCKS)){
+			event.accept(ModBlocks.TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.TERRACOTTA_SLAB);
+			event.accept(ModBlocks.WHITE_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.WHITE_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.ORANGE_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.ORANGE_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.MAGENTA_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.MAGENTA_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.LIGHT_BLUE_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.LIGHT_BLUE_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.YELLOW_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.YELLOW_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.LIME_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.LIME_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.PINK_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.PINK_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.GRAY_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.GRAY_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.LIGHT_GRAY_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.LIGHT_GRAY_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.CYAN_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.CYAN_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.PURPLE_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.PURPLE_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.BLUE_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.BLUE_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.BROWN_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.BROWN_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.GREEN_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.GREEN_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.RED_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.RED_TERRACOTTA_SLAB);
+			event.accept(ModBlocks.BLACK_TERRACOTTA_STAIRS);
+			event.accept(ModBlocks.BLACK_TERRACOTTA_SLAB);
 		}
 	}
 

@@ -138,6 +138,17 @@ public class MobEffectList extends ObjectSelectionList<MobEffectListEntry> {
         }
     }
 
+    public void removeFirstEffect(){
+        this.children().set(0, new MobEffectListEntry(this, CustomPoisonEffect.EMPTY));
+        removeEmptySpots();
+    }
+
+    public void emptyEntries(){
+        for(int i = 0; i < this.children().size(); i++){
+            this.children().set(i, new MobEffectListEntry(this, CustomPoisonEffect.EMPTY));
+        }
+    }
+
     public void fillEntriesWithEffect(CustomPoisonEffect poison){
         clearEntries();
         for(ResourceLocation effect : poison.getEffects()){

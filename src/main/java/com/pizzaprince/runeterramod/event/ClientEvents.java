@@ -13,6 +13,7 @@ import com.pizzaprince.runeterramod.camera.CameraSequences;
 import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.client.ModMenuTypes;
 import com.pizzaprince.runeterramod.client.overlay.CrocAscendentRageOverlay;
+import com.pizzaprince.runeterramod.client.overlay.TurtleAscendantHealthOverlay;
 import com.pizzaprince.runeterramod.client.screen.CustomPoisonCreationScreen;
 import com.pizzaprince.runeterramod.client.screen.FastFlightScreen;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarScreen;
@@ -24,6 +25,7 @@ import com.pizzaprince.runeterramod.entity.client.custom.RenektonRenderer;
 import com.pizzaprince.runeterramod.entity.client.custom.SunFishRenderer;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailModel;
 import com.pizzaprince.runeterramod.entity.client.layer.CrocodileTailRenderLayer;
+import com.pizzaprince.runeterramod.entity.client.layer.EagleWingsRenderLayer;
 import com.pizzaprince.runeterramod.entity.client.layer.ShellRenderLayer;
 import com.pizzaprince.runeterramod.entity.client.projectile.EnchantedCrystalArrowRenderer;
 import com.pizzaprince.runeterramod.entity.client.projectile.IceArrowRenderer;
@@ -76,7 +78,6 @@ public class ClientEvents {
 			}
 			if(KeyBinding.ASCENDED_KEY.consumeClick()){
 				if(!ClientAbilityData.isStunned()){
-					AtomicBoolean shouldSend = new AtomicBoolean(true);
 					LocalPlayer player = Minecraft.getInstance().player;
 					player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
 						if(cap.getAscendantType() == AscendantType.EAGLE){
@@ -95,11 +96,15 @@ public class ClientEvents {
 						if(cap.getAscendantType() == AscendantType.SCORPION){
 							if(!(player.getMainHandItem().getItem() instanceof BottleItem) && player.isCrouching()){
 								Minecraft.getInstance().setScreen(new CustomPoisonCreationScreen(player.level(), player));
-								shouldSend.set(false);
 							}
 						}
 					});
-					if(shouldSend.get()) ModPackets.sendToServer(new AscendedKeyPressC2SPacket(ClientAbilityData.getLookAtEntityID()));
+					if(player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).resolve().isPresent()){
+						if(player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).resolve().get().getAscendantType() != AscendantType.SCORPION ||
+								player.getMainHandItem().getItem() instanceof BottleItem || !player.isCrouching()){
+							ModPackets.sendToServer(new AscendedKeyPressC2SPacket(ClientAbilityData.getLookAtEntityID()));
+						}
+					}
 				}
 			}
 		}
@@ -208,6 +213,7 @@ public class ClientEvents {
 				LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin(name);
 				renderer.addLayer(new CrocodileTailRenderLayer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new ShellRenderLayer<>(renderer, event.getEntityModels()));
+				renderer.addLayer(new EagleWingsRenderLayer<>(renderer, event.getEntityModels()));
 			}
 		}
 
@@ -219,6 +225,7 @@ public class ClientEvents {
 		@SubscribeEvent
 		public static void registerGuis(RegisterGuiOverlaysEvent event){
 			event.registerAboveAll("rage", CrocAscendentRageOverlay.RAGE_GUI);
+			event.registerAboveAll("shell_health", TurtleAscendantHealthOverlay.SHELL_HEALTH_GUI);
 		}
 
 		@SubscribeEvent

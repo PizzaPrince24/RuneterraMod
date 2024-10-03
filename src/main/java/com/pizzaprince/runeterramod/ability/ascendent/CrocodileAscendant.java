@@ -125,7 +125,7 @@ public class CrocodileAscendant extends BaseAscendant{
             if(player.onGround() && canRageArtCrash){
                 float scale = ScaleTypes.BASE.getScaleData(player).getBaseScale();
                 player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(7 + ((scale-1)*7))).forEach(entity -> {
-                    entity.hurt(ModDamageTypes.getDamageSource(ModDamageTypes.RAGE_ART, player), (20 + (float)(player.getAttributeValue(Attributes.ATTACK_DAMAGE)*2))*scale);
+                    entity.hurt(ModDamageTypes.getEntityDamageSource(player.level(), ModDamageTypes.RAGE_ART, player), (20 + (float)(player.getAttributeValue(Attributes.ATTACK_DAMAGE)*2))*scale);
                     //entity.knockback(0.5, entity.getX() - player.getX(), entity.getZ() - player.getZ());
                     entity.addDeltaMovement(new Vec3(entity.getX() - player.getX(), 1, entity.getZ() - player.getZ()).normalize().scale(2));
                 });

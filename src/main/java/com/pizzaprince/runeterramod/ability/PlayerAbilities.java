@@ -47,7 +47,7 @@ public class PlayerAbilities {
 	private int static_cooldown = 10*20;
 	private int outOfCombat = 0;
 	private int tickCount = 0;
-	private int giantAmp = 0;
+	//private int giantAmp = 0;
 	private BaseAscendant ascendant;
 	private AscendantType ascendantType = AscendantType.NONE;
 	private ArrayList<Pair<String, Consumer<LivingHurtEvent>>> temporaryAttackEffects = new ArrayList<>();
@@ -78,7 +78,7 @@ public class PlayerAbilities {
 	public void copyFrom(PlayerAbilities source) {
 		this.cooldown = source.cooldown;
 		this.canUseAbilities = source.canUseAbilities;
-		this.giantAmp = 0;
+		//this.giantAmp = 0;
 		this.ascendantType = source.ascendantType;
 		this.ascendant = source.ascendant;
 	}
@@ -90,7 +90,7 @@ public class PlayerAbilities {
 	public void saveNBTData(CompoundTag nbt) {
 		nbt.putInt("cooldown", cooldown);
 		nbt.putBoolean("canuseabilities", canUseAbilities);
-		nbt.putInt("giantAmp", this.giantAmp);
+		//nbt.putInt("giantAmp", this.giantAmp);
 		nbt.putInt("ascendantType", this.ascendantType.ordinal());
 		if(ascendant != null) ascendant.saveNBTData(nbt);
 	}
@@ -98,7 +98,7 @@ public class PlayerAbilities {
 	public void loadNBTData(CompoundTag nbt) {
 		cooldown = nbt.getInt("cooldown");
 		canUseAbilities = nbt.getBoolean("canuseabilities");
-		giantAmp = nbt.getInt("giantAmp");
+		//giantAmp = nbt.getInt("giantAmp");
 		ascendantType = AscendantType.fromInt(nbt.getInt("ascendantType"));
 		switch (ascendantType){
 			case NONE -> ascendant = null;
@@ -122,7 +122,7 @@ public class PlayerAbilities {
 		if (cooldown == 0) {
 			canUseAbilities = true;
 		}
-		updateGiantTicks(player);
+		//updateGiantTicks(player);
 		ModPackets.sendToClients(new CapSyncS2CPacket((player)));
 	}
 
@@ -164,20 +164,20 @@ public class PlayerAbilities {
 		return this.cooldown;
 	}
 
-	private void updateGiantTicks(ServerPlayer player) {
-		if(player.hasEffect(ModEffects.GIANT.get())){
-			int amp = player.getEffect(ModEffects.GIANT.get()).getAmplifier()+1;
-			if(amp > giantAmp){
-				ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() + (amp - giantAmp)*0.5f);
-				giantAmp = amp;
-			}
-		} else {
-			if(giantAmp > 0){
-				ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() - (giantAmp*0.5f));
-				giantAmp = 0;
-			}
-		}
-	}
+	//private void updateGiantTicks(ServerPlayer player) {
+	//	if(player.hasEffect(ModEffects.GIANT.get())){
+	//		int amp = player.getEffect(ModEffects.GIANT.get()).getAmplifier()+1;
+	//		if(amp > giantAmp){
+	//			ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() + (amp - giantAmp)*0.5f);
+	//			giantAmp = amp;
+	//		}
+	//	} else {
+	//		if(giantAmp > 0){
+	//			ScaleTypes.BASE.getScaleData(player).setTargetScale(ScaleTypes.BASE.getScaleData(player).getTargetScale() - (giantAmp*0.5f));
+	//			giantAmp = 0;
+	//		}
+	//	}
+	//}
 
 	public void addTempHitEffect(String name, Consumer<LivingHurtEvent> effect){
 		temporaryAttackEffects.add(new Pair<>(name, effect));
@@ -252,13 +252,14 @@ public class PlayerAbilities {
 	}
 
 	public void applyHitEffects(LivingHurtEvent event){
+		ArrayList<Pair<String, Consumer<LivingHurtEvent>>> tempEffects = temporaryAttackEffects;
+		temporaryAttackEffects = new ArrayList<>();
 		permanentAttackEffects.forEach(effect -> {
 			effect.getB().accept(event);
 		});
-		temporaryAttackEffects.forEach(effect -> {
+		tempEffects.forEach(effect -> {
 			effect.getB().accept(event);
 		});
-		temporaryAttackEffects = new ArrayList<>();
 	}
 
 	public void applyOnDamageEffects(LivingHurtEvent event){

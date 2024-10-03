@@ -97,6 +97,10 @@ public class TurtleAscendant extends BaseAscendant{
         }
     }
 
+    public float getShellHealth(){
+        return shellHealth;
+    }
+
     private void addResistances(ServerPlayer player){
         double amount = calculateAddedResistances(player);
         if(amount != bonusResist.getAmount()){
