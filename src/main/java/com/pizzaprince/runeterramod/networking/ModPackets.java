@@ -125,6 +125,12 @@ public class ModPackets {
 				.encoder(MakePotionFromSelectedC2SPacket::toBytes)
 				.consumerMainThread(MakePotionFromSelectedC2SPacket::handle)
 				.add();
+
+		net.messageBuilder(RenektonStompC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(RenektonStompC2SPacket::new)
+				.encoder(RenektonStompC2SPacket::toBytes)
+				.consumerMainThread(RenektonStompC2SPacket::handle)
+				.add();
 	}
 	
 	public static <MSG> void sendToServer(MSG message) {

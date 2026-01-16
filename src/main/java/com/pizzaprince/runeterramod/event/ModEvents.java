@@ -8,19 +8,9 @@ import com.pizzaprince.runeterramod.client.ClientAbilityData;
 import com.pizzaprince.runeterramod.effect.ModAttributes;
 import com.pizzaprince.runeterramod.effect.ModDamageTypes;
 import com.pizzaprince.runeterramod.effect.ModEffects;
-import com.pizzaprince.runeterramod.effect.ModPotions;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
-import com.pizzaprince.runeterramod.entity.custom.RampagingBaccaiEntity;
-import com.pizzaprince.runeterramod.entity.custom.RekSaiEntity;
-import com.pizzaprince.runeterramod.entity.custom.RenektonEntity;
-import com.pizzaprince.runeterramod.entity.custom.SunFishEntity;
+import com.pizzaprince.runeterramod.entity.custom.*;
 import com.pizzaprince.runeterramod.entity.custom.projectile.RunaansHomingBolt;
-import com.pizzaprince.runeterramod.item.ModItems;
-import com.pizzaprince.runeterramod.item.custom.curios.base.AgilityCloak;
-import com.pizzaprince.runeterramod.item.custom.curios.base.RejuvenationBead;
-import com.pizzaprince.runeterramod.item.custom.curios.epic.BamisCinder;
-import com.pizzaprince.runeterramod.item.custom.curios.epic.CrystallineBracer;
-import com.pizzaprince.runeterramod.item.custom.curios.epic.Zeal;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
 import com.pizzaprince.runeterramod.mixin.MixinRangedAttribute;
 import com.pizzaprince.runeterramod.networking.ModPackets;
@@ -28,20 +18,16 @@ import com.pizzaprince.runeterramod.networking.packet.CancelShaderS2CPacket;
 import com.pizzaprince.runeterramod.particle.ModParticles;
 import com.pizzaprince.runeterramod.particle.custom.SandParticle;
 import com.pizzaprince.runeterramod.particle.custom.GlowParticle;
+import com.pizzaprince.runeterramod.util.ModTags;
 import com.pizzaprince.runeterramod.world.dimension.ModDimensions;
 import com.pizzaprince.runeterramod.world.dimension.ShellDimCapabilityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -53,10 +39,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal.Flag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -76,9 +60,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import org.joml.Vector3f;
 import top.theillusivec4.curios.api.CuriosCapability;
-import virtuoel.pehkui.api.ScaleTypes;
 
 
 public class ModEvents {
@@ -115,25 +97,27 @@ public class ModEvents {
 
 		@SubscribeEvent
 		public static void attachItemCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-			if (event.getObject().getItem() instanceof SunfireAegis) {
+			//System.out.println(event.getObject().getDisplayName().getString());
+			//System.out.println(BuiltInRegistries.ITEM.getKey(event.getObject().getItem()));
+			if (BuiltInRegistries.ITEM.getKey(event.getObject().getItem()).toString().equals("runeterramod:sunfire_aegis")) {
 				event.addCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY_RL, new ImmolationCapabilityProvider(2, 20));
 			}
 			if (event.getObject().getItem() instanceof IAbilityItem) {
 				event.addCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY_RL, new AbilityItemCapabilityProvider(event.getObject()));
 			}
-			if(event.getObject().getItem() instanceof Heartsteel){
+			if(BuiltInRegistries.ITEM.getKey(event.getObject().getItem()).toString().equals("runeterramod:heartsteel")){
 				event.addCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY_RL, new HeartsteelCapabilityProvider());
 			}
 			if(event.getObject().getItem() instanceof Warmogs){
 				event.addCapability(WarmogsCapabilityProvider.WARMOGS_CAPABILITY_RL, new WarmogsCapabilityProvider());
 			}
-			if(event.getObject().getItem() instanceof RejuvenationBead){
+			if(BuiltInRegistries.ITEM.getKey(event.getObject().getItem()).toString().equals("runeterramod:rejuvenation_bead")){
 				event.addCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY_RL, new RegenerationCapabilityProvider(1, 200));
 			}
-			if(event.getObject().getItem() instanceof BamisCinder){
+			if(BuiltInRegistries.ITEM.getKey(event.getObject().getItem()).toString().equals("runeterramod:bamis_cinder")){
 				event.addCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY_RL, new ImmolationCapabilityProvider(1, 20));
 			}
-			if(event.getObject().getItem() instanceof CrystallineBracer){
+			if(BuiltInRegistries.ITEM.getKey(event.getObject().getItem()).toString().equals("runeterramod:crystalline_bracer")){
 				event.addCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY_RL, new RegenerationCapabilityProvider(1, 100));
 			}
 			if(event.getObject().getItem() instanceof JakSho){
@@ -191,12 +175,6 @@ public class ModEvents {
 						for (int slot = 0; slot < curio.getSlots(); slot++) {
 							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof InfinityEdge) {
 								event.setDamageModifier(event.getDamageModifier() + 0.5f);
-							}
-							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof AgilityCloak) {
-								event.setDamageModifier(event.getDamageModifier() + 0.1f);
-							}
-							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Zeal) {
-								event.setDamageModifier(event.getDamageModifier() + 0.15f);
 							}
 						}
 					});
@@ -272,6 +250,9 @@ public class ModEvents {
 			}
 			if(event.getEntity().hasEffect(ModEffects.VULNERABILITY.get())){
 				event.setAmount(event.getAmount()*(1 + 0.2f*(event.getEntity().getEffect(ModEffects.VULNERABILITY.get()).getAmplifier()+1)));
+			}
+			if(event.getSource().is(ModTags.DamageTypes.NO_INVULN)){
+				event.getEntity().invulnerableTime = 0;
 			}
 		}
 
@@ -389,7 +370,7 @@ public class ModEvents {
 					player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
 						inventory.getCurios().values().forEach(curio -> {
 							for (int slot = 0; slot < curio.getSlots(); slot++) {
-								if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Heartsteel) {
+								if (BuiltInRegistries.ITEM.getKey(curio.getStacks().getStackInSlot(slot).getItem()).toString().equals("runeterramod:heartsteel")) {
 									curio.getStacks().getStackInSlot(slot).getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
 										cap.addStacks(player);
 									});
@@ -401,11 +382,17 @@ public class ModEvents {
 				player.getCapability(CuriosCapability.INVENTORY).ifPresent(inventory -> {
 					inventory.getCurios().values().forEach(curio -> {
 						for (int slot = 0; slot < curio.getSlots(); slot++) {
-							if (curio.getStacks().getStackInSlot(slot).getItem() instanceof Opportunity) {
+							if (BuiltInRegistries.ITEM.getKey(curio.getStacks().getStackInSlot(slot).getItem()).toString().equals("runeterramod:opportunity")) {
 								player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 1, true, true, true));
 							}
 						}
 					});
+				});
+				player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+					if(cap.getAscendantType() == AscendantType.CROCODILE){
+						CrocodileAscendant ascendant = (CrocodileAscendant) cap.getAscendant();
+						ascendant.updateStatsOnKill(player, event.getEntity());
+					}
 				});
 			}
 		}
@@ -458,6 +445,10 @@ public class ModEvents {
 					}
 				});
 			}
+			if(event.getEntity() instanceof RenektonEntity){
+				event.setDistance(0);
+				event.setDamageMultiplier(0);
+			}
 		}
 
 
@@ -472,6 +463,10 @@ public class ModEvents {
 			event.put(ModEntityTypes.RAMPAGING_BACCAI.get(), RampagingBaccaiEntity.setAttributes());
 			event.put(ModEntityTypes.SUNFISH.get(), SunFishEntity.setAttributes());
 			event.put(ModEntityTypes.RENEKTON.get(), RenektonEntity.setAttributes());
+			event.put(ModEntityTypes.BLUE_CASTER_MINION.get(), BlueCasterMinionEntity.setAttributes());
+			event.put(ModEntityTypes.BLUE_MELEE_MINION.get(), BlueMeleeMinionEntity.setAttributes());
+			event.put(ModEntityTypes.BLUE_CANNON_MINION.get(), BlueCannonMinionEntity.setAttributes());
+			event.put(ModEntityTypes.BLUE_SUPER_MINION.get(), BlueSuperMinionEntity.setAttributes());
 		}
 
 		@SubscribeEvent

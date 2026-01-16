@@ -26,6 +26,8 @@ public class ModBiomes {
 
 	public static final ResourceKey<Biome> SHURIMAN_WASTELAND = createBiome("shuriman_wasteland");
 
+	public static final ResourceKey<Biome> INFINITE_DESERT = createBiome("infinite_desert");
+
 	public static final ResourceKey<Biome> SHELL_BIOME = createBiome("shell_biome");
 	
 	private static ResourceKey<Biome> createBiome(String name) {
@@ -55,5 +57,7 @@ public class ModBiomes {
 		register(context, SHURIMAN_WASTELAND, ModOverworldBiomes.shurimanWasteland(placedFeatureGetter, carverGetter));
 
 		register(context, SHELL_BIOME, ModOverworldBiomes.shellBiome(placedFeatureGetter, carverGetter));
+
+		register(context, INFINITE_DESERT, ModOverworldBiomes.infiniteDesert(placedFeatureGetter, carverGetter));
 	}
 }

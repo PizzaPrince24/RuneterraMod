@@ -36,9 +36,7 @@ public class UltimateKeyPressC2SPacket {
 				if (abilities.canUseAbilities()) {
 					ItemStack stack = player.getMainHandItem();
 					stack.getCapability(AbilityItemCapabilityProvider.ABILITY_ITEM_CAPABILITY).ifPresent(cap -> {
-						if (cap.fireSelectedAbility(level, player)) {
-							abilities.addTempHitEffect("sheen_amp", Sheen.SHEEN_HIT_EFFECT);
-						}
+						cap.fireSelectedAbility(level, player);
 					});
 				} else {
 					player.sendSystemMessage(Component.literal("Static Cooldown has " + ((double) abilities.getCooldown() / 20) + " seconds left"));

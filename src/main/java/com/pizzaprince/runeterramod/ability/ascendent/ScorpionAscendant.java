@@ -17,7 +17,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -113,7 +115,7 @@ public class ScorpionAscendant extends BaseAscendant{
             if(l != null) count++;
         }
         count = Math.min((int)(ap/5d), count);
-        return count*10;
+        return count*80;
     }
 
     public void applySelectedPoisonEffectsToEntity(LivingEntity entity, Player player){
@@ -172,14 +174,20 @@ public class ScorpionAscendant extends BaseAscendant{
     }
 
     public void makePotionFromSelected(ServerPlayer player){
-        ItemStack bottleItem = new ItemStack(Items.POTION);
-        PotionUtils.setCustomEffects(bottleItem, getMobEffectsFromSelected());
-        bottleItem.getTag().putInt("CustomPotionColor", 6950317);
-        bottleItem.setHoverName(Component.literal(getSelectedPoisonEffect().getName()));
-        if(!player.addItem(bottleItem)){
-            player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), bottleItem));
+        for(int i = 0; i < Inventory.INVENTORY_SIZE; i++){
+            if(player.getInventory().getItem(i).getItem() instanceof BottleItem){
+                player.getInventory().getItem(i).shrink(1);
+
+                ItemStack bottleItem = new ItemStack(Items.POTION);
+                PotionUtils.setCustomEffects(bottleItem, getMobEffectsFromSelected());
+                bottleItem.getTag().putInt("CustomPotionColor", 6950317);
+                bottleItem.setHoverName(Component.literal(getSelectedPoisonEffect().getName()));
+                if(!player.addItem(bottleItem)){
+                    player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), bottleItem));
+                }
+                addVenom(-venomForSelectedPoison());
+            }
         }
-        addVenom(-venomForSelectedPoison());
     }
 
     public CustomPoisonEffect getSelectedPoisonEffect(){

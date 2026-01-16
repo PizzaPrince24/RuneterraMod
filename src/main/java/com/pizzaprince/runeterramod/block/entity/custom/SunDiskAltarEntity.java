@@ -4,6 +4,7 @@ import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.block.custom.SunDiskAltar;
 import com.pizzaprince.runeterramod.block.entity.ModBlockEntities;
 import com.pizzaprince.runeterramod.client.screen.SunDiskAltarMenu;
+import com.pizzaprince.runeterramod.entity.custom.SunDiskEntity;
 import com.pizzaprince.runeterramod.item.ModItems;
 import com.pizzaprince.runeterramod.networking.ModPackets;
 import com.pizzaprince.runeterramod.networking.packet.BlockEntityItemStackSyncS2CPacket;
@@ -12,10 +13,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -25,6 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -40,6 +44,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, GeoBlockEntity {
     private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -59,11 +64,9 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
     private int maxProgress = 780;
     private int sunBlocks = 0;
     private int maxSunBlocks = 50;
-
-    private int blocksLeft = 0;
-
+    private int blocksLeft = 50;
     private ArrayList<BlockPos> diskShape;
-
+    private UUID sunDiskEntityReference;
     public SunDiskAltarEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.SUN_DISK_ALTAR_ENTITY.get(), pPos, pBlockState);
         this.data = new ContainerData() {
@@ -155,6 +158,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
         pTag.putInt("sun_disk_altar.progress", this.progress);
         pTag.putInt("sun_disk_altar.blocks", this.sunBlocks);
         pTag.putInt("sun_disk_altar.blocks_left", this.blocksLeft);
+        if(this.sunDiskEntityReference != null) pTag.putUUID("sun_disk_altar.sunDiskEntityReference", this.sunDiskEntityReference);
         super.saveAdditional(pTag);
     }
 
@@ -165,6 +169,7 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
         progress = pTag.getInt("sun_disk_altar.progress");
         sunBlocks = pTag.getInt("sun_disk_altar.blocks");
         blocksLeft = pTag.getInt("sun_disk_altar.blocks_left");
+        sunDiskEntityReference = pTag.get("sun_disk_altar.sunDiskEntityReference") != null ? pTag.getUUID("sun_disk_altar.sunDiskEntityReference") : null;
     }
 
     public void drops(){
@@ -262,6 +267,13 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
 
     private static void craftItem(SunDiskAltarEntity entity) {
         if(hasRecipe(entity)) {
+            System.out.println(entity.blocksLeft);
+            if(entity.sunDiskEntityReference == null){
+                SunDiskEntity sunDisk = new SunDiskEntity(entity.level, entity.getBlockPos().getX(), entity.getBlockPos().getY(),
+                        entity.getBlockPos().getZ(), entity.maxSunBlocks);
+                entity.level.addFreshEntity(sunDisk);
+                entity.sunDiskEntityReference = sunDisk.getUUID();
+            }
             if(entity.blocksLeft == 0){
                 if(entity.itemHandler.getStackInSlot(1).getItem() == ModItems.SUN_STONE.get()){
                     entity.itemHandler.extractItem(1, 1, false);
@@ -271,10 +283,16 @@ public class SunDiskAltarEntity extends BlockEntity implements MenuProvider, Geo
                 }
             }
             entity.itemHandler.extractItem(0, 1, false);
-            entity.buildDisk(entity);
+            //entity.buildDisk(entity);
             entity.sunBlocks++;
             entity.blocksLeft--;
 
+            Entity sunDisk = ((ServerLevel)entity.getLevel()).getEntity(entity.sunDiskEntityReference);
+            if(sunDisk instanceof SunDiskEntity sunDiskEntity){
+                sunDiskEntity.setProgress(entity.sunBlocks);
+            } else {
+                entity.sunDiskEntityReference = null;
+            }
 
             entity.resetProgress();
         }

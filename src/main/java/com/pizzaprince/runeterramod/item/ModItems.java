@@ -1,30 +1,45 @@
 package com.pizzaprince.runeterramod.item;
 
 import com.pizzaprince.runeterramod.RuneterraMod;
+import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.ability.curios.HeartsteelCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.curios.ImmolationCapabilityProvider;
+import com.pizzaprince.runeterramod.ability.curios.RegenerationCapabilityProvider;
 import com.pizzaprince.runeterramod.block.ModBlocks;
 import com.pizzaprince.runeterramod.effect.ModEffects;
 import com.pizzaprince.runeterramod.entity.ModEntityTypes;
 import com.pizzaprince.runeterramod.item.custom.*;
 import com.pizzaprince.runeterramod.item.custom.armor.AsheArmorItem;
 import com.pizzaprince.runeterramod.item.custom.armor.RampagingBaccaiArmorItem;
+import com.pizzaprince.runeterramod.item.custom.curios.ModCurioItem;
+import com.pizzaprince.runeterramod.item.custom.curios.ModCurioItemAbilities;
+import com.pizzaprince.runeterramod.item.custom.curios.ModCurioItemStats;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.CrocodileAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.EagleAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.ScorpionAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.ascension.TurtleAscensionPendant;
 import com.pizzaprince.runeterramod.item.custom.curios.base.*;
-import com.pizzaprince.runeterramod.item.custom.curios.epic.*;
 import com.pizzaprince.runeterramod.item.custom.curios.legendary.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.api.SlotContext;
+
+import java.util.List;
 
 public class ModItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, RuneterraMod.MOD_ID);
@@ -136,43 +151,55 @@ public class ModItems {
 
 	//------------------------------------------BASIC CURIO ITEMS--------------------------------------------------
 	public static final RegistryObject<Item> AMP_TOME = ITEMS.register("amplifying_tome",
-			() -> new AmplifyingTome(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.AMP_TOME));
 
 	public static final RegistryObject<Item> BFSWORD = ITEMS.register("bfsword",
-			() -> new BFSword(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.BFSWORD));
 
 	public static final RegistryObject<Item> BLASTING_WAND = ITEMS.register("blasting_wand",
-			() -> new BlastingWand(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.BLASTING_WAND));
 
 	public static final RegistryObject<Item> AGILITY_CLOAK = ITEMS.register("agility_cloak",
-			() -> new AgilityCloak(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.AGILITY_CLOAK));
 
 	public static final RegistryObject<Item> CLOTH_ARMOR = ITEMS.register("cloth_armor",
-			() -> new ClothArmor(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.CLOTH_ARMOR));
 
 	public static final RegistryObject<Item> DAGGER = ITEMS.register("dagger",
-			() -> new Dagger(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.DAGGER));
 
 	public static final RegistryObject<Item> LONG_SWORD = ITEMS.register("long_sword",
-			() -> new LongSword(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.LONG_SWORD));
 
 	public static final RegistryObject<Item> NEEDLESSLY_LARGE_ROD = ITEMS.register("needlessly_large_rod",
-			() -> new NeedlesslyLargeRod(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.NEEDLESSLY_LARGE_ROD));
 
 	public static final RegistryObject<Item> NULL_MAGIC_MANTLE = ITEMS.register("null_magic_mantle",
-			() -> new NullMagicMantle(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.NULL_MAGIC_MANTLE));
 
 	public static final RegistryObject<Item> PICKAXE = ITEMS.register("pickaxe",
-			() -> new Pickaxe(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.PICKAXE));
 
 	public static final RegistryObject<Item> REJUVENATION_BEAD = ITEMS.register("rejuvenation_bead",
-			() -> new RejuvenationBead(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.EMPTY){
+				@Override
+				public void curioTick(SlotContext slotContext, ItemStack stack) {
+					stack.getCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY).ifPresent(cap -> {
+						cap.tick(slotContext.entity());
+					});
+				}
+				@Override
+				public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+					pTooltipComponents.add(Component.literal("Regenerate 1 health every 10 seconds").withStyle(ChatFormatting.RED));
+					super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+				}
+			});
 
 	public static final RegistryObject<Item> GLOWING_MOTE = ITEMS.register("glowing_mote",
-			() -> new GlowingMote(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.GLOWING_MOTE));
 
 	public static final RegistryObject<Item> RUBY_CRYSTAL = ITEMS.register("ruby_crystal",
-			() -> new RubyCrystal(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.RUBY_CRYSTAL));
 
 	public static final RegistryObject<Item> SHEEN = ITEMS.register("sheen",
 			() -> new Sheen(new Item.Properties().stacksTo(1)));
@@ -188,37 +215,75 @@ public class ModItems {
 
 	//-------------------------------------EPIC CURIO ITEMS---------------------------------------------
 	public static final RegistryObject<Item> BAMIS_CINDER = ITEMS.register("bamis_cinder",
-			() -> new BamisCinder(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.BAMIS_CINDER){
+				@Override
+				public void curioTick(SlotContext slotContext, ItemStack stack) {
+					stack.getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
+						cap.tick(slotContext.entity());
+					});
+				}
+				@Override
+				public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.addPermaHitEffect("bamis_cinder_burn", ModCurioItemAbilities.IMMOLATION_HIT_EFFECT);
+						cap.addPermaOnDamageEffect("bamis_cinder_burn", ModCurioItemAbilities.IMMOLATION_HIT_EFFECT);
+					});
+				}
+				@Override
+				public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.removePermaHitEffect("bamis_cinder_burn");
+						cap.removePermaOnDamageEffect("bamis_cinder_burn");
+					});
+				}
+				@Override
+				public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+					pTooltipComponents.add(Component.literal("Taking or dealing any damage will cause enemies around you to burn for 1 magic damage every second for 3 seconds.").withStyle(ChatFormatting.RED));
+					super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+				}
+			});
 
 	public static final RegistryObject<Item> CHAIN_VEST = ITEMS.register("chain_vest",
-			() -> new ChainVest(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.CHAIN_VEST));
 
 	public static final RegistryObject<Item> GIANTS_BELT = ITEMS.register("giants_belt",
-			() -> new GiantsBelt(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.GIANTS_BELT));
 
 	public static final RegistryObject<Item> RECURVE_BOW = ITEMS.register("recurve_bow",
-			() -> new RecurveBow(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.RECURVE_BOW));
 
 	public static final RegistryObject<Item> ZEAL = ITEMS.register("zeal",
-			() -> new Zeal(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.ZEAL));
 
 	public static final RegistryObject<Item> CRYSTALLINE_BRACER = ITEMS.register("crystalline_bracer",
-			() -> new CrystallineBracer(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.CRYSTALLINE_BRACER){
+				@Override
+				public void curioTick(SlotContext slotContext, ItemStack stack) {
+					stack.getCapability(RegenerationCapabilityProvider.REGENERATION_CAPABILITY).ifPresent(cap -> {
+						cap.tick(slotContext.entity());
+					});
+				}
+				@Override
+				public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+					pTooltipComponents.add(Component.literal("Regenerate 1 health every 5 seconds").withStyle(ChatFormatting.RED));
+					super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+				}
+			});
 
 	public static final RegistryObject<Item> KINDLEGEM = ITEMS.register("kindlegem",
-			() -> new Kindlegem(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.KINDLEGEM));
 
 	public static final RegistryObject<Item> VAMPIRIC_SCEPTER = ITEMS.register("vampiric_scepter",
-			() -> new VampiricScepter(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.VAMPIRIC_SCEPTER));
 
 	public static final RegistryObject<Item> NOONQUIVER = ITEMS.register("noonquiver",
-			() -> new Noonquiver(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.NOONQUIVER));
 
 	public static final RegistryObject<Item> LOST_CHAPTER = ITEMS.register("lost_chapter",
-			() -> new LostChapter(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.LOST_CHAPTER));
 
 	public static final RegistryObject<Item> SERRATED_DIRK = ITEMS.register("serrated_dirk",
-			() -> new SerratedDirk(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.SERRATED_DIRK));
 
 
 
@@ -232,10 +297,28 @@ public class ModItems {
 			() -> new JeweledGauntlet(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> GIANT_SLAYER = ITEMS.register("giant_slayer",
-			() -> new GiantSlayer(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.GIANT_SLAYER){
+				@Override
+				public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.addPermaHitEffect("giant_slayer_damage", ModCurioItemAbilities.GIANT_SLAYER_HIT_EFFECT);
+					});
+				}
+				@Override
+				public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.removePermaHitEffect("giant_slayer_damage");
+					});
+				}
+				@Override
+				public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+					pTooltipComponents.add(Component.literal("Deal up to 40% more damage against bosses based on how much more health they have than you.").withStyle(ChatFormatting.RED));
+					super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+				}
+			});
 
 	public static final RegistryObject<Item> DEATHBLADE = ITEMS.register("deathblade",
-			() -> new Deathblade(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.DEATHBLADE));
 
 	public static final RegistryObject<Item> RABADONS_DEATHCAP = ITEMS.register("rabadons_deathcap",
 			() -> new RabadonsDeathcap(new Item.Properties().stacksTo(1)));
@@ -250,13 +333,31 @@ public class ModItems {
 			() -> new Eclipse(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> OPPORTUNITY = ITEMS.register("opportunity",
-			() -> new Opportunity(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.OPPORTUNITY));
 
 	public static final RegistryObject<Item> VOLTAIC_CYCLOSWORD = ITEMS.register("voltaic_cyclosword",
 			() -> new VoltaicCyclosword(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> COSMIC_DRIVE = ITEMS.register("cosmic_drive",
-			() -> new CosmicDrive(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.COSMIC_DRIVE){
+				@Override
+				public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.addPermaHitEffect("cosmic_drive_burst_speed", ModCurioItemAbilities.COSMIC_DRIVE_HIT_EFFECT);
+					});
+				}
+				@Override
+				public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.removePermaHitEffect("cosmic_drive_burst_speed");
+					});
+				}
+				@Override
+				public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+					pTooltipComponents.add(Component.literal("Dealing any magic damage will grant Speed I for 2 seconds").withStyle(ChatFormatting.RED));
+					super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+				}
+			});
 
 	public static final RegistryObject<Item> GUINSOOS_RAGEBLADE = ITEMS.register("guinsoos_rageblade",
 			() -> new GuinsoosRageblade(new Item.Properties().stacksTo(1)));
@@ -265,7 +366,38 @@ public class ModItems {
 			() -> new SeryldasGrudge(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> SUNFIRE_AEGIS = ITEMS.register("sunfire_aegis",
+			() -> new ModCurioItem(ModCurioItemStats.SUNFIRE_AEGIS){
+				@Override
+				public void curioTick(SlotContext slotContext, ItemStack stack) {
+					stack.getCapability(ImmolationCapabilityProvider.IMMOLATION_CAPABILITY).ifPresent(cap -> {
+						cap.tick(slotContext.entity());
+					});
+				}
+				@Override
+				public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.addPermaHitEffect("sunfire_aegis_burn", ModCurioItemAbilities.IMMOLATION_HIT_EFFECT);
+						cap.addPermaOnDamageEffect("sunfire_aegis_burn", ModCurioItemAbilities.IMMOLATION_HIT_EFFECT);
+					});
+				}
+				@Override
+				public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+					slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
+						cap.removePermaHitEffect("sunfire_aegis_burn");
+						cap.removePermaOnDamageEffect("sunfire_aegis_burn");
+					});
+				}
+				@Override
+				public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+					pTooltipComponents.add(Component.literal("Taking or dealing any damage will cause enemies around you to burn for 2 magic damage every second for 3 seconds.").withStyle(ChatFormatting.RED));
+					super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+				}
+			});
+	/*
+	public static final RegistryObject<Item> SUNFIRE_AEGIS = ITEMS.register("sunfire_aegis",
 			() -> new SunfireAegis(new Item.Properties().stacksTo(1)));
+
+	 */
 
 	public static final RegistryObject<Item> RYLAIS_SCEPTER = ITEMS.register("rylais_crystal_scepter",
 			() -> new RylaisCrystalScepter(new Item.Properties().stacksTo(1)));
@@ -277,10 +409,38 @@ public class ModItems {
 			() -> new RunaansHurricane(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> HEARTSTEEL = ITEMS.register("heartsteel",
-			() -> new Heartsteel(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.HEARTSTEEL){
+				@Override
+				public void curioTick(SlotContext slotContext, ItemStack stack) {
+					stack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
+						cap.tick(slotContext.entity());
+					});
+				}
+				@Override
+				public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+					if(newStack.equals(stack, false)) return;
+					stack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
+						cap.resetScale((Player)slotContext.entity());
+						if(slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(cap.getModifier())) {
+							slotContext.entity().getAttribute(Attributes.MAX_HEALTH).removeModifier(cap.getModifier());
+						}
+						System.out.println("UNEQUIP");
+						cap.resetSavedScale();
+					});
+				}
+				@Override
+				public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+					pStack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
+						pTooltipComponents.add(Component.literal("Grants an additional 2 health for every boss you slay").withStyle(ChatFormatting.RED));
+						pTooltipComponents.add(Component.literal("Grants 5% Size for every 20 health you have").withStyle(ChatFormatting.RED));
+						pTooltipComponents.add(Component.literal("Current Bonus: +" + cap.getStacks() + " Hearts").withStyle(ChatFormatting.GOLD));
+					});
+					super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+				}
+			});
 
 	public static final RegistryObject<Item> BLOODTHIRSTER = ITEMS.register("bloodthirster",
-			() -> new BloodThirster(new Item.Properties().stacksTo(1)));
+			() -> new ModCurioItem(ModCurioItemStats.BLOODTHIRSTER));
 
 	public static final RegistryObject<Item> WARMOGS = ITEMS.register("warmogs",
 			() -> new Warmogs(new Item.Properties().stacksTo(1)));

@@ -1,6 +1,7 @@
 package com.pizzaprince.runeterramod.item.custom.curios.base;
 
 import com.pizzaprince.runeterramod.ability.PlayerAbilitiesProvider;
+import com.pizzaprince.runeterramod.item.custom.curios.ModCurioItemAbilities;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -20,14 +21,10 @@ public class Sheen extends Item implements ICurioItem {
         super(pProperties);
     }
 
-    public static Consumer<LivingHurtEvent> SHEEN_HIT_EFFECT = event -> {
-            event.setAmount(event.getAmount() + 1);
-    };
-
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
         slotContext.entity().getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
-            cap.addPermaHitEffect("sheen_amp", SHEEN_HIT_EFFECT);
+            cap.addPermaHitEffect("sheen_amp", ModCurioItemAbilities.SHEEN_HIT_EFFECT);
         });
     }
 
@@ -40,7 +37,7 @@ public class Sheen extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.literal("Strengthens your next attack after using an ability").withStyle(ChatFormatting.RED));
+        pTooltipComponents.add(Component.literal("Strengthens your next attack every 2 seconds").withStyle(ChatFormatting.RED));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -102,7 +102,7 @@
     },
     "biome_source": {
       "type": "minecraft:fixed",
-      "biome": "runeterramod:shuriman_wasteland"
+      "biome": "runeterramod:infinite_desert"
     }
   }
 }

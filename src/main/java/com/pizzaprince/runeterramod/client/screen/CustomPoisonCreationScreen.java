@@ -18,7 +18,10 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BottleItem;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 public class CustomPoisonCreationScreen extends Screen {
@@ -113,12 +116,21 @@ public class CustomPoisonCreationScreen extends Screen {
         }
         player.getCapability(PlayerAbilitiesProvider.PLAYER_ABILITIES).ifPresent(cap -> {
             ScorpionAscendant ascendant = (ScorpionAscendant) cap.getAscendant();
-            if(ascendant.getVenom() >= ascendant.venomForSelectedPoison()){
+            if(ascendant.getVenom() >= ascendant.venomForSelectedPoison() && hasBottlesInInventory(player)){
                 bottlePotionButton.active = true;
             } else {
                 bottlePotionButton.active = false;
             }
         });
+    }
+
+    private boolean hasBottlesInInventory(Player player) {
+        for(int i = 0; i < Inventory.INVENTORY_SIZE; i++){
+            if(player.getInventory().getItem(i).getItem() instanceof BottleItem){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

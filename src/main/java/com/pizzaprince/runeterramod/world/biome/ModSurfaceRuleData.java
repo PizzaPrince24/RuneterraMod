@@ -21,6 +21,8 @@ public class ModSurfaceRuleData {
 	private static final SurfaceRules.ConditionSource SHURIMAN_DESERT = makeConditionSourceFromBiome(ModBiomes.SHURIMAN_DESERT);
 
 	private static final SurfaceRules.ConditionSource SHURIMAN_WASTELAND = makeConditionSourceFromBiome(ModBiomes.SHURIMAN_WASTELAND);
+
+	private static final SurfaceRules.ConditionSource INFINITE_DESERT = makeConditionSourceFromBiome(ModBiomes.INFINITE_DESERT);
 	
 	public static SurfaceRules.RuleSource makeRules(){
 		SurfaceRules.ConditionSource isAtOrAboveWaterLevel = SurfaceRules.waterBlockCheck(-1, 0);
@@ -37,6 +39,16 @@ public class ModSurfaceRuleData {
 						)
 				),
 				SurfaceRules.ifTrue(SHURIMAN_WASTELAND,
+						SurfaceRules.sequence(
+								SurfaceRules.ifTrue(isAtOrAboveWaterLevel,
+										SurfaceRules.sequence(
+												SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SHURIMAN_SAND)
+										)
+								),
+								SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, SHURIMAN_SANDSTONE)
+						)
+				),
+				SurfaceRules.ifTrue(INFINITE_DESERT,
 						SurfaceRules.sequence(
 								SurfaceRules.ifTrue(isAtOrAboveWaterLevel,
 										SurfaceRules.sequence(

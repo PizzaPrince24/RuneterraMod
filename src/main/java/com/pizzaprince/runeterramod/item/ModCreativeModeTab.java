@@ -117,6 +117,7 @@ public class ModCreativeModeTab {
 			event.accept(ModBlocks.FANCY_GOBLET);
 			event.accept(ModBlocks.BASIC_GOBLET);
 			event.accept(ModBlocks.SHELL_BLOCK);
+			event.accept(ModBlocks.NEXUS_CRYSTAL_BLOCK);
 		}
 		if(event.getTab() == BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.BUILDING_BLOCKS)){
 			event.accept(ModBlocks.TERRACOTTA_STAIRS);

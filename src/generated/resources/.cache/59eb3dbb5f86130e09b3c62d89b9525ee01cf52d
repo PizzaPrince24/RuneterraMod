@@ -1,4 +1,4 @@
-// 1.20.1	2024-05-16T16:54:15.5463207	Loot Tables
+// 1.20.1	2025-08-24T22:05:23.3070123	Loot Tables
 79883462a9572bb3b0b636ae625f2ad825bee081 data/runeterramod/loot_tables/blocks/basic_goblet.json
 fe4d1ba9017bd8951ebaf8104220c1a3f8b6692b data/runeterramod/loot_tables/blocks/black_terracotta_slab.json
 11c2b8cabb260789a86721337b9eec2be1132cd0 data/runeterramod/loot_tables/blocks/black_terracotta_stairs.json
@@ -21,6 +21,7 @@ d3d2a4f3987fb5dfcdc2879ed53cab9b810a5f3c data/runeterramod/loot_tables/blocks/li
 f6f991f9116638645e7a5d2b0f4bd8c59e1cea2e data/runeterramod/loot_tables/blocks/lime_terracotta_stairs.json
 5fdc93c9b7625149b4d540f58fd9089df7e318a8 data/runeterramod/loot_tables/blocks/magenta_terracotta_slab.json
 9c8b2f28c1cbd667533586e6d34a1bdccbde3dc3 data/runeterramod/loot_tables/blocks/magenta_terracotta_stairs.json
+bff5dcde54910fb5f0ad03889fb2a19cb0809b5c data/runeterramod/loot_tables/blocks/nexus_crystal_block.json
 bc1ff3067322ea6e9f77c1c11d50a8a96d313903 data/runeterramod/loot_tables/blocks/orange_terracotta_slab.json
 907cd6134eeb4eb903a5e2989dd838afff139949 data/runeterramod/loot_tables/blocks/orange_terracotta_stairs.json
 6df6bb6a43e07f03c3a49839fdb8eced60c95798 data/runeterramod/loot_tables/blocks/pink_terracotta_slab.json

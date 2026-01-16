@@ -1,8 +1,12 @@
 package com.pizzaprince.runeterramod.item.custom.curios.legendary;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.pizzaprince.runeterramod.ability.curios.HeartsteelCapabilityProvider;
+import com.pizzaprince.runeterramod.item.custom.curios.ModCurioItemStats;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +21,7 @@ import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Heartsteel extends Item implements ICurioItem {
 
@@ -24,17 +29,20 @@ public class Heartsteel extends Item implements ICurioItem {
         super(pProperties);
     }
 
-    private static AttributeModifier HEALTH = new AttributeModifier("heartsteel_base_health",
-            18, AttributeModifier.Operation.ADDITION);
-
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> modifiers = HashMultimap.create();
+        ModCurioItemStats.HEARTSTEEL.forEach(pair -> {
+            modifiers.put(pair.getA(), pair.getB());
+        });
+        return modifiers;
+    }
     @Override
     public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if(!slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(HEALTH)) {
-            slotContext.entity().getAttribute(Attributes.MAX_HEALTH).addTransientModifier(HEALTH);
-        }
         stack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
             if(!slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(cap.getModifier())) {
                 slotContext.entity().getAttribute(Attributes.MAX_HEALTH).addTransientModifier(cap.getModifier());
+                cap.resetSavedScale();
             }
             cap.setScale((Player)slotContext.entity());
         });
@@ -42,16 +50,12 @@ public class Heartsteel extends Item implements ICurioItem {
 
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if(slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(HEALTH)){
-            slotContext.entity().getAttribute(Attributes.MAX_HEALTH).removeModifier(HEALTH);
-        }
         stack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
+            cap.resetScale((Player)slotContext.entity());
             if(slotContext.entity().getAttribute(Attributes.MAX_HEALTH).hasModifier(cap.getModifier())) {
                 slotContext.entity().getAttribute(Attributes.MAX_HEALTH).removeModifier(cap.getModifier());
             }
-            cap.resetScale((Player)slotContext.entity());
         });
-
     }
 
     @Override
@@ -59,10 +63,8 @@ public class Heartsteel extends Item implements ICurioItem {
         pStack.getCapability(HeartsteelCapabilityProvider.HEARTSTEEL_CAPABILITY).ifPresent(cap -> {
             pTooltipComponents.add(Component.literal("Grants an additional heart for every boss you slay").withStyle(ChatFormatting.RED));
             pTooltipComponents.add(Component.literal("Grants 5% Size for every row of hearts you have").withStyle(ChatFormatting.RED));
-            pTooltipComponents.add(Component.literal("+9 Hearts").withStyle(ChatFormatting.GOLD));
             pTooltipComponents.add(Component.literal("Current Bonus: +" + cap.getStacks() + " Hearts").withStyle(ChatFormatting.GOLD));
         });
-
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

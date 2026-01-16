@@ -33,6 +33,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.BASIC_GOBLET.get());
         dropSelf(ModBlocks.SHELL_BLOCK.get());
         dropSelf(ModBlocks.SUN_FORGE.get());
+        dropSelf(ModBlocks.NEXUS_CRYSTAL_BLOCK.get());
 
         dropSelf(ModBlocks.TERRACOTTA_STAIRS.get());
         dropSelf(ModBlocks.TERRACOTTA_SLAB.get());

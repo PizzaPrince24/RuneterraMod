@@ -8,9 +8,9 @@
   "placement": {
     "type": "minecraft:concentric_rings",
     "salt": 918327872,
-    "distance": 3,
+    "distance": 2,
     "spread": 3,
     "count": 1,
-    "preferred_biomes": "runeterramod:shuriman_wasteland"
+    "preferred_biomes": "runeterramod:infinite_desert"
   }
 }

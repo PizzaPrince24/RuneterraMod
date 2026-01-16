@@ -11,6 +11,8 @@ import net.minecraft.world.item.Item;
 public class ModTags {
     public static class DamageTypes {
         public static final TagKey<DamageType> MAGIC = tag("magic");
+
+        public static final TagKey<DamageType> NO_INVULN = tag("no_invuln");
         private static TagKey<DamageType> tag(String name){
             return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(RuneterraMod.MOD_ID, name));
         }

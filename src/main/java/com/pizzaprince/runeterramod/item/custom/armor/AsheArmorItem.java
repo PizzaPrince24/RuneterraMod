@@ -64,15 +64,6 @@ public class AsheArmorItem extends ArmorItem implements GeoItem {
 		});
 	}
 
-	@Override
-	public void onArmorTick(ItemStack stack, Level level, Player player) {
-		if(!level.isClientSide()) {
-			if(hasCorrectArmorOn(player)) {
-
-			}
-		}
-	}
-
 	private boolean hasCorrectArmorOn(Player player) {
 		ItemStack boots = player.getInventory().getArmor(0);
 		ItemStack leggings = player.getInventory().getArmor(1);

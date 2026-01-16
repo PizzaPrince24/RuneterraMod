@@ -1,5 +1,7 @@
 package com.pizzaprince.runeterramod.ability.curios;
 
+import com.pizzaprince.runeterramod.effect.ModDamageTypes;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.LivingEntity;
 
 public class ImmolationCapability {
@@ -39,7 +41,7 @@ public class ImmolationCapability {
         if(!entity.level().isClientSide()){
             entity.level().getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(3)).forEach(target -> {
                 if(!target.is(entity)) {
-                    target.hurt(entity.level().damageSources().onFire(), this.damage);
+                    target.hurt(ModDamageTypes.getDamageSource(entity.level(), ModDamageTypes.IMMOLATION), this.damage);
                 }
             });
         }

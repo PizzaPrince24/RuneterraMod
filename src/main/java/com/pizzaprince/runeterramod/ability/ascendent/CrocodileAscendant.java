@@ -13,23 +13,42 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+import oshi.util.tuples.Pair;
 import virtuoel.pehkui.api.ScaleTypes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CrocodileAscendant extends BaseAscendant{
 
+    public List<Pair<Attribute, Double>> CROCODILE_ADDITIONAL_STATS = List.of(
+            new Pair<>(Attributes.MAX_HEALTH, 1d),
+            new Pair<>(Attributes.ATTACK_DAMAGE, 0.05),
+            new Pair<>(Attributes.ARMOR, 0.2),
+            new Pair<>(Attributes.ARMOR_TOUGHNESS, 0.2),
+            new Pair<>(Attributes.ATTACK_KNOCKBACK, 0.05),
+            new Pair<>(Attributes.KNOCKBACK_RESISTANCE, 0.01),
+            new Pair<>(ModAttributes.LETHALITY.get(), 0.05),
+            new Pair<>(ModAttributes.MAGIC_RESIST.get(), 0.2),
+            new Pair<>(ModAttributes.MAGIC_PENETRATION.get(), 0.05),
+            new Pair<>(ModAttributes.ABILITY_POWER.get(), 0.05),
+            new Pair<>(ModAttributes.TENACITY.get(), 0.01),
+            new Pair<>(ModAttributes.OMNIVAMP.get(), 0.005),
+            new Pair<>(ModAttributes.CRIT_CHANCE.get(), 0.005),
+            new Pair<>(ModAttributes.CRIT_DAMAGE.get(), 0.01),
+            new Pair<>(ModAttributes.ABILITY_HASTE.get(), 0.5));
+    private ArrayList<AttributeModifier> additionalStatsModifiers = new ArrayList<>();
     private static AttributeModifier HEALTH = new AttributeModifier("crocodile_ascendant_health",
             20, AttributeModifier.Operation.ADDITION);
-
     private static AttributeModifier DAMAGE = new AttributeModifier("crocodile_ascendant_damage",
             0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
-
     private static AttributeModifier LETHALITY = new AttributeModifier("crocodile_ascendant_lethality",
             6, AttributeModifier.Operation.ADDITION);
     private int spinTicks = -1;
@@ -41,14 +60,34 @@ public class CrocodileAscendant extends BaseAscendant{
     private boolean canRageArtCrash = false;
     private int rage;
     private boolean overdrive = false;
+    private int additionalStatsStacks = 0;
     @Override
     public void saveNBTData(CompoundTag nbt) {
         nbt.putInt("spinTicks", this.spinTicks);
+        for(int i = 0; i < additionalStatsModifiers.size(); i++){
+            nbt.put("crocodileStats" + i, additionalStatsModifiers.get(i).save());
+        }
     }
 
     @Override
     public void loadNBTData(CompoundTag nbt) {
         spinTicks = nbt.getInt("spinTicks");
+        boolean exists = true;
+        int i = 0;
+        while(exists){
+            CompoundTag modifierTag = nbt.getCompound("crocodileStats" + i);
+            if(!modifierTag.isEmpty()){
+                AttributeModifier modifier = AttributeModifier.load(modifierTag);
+                if(modifier == null){
+                    exists = false;
+                } else {
+                    additionalStatsModifiers.add(modifier);
+                    i++;
+                }
+            } else {
+                exists = false;
+            }
+        }
     }
 
     @Override
@@ -91,6 +130,13 @@ public class CrocodileAscendant extends BaseAscendant{
         if(player.getAttribute(ModAttributes.LETHALITY.get()).hasModifier(LETHALITY)) {
             player.getAttribute(ModAttributes.LETHALITY.get()).removeModifier(LETHALITY);
         }
+        for(int i = 0; i < additionalStatsModifiers.size(); i++){
+            Attribute attribute = CROCODILE_ADDITIONAL_STATS.get(i).getA();
+            AttributeModifier modifier = additionalStatsModifiers.get(i);
+            if(player.getAttribute(attribute).hasModifier(modifier)){
+                player.getAttribute(attribute).removeModifier(modifier);
+            }
+        }
     }
 
     public void addRage(int rage, ServerPlayer player){
@@ -103,6 +149,28 @@ public class CrocodileAscendant extends BaseAscendant{
             this.rage = Mth.clamp(this.rage+rage, 0, 100);
             ModPackets.sendToPlayer(new CrocRageS2CPacket(this.rage), player);
         }
+    }
+
+    public void updateStatsOnKill(Player player, LivingEntity entity){
+        if(additionalStatsStacks*4 > entity.getAttributeValue(Attributes.MAX_HEALTH)){
+            return;
+        }
+        if(additionalStatsModifiers.isEmpty()){
+            CROCODILE_ADDITIONAL_STATS.forEach(attribute -> {
+                additionalStatsModifiers.add(new AttributeModifier("crocodile_additional_stats", 0, AttributeModifier.Operation.ADDITION));
+            });
+        }
+        for(int i = 0; i < CROCODILE_ADDITIONAL_STATS.size(); i++){
+            Attribute attribute = CROCODILE_ADDITIONAL_STATS.get(i).getA();
+            AttributeModifier modifier = additionalStatsModifiers.get(i);
+            if(player.getAttribute(attribute).hasModifier(modifier)){
+                player.getAttribute(attribute).removeModifier(modifier);
+            }
+            additionalStatsModifiers.set(i, new AttributeModifier("crocodile_additional_stats",
+                    modifier.getAmount() + CROCODILE_ADDITIONAL_STATS.get(i).getB(), AttributeModifier.Operation.ADDITION));
+            player.getAttribute(attribute).addPermanentModifier(additionalStatsModifiers.get(i));
+        }
+        additionalStatsStacks++;
     }
 
     private void updateRageArt(ServerPlayer player){

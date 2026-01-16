@@ -21,6 +21,9 @@ public class ModDamageTypes {
     public static final ResourceKey<DamageType> RAGE_ART = registerDamageType("rage_art");
     public static final ResourceKey<DamageType> SUN_ENERGY = registerDamageType("sun_energy");
     public static final ResourceKey<DamageType> SCORPION_POISON = registerDamageType("scorpion_poison");
+    public static final ResourceKey<DamageType> STOMP = registerDamageType("stomp");
+
+    public static final ResourceKey<DamageType> IMMOLATION = registerDamageType("immolation");
 
     private static ResourceKey<DamageType> registerDamageType(String name){
         ResourceKey<DamageType> type = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(RuneterraMod.MOD_ID, name));

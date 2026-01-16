@@ -171,6 +171,9 @@ public class ModBlocks {
 	public static final RegistryObject<Block> RED_TERRACOTTA_STAIRS = registerBlock("red_terracotta_stairs",
 			() -> new StairBlock(Blocks.RED_TERRACOTTA::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.RED_TERRACOTTA)));
 
+	public static final RegistryObject<Block> NEXUS_CRYSTAL_BLOCK = registerBlock("nexus_crystal_block",
+			() -> new NexusCrystalBlock(BlockBehaviour.Properties.of().sound(SoundType.GLASS).lightLevel(state -> 15).noOcclusion()));
+
 	private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block){
 		RegistryObject<T> toReturn = BLOCKS.register(name, block);
 		registerBlockItem(name, toReturn);

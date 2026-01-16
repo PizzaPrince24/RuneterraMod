@@ -19,7 +19,7 @@ public class SunDiskAltarMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public SunDiskAltarMenu(int id, Inventory inv, FriendlyByteBuf extraData){
-        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(5));
     }
 
     public SunDiskAltarMenu(int id, Inventory inv, BlockEntity entity, ContainerData data){

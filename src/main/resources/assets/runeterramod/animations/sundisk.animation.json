@@ -1,0 +1,18 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.sundisk.idle": {
+			"loop": true,
+			"bones": {
+				"sundisk": {
+					"rotation": {
+						"vector": [0, "math.sin(query.anim_time*7)*10", 0]
+					},
+					"position": {
+						"vector": [0, "math.sin(query.anim_time*10)*3", 0]
+					}
+				}
+			}
+		}
+	}
+}
